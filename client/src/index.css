@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, .font-heading {
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ==========================================================================
+   BULLETPROOF HIGH-FIDELITY PRINT ENGINE (CHROME, EDGE, BRAVE, SAFARI)
+   Guarantees zero blank pages, zero background bleeding, and strict 1-page fit
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  /* Reset HTML and Body for natural flow (NEVER use overflow: hidden / height: 100vh) */
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    overflow: visible !important;
+  }
+
+  /* Target Isolation: Hide everything by default */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Exclusively restore visibility to active printable sheet & all its descendants */
+  .printable-a4-sheet,
+  .printable-a4-sheet *,
+  #printable-report,
+  #printable-report *,
+  #printable-prescription,
+  #printable-prescription *,
+  .thermal-slip-container,
+  .thermal-slip-container * {
+    visibility: visible !important;
+  }
+
+  /* Force printable sheet to anchor at the very top of the physical page */
+  .printable-a4-sheet,
+  #printable-report,
+  #printable-prescription {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: block !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    background: #ffffff !important;
+  }
+
+  /* Thermal 80mm Slip Print Layout */
+  .thermal-slip-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 78mm !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: block !important;
+    background: #ffffff !important;
+  }
+
+  /* Compact row padding to guarantee strict single-page output */
+  .printable-a4-sheet table th,
+  .printable-a4-sheet table td,
+  #printable-report table th,
+  #printable-report table td,
+  #printable-prescription table th,
+  #printable-prescription table td {
+    padding: 3px 6px !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    font-size: 10.5px !important;
+  }
+
+  /* Prevent page breaks inside clinical blocks */
+  table, tr, td, th, .vitals-box, .signature-bar, .header-bar, .patient-details-box {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Elements strictly hidden during print */
+  .no-print,
+  header,
+  nav,
+  aside,
+  footer,
+  button,
+  .quick-role-drawer,
+  [class*="QuickRole"] {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

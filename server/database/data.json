@@ -1,0 +1,1531 @@
+{
+  "users": [
+    {
+      "id": "usr-admin",
+      "username": "admin",
+      "password": "$2a$10$HXRH7WsC35RFopF0iTW1ZOt6EueSmLLfEUZp7.1zX73r216Z3LS1G",
+      "name": "Dr. Shafay (Medical Director / Super Admin)",
+      "role": "super_admin",
+      "department": "Executive Administration",
+      "email": "director@alshafayhospital.com"
+    },
+    {
+      "id": "usr-superadmin",
+      "username": "superadmin",
+      "password": "$2a$10$HXRH7WsC35RFopF0iTW1ZOt6EueSmLLfEUZp7.1zX73r216Z3LS1G",
+      "name": "Super Administrator (System Owner)",
+      "role": "super_admin",
+      "department": "Executive Administration",
+      "email": "superadmin@alshafayhospital.com"
+    },
+    {
+      "id": "usr-rec",
+      "username": "reception",
+      "password": "$2a$10$/AOswDTCvH3qihOmuXfA4OqAqaeeZYBnPG3BZvsCcTzOXgFNz3YNm",
+      "name": "Muhammad Aslam",
+      "role": "receptionist",
+      "department": "Reception & Registration",
+      "email": "reception@alshafayhospital.com"
+    },
+    {
+      "id": "usr-doc-1",
+      "username": "dr.imran",
+      "password": "$2a$10$/AOswDTCvH3qihOmuXfA4OGNapLziqbJKoeXOgZFKDvlh47NKQl4m",
+      "name": "Dr. Imran Tahir",
+      "role": "doctor",
+      "doctorId": "doc-1",
+      "department": "Cardiology",
+      "email": "dr.imran@alshafayhospital.com"
+    },
+    {
+      "id": "usr-doc-2",
+      "username": "dr.fatima",
+      "password": "$2a$10$/AOswDTCvH3qihOmuXfA4OGNapLziqbJKoeXOgZFKDvlh47NKQl4m",
+      "name": "Dr. Fatima Noor",
+      "role": "doctor",
+      "doctorId": "doc-2",
+      "department": "General Medicine",
+      "email": "dr.fatima@alshafayhospital.com"
+    },
+    {
+      "id": "usr-doc-3",
+      "username": "dr.tariq",
+      "password": "$2a$10$/AOswDTCvH3qihOmuXfA4OGNapLziqbJKoeXOgZFKDvlh47NKQl4m",
+      "name": "Dr. Tariq Mahmood",
+      "role": "doctor",
+      "doctorId": "doc-3",
+      "department": "Pediatrics & Child Care",
+      "email": "dr.tariq@alshafayhospital.com"
+    },
+    {
+      "id": "usr-doc-4",
+      "username": "dr.ayesha",
+      "password": "$2a$10$/AOswDTCvH3qihOmuXfA4OGNapLziqbJKoeXOgZFKDvlh47NKQl4m",
+      "name": "Dr. Ayesha Siddiqa",
+      "role": "doctor",
+      "doctorId": "doc-4",
+      "department": "Gynecology & Obstetrics",
+      "email": "dr.ayesha@alshafayhospital.com"
+    },
+    {
+      "id": "usr-lab",
+      "username": "labtech",
+      "password": "$2a$10$/AOswDTCvH3qihOmuXfA4Oja8ETI3ulyZ.s01m6s3vmYAYFAOLRju",
+      "name": "Kashif Rasheed (Senior Lab Technologist)",
+      "role": "lab_tech",
+      "department": "Diagnostic Laboratory",
+      "email": "lab@alshafayhospital.com"
+    },
+    {
+      "id": "usr-pharm",
+      "username": "pharmacist",
+      "password": "$2a$10$/AOswDTCvH3qihOmuXfA4O.RxqnmdAIiVWoK2bKykbOoJF6NdVQPa",
+      "name": "Hamza Bilal (R.Ph)",
+      "role": "pharmacist",
+      "department": "Pharmacy & Medical Store",
+      "email": "pharmacy@alshafayhospital.com"
+    }
+  ],
+  "departments": [
+    {
+      "id": "dept-gen-med",
+      "name": "General Medicine",
+      "code": "GM",
+      "description": "Internal medicine, fever, infectious diseases, chronic illness"
+    },
+    {
+      "id": "dept-cardio",
+      "name": "Cardiology",
+      "code": "CARD",
+      "description": "Heart diseases, hypertension, ECG & echocardiography"
+    },
+    {
+      "id": "dept-peds",
+      "name": "Pediatrics & Child Care",
+      "code": "PED",
+      "description": "Neonatal care, child development, vaccinations"
+    },
+    {
+      "id": "dept-gyn",
+      "name": "Gynecology & Obstetrics",
+      "code": "GYN",
+      "description": "Maternal health, prenatal care, women health"
+    },
+    {
+      "id": "dept-ortho",
+      "name": "Orthopedics",
+      "code": "ORTH",
+      "description": "Bone fractures, joints, arthritis, spine disorders"
+    },
+    {
+      "id": "dept-eye",
+      "name": "Ophthalmology (Eye)",
+      "code": "EYE",
+      "description": "Vision care, cataract, eye checkup"
+    },
+    {
+      "id": "dept-ent",
+      "name": "ENT (Ear, Nose, Throat)",
+      "code": "ENT",
+      "description": "Sinus, hearing, throat ailments"
+    },
+    {
+      "id": "dept-surg",
+      "name": "General Surgery",
+      "code": "SURG",
+      "description": "Minor and major surgical consultations & procedures"
+    },
+    {
+      "id": "dept-lab",
+      "name": "Diagnostic Laboratory",
+      "code": "LAB",
+      "description": "Pathology, hematology, biochemistry, microbiology"
+    },
+    {
+      "id": "dept-pharm",
+      "name": "Pharmacy & Medical Store",
+      "code": "PHARM",
+      "description": "Prescription dispensing, surgical items, healthcare products"
+    }
+  ],
+  "doctors": [
+    {
+      "id": "doc-1",
+      "name": "Dr. Imran Tahir",
+      "qualification": "MBBS, FCPS (Cardiology)",
+      "departmentId": "dept-cardio",
+      "departmentName": "Cardiology",
+      "specialization": "Consultant Cardiologist & Heart Specialist",
+      "roomNumber": "Room 101",
+      "consultationFee": 1500,
+      "days": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+      ],
+      "timing": "09:00 AM - 02:00 PM",
+      "phone": "+92 301 1112221",
+      "isAvailable": true
+    },
+    {
+      "id": "doc-2",
+      "name": "Dr. Fatima Noor",
+      "qualification": "MBBS, FCPS (Medicine), MRCP",
+      "departmentId": "dept-gen-med",
+      "departmentName": "General Medicine",
+      "specialization": "Senior Physician & Diabetologist",
+      "roomNumber": "Room 102",
+      "consultationFee": 1200,
+      "days": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+      ],
+      "timing": "10:00 AM - 04:00 PM",
+      "phone": "+92 302 2223332",
+      "isAvailable": true
+    },
+    {
+      "id": "doc-3",
+      "name": "Dr. Tariq Mahmood",
+      "qualification": "MBBS, DCH, MCPS (Pediatrics)",
+      "departmentId": "dept-peds",
+      "departmentName": "Pediatrics & Child Care",
+      "specialization": "Child Specialist & Neonatologist",
+      "roomNumber": "Room 103",
+      "consultationFee": 1000,
+      "days": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+      ],
+      "timing": "11:00 AM - 05:00 PM",
+      "phone": "+92 303 3334443",
+      "isAvailable": true
+    },
+    {
+      "id": "doc-4",
+      "name": "Dr. Ayesha Siddiqa",
+      "qualification": "MBBS, FCPS (Gynecology & Obstetrics)",
+      "departmentId": "dept-gyn",
+      "departmentName": "Gynecology & Obstetrics",
+      "specialization": "Consultant Gynecologist & Infertility Specialist",
+      "roomNumber": "Room 104",
+      "consultationFee": 1500,
+      "days": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri"
+      ],
+      "timing": "09:00 AM - 03:00 PM",
+      "phone": "+92 304 4445554",
+      "isAvailable": true
+    },
+    {
+      "id": "doc-5",
+      "name": "Dr. Zulfiqar Ali",
+      "qualification": "MBBS, MS (Orthopedics)",
+      "departmentId": "dept-ortho",
+      "departmentName": "Orthopedics",
+      "specialization": "Consultant Orthopedic Surgeon",
+      "roomNumber": "Room 105",
+      "consultationFee": 1400,
+      "days": [
+        "Mon",
+        "Wed",
+        "Fri",
+        "Sat"
+      ],
+      "timing": "02:00 PM - 07:00 PM",
+      "phone": "+92 305 5556665",
+      "isAvailable": true
+    }
+  ],
+  "patients": [
+    {
+      "id": "pat-1",
+      "mrn": "MRN-2026-001",
+      "name": "Muhammad Tariq",
+      "phone": "03007891234",
+      "cnic": "32203-1234567-1",
+      "age": 48,
+      "gender": "Male",
+      "bloodGroup": "B+",
+      "address": "Ward No. 4, Fatehpur, Layyah",
+      "createdAt": "2026-08-20T08:30:00Z"
+    },
+    {
+      "id": "pat-2",
+      "mrn": "MRN-2026-002",
+      "name": "Zainab Bibi",
+      "phone": "03129876543",
+      "cnic": "32203-7654321-2",
+      "age": 34,
+      "gender": "Female",
+      "bloodGroup": "O+",
+      "address": "Chak 217 TDA, Fatehpur",
+      "createdAt": "2026-08-20T09:00:00Z"
+    },
+    {
+      "id": "pat-3",
+      "mrn": "MRN-2026-003",
+      "name": "Ali Raza",
+      "phone": "03334567890",
+      "cnic": "32203-9988776-3",
+      "age": 8,
+      "gender": "Male",
+      "bloodGroup": "A+",
+      "address": "Main Bazaar, Fatehpur",
+      "createdAt": "2026-08-20T09:30:00Z"
+    },
+    {
+      "id": "pat-a81c379b",
+      "mrn": "MRN-2026-0004",
+      "name": "Hamid Raza",
+      "phone": "03001122334",
+      "cnic": "",
+      "age": 38,
+      "gender": "Male",
+      "createdAt": "2026-08-20T10:59:22.293Z"
+    },
+    {
+      "id": "pat-85b0e97f",
+      "mrn": "MRN-2026-0005",
+      "name": "Abbas MAlik",
+      "phone": "03069141212",
+      "cnic": "",
+      "age": 25,
+      "gender": "Male",
+      "createdAt": "2026-08-20T11:02:04.835Z"
+    },
+    {
+      "id": "pat-d102ded3",
+      "mrn": "MRN-2026-0006",
+      "name": "Kashif Mehmood",
+      "phone": "03009988771",
+      "cnic": "",
+      "age": 42,
+      "gender": "Male",
+      "createdAt": "2026-08-20T11:34:22.440Z"
+    }
+  ],
+  "tokens": [
+    {
+      "id": "tok-1",
+      "tokenNumber": 101,
+      "date": "2026-08-20",
+      "patientId": "pat-1",
+      "patientName": "Muhammad Tariq",
+      "patientPhone": "03007891234",
+      "patientAge": 48,
+      "patientGender": "Male",
+      "departmentId": "dept-cardio",
+      "departmentName": "Cardiology",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "roomNumber": "Room 101",
+      "priority": "NORMAL",
+      "status": "CALLING",
+      "fee": 1500,
+      "createdAt": "2026-08-20T08:45:00Z",
+      "calledAt": "2026-08-20T12:50:38.950Z",
+      "completedAt": "2026-08-20T12:36:34.694Z",
+      "prescriptionId": "prsc-05932d0d",
+      "followUpDate": ""
+    },
+    {
+      "id": "tok-2",
+      "tokenNumber": 102,
+      "date": "2026-08-20",
+      "patientId": "pat-2",
+      "patientName": "Zainab Bibi",
+      "patientPhone": "03129876543",
+      "patientAge": 34,
+      "patientGender": "Female",
+      "departmentId": "dept-gen-med",
+      "departmentName": "General Medicine",
+      "doctorId": "doc-2",
+      "doctorName": "Dr. Fatima Noor",
+      "roomNumber": "Room 102",
+      "priority": "NORMAL",
+      "status": "COMPLETED",
+      "fee": 1200,
+      "createdAt": "2026-08-20T09:15:00Z",
+      "calledAt": "2026-08-20T12:18:28.431Z",
+      "completedAt": "2026-08-20T12:53:49.311Z",
+      "prescriptionId": "prsc-fdf5a887",
+      "followUpDate": ""
+    },
+    {
+      "id": "tok-3",
+      "tokenNumber": 103,
+      "date": "2026-08-20",
+      "patientId": "pat-3",
+      "patientName": "Ali Raza",
+      "patientPhone": "03334567890",
+      "patientAge": 8,
+      "patientGender": "Male",
+      "departmentId": "dept-peds",
+      "departmentName": "Pediatrics & Child Care",
+      "doctorId": "doc-3",
+      "doctorName": "Dr. Tariq Mahmood",
+      "roomNumber": "Room 103",
+      "priority": "NORMAL",
+      "status": "WAITING",
+      "fee": 1000,
+      "createdAt": "2026-08-20T09:35:00Z"
+    },
+    {
+      "id": "tok-0bdf85f8",
+      "tokenNumber": 104,
+      "date": "2026-08-20",
+      "patientId": "pat-a81c379b",
+      "patientName": "Hamid Raza",
+      "patientPhone": "03001122334",
+      "patientCnic": "",
+      "patientAge": 38,
+      "patientGender": "Male",
+      "departmentId": "dept-gyn",
+      "departmentName": "Gynecology & Obstetrics",
+      "doctorId": "doc-4",
+      "doctorName": "Dr. Ayesha Siddiqa",
+      "roomNumber": "Room 104",
+      "priority": "NORMAL",
+      "status": "REFERRED",
+      "fee": 1500,
+      "createdAt": "2026-08-20T10:59:22.294Z",
+      "calledAt": "2026-08-20T11:08:29.416Z",
+      "completedAt": "2026-08-20T10:59:22.325Z",
+      "prescriptionId": "prsc-6b3425bc",
+      "followUpDate": "2026-09-05",
+      "referredFromDoctorId": "doc-1",
+      "referredFromDoctorName": "Dr. Imran Tahir",
+      "referralNotes": "",
+      "referredAt": "2026-08-20T11:08:45.746Z"
+    },
+    {
+      "id": "tok-041cf03e",
+      "tokenNumber": 105,
+      "date": "2026-08-20",
+      "patientId": "pat-85b0e97f",
+      "patientName": "Abbas MAlik",
+      "patientPhone": "03069141212",
+      "patientCnic": "",
+      "patientAge": 25,
+      "patientGender": "Male",
+      "departmentId": "dept-gen-med",
+      "departmentName": "General Medicine",
+      "doctorId": "doc-2",
+      "doctorName": "Dr. Fatima Noor",
+      "roomNumber": "Room 102",
+      "priority": "NORMAL",
+      "status": "IN_CONSULTATION",
+      "fee": 1200,
+      "createdAt": "2026-08-20T11:02:04.836Z",
+      "calledAt": "2026-08-20T12:18:00.182Z"
+    },
+    {
+      "id": "tok-1da71ec2",
+      "tokenNumber": 106,
+      "date": "2026-08-20",
+      "patientId": "pat-d102ded3",
+      "patientName": "Kashif Mehmood",
+      "patientPhone": "03009988771",
+      "patientCnic": "",
+      "patientAge": 42,
+      "patientGender": "Male",
+      "departmentId": "dept-gyn",
+      "departmentName": "Gynecology & Obstetrics",
+      "doctorId": "doc-4",
+      "doctorName": "Dr. Ayesha Siddiqa",
+      "roomNumber": "Room 104",
+      "priority": "EMERGENCY",
+      "status": "CALLING",
+      "fee": 1500,
+      "createdAt": "2026-08-20T11:34:22.441Z",
+      "referredFromDoctorId": "doc-2",
+      "referredFromDoctorName": "Dr. Fatima Noor",
+      "referredToDoctorId": "doc-4",
+      "referredToDoctorName": "Dr. Ayesha Siddiqa",
+      "targetDepartmentName": "Gynecology & Obstetrics",
+      "targetRoomNumber": "Room 104",
+      "referralNotes": "",
+      "referredAt": "2026-08-20T12:18:17.992Z",
+      "calledAt": "2026-08-20T12:26:35.319Z",
+      "receptionForwardedAt": "2026-08-20T12:26:35.319Z"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "apt-1",
+      "appointmentNumber": "APT-1001",
+      "patientName": "Khurram Shehzad",
+      "phone": "03045551234",
+      "cnic": "32203-5554443-1",
+      "departmentId": "dept-cardio",
+      "departmentName": "Cardiology",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "date": "2026-08-20",
+      "timeSlot": "11:30 AM",
+      "status": "CONFIRMED",
+      "notes": "Routine chest tightness checkup",
+      "createdAt": "2026-08-20T07:15:00Z"
+    },
+    {
+      "id": "apt-3de20778",
+      "appointmentNumber": "APT-1002",
+      "patientName": "Sara Bibi",
+      "phone": "03219876543",
+      "cnic": "",
+      "departmentId": "dept-gen-med",
+      "departmentName": "General Medicine",
+      "doctorId": "doc-2",
+      "doctorName": "Dr. Fatima Noor",
+      "doctorRoom": "Room 102",
+      "date": "2026-08-22",
+      "timeSlot": "10:00 AM - 10:30 AM",
+      "notes": "Routine health checkup",
+      "status": "CONFIRMED",
+      "createdAt": "2026-08-20T10:59:22.355Z"
+    },
+    {
+      "id": "apt-fa5c8221",
+      "appointmentNumber": "APT-1003",
+      "patientName": "fsdgfd",
+      "phone": "dfsagd",
+      "cnic": "",
+      "departmentId": "dept-gyn",
+      "departmentName": "Gynecology & Obstetrics",
+      "doctorId": "doc-4",
+      "doctorName": "Dr. Ayesha Siddiqa",
+      "doctorRoom": "Room 104",
+      "date": "2026-08-20",
+      "timeSlot": "10:00 AM - 10:30 AM",
+      "notes": "",
+      "status": "CONFIRMED",
+      "createdAt": "2026-08-20T11:11:39.057Z"
+    }
+  ],
+  "prescriptions": [
+    {
+      "id": "prsc-6b3425bc",
+      "tokenId": "tok-0bdf85f8",
+      "patientId": "pat-a81c379b",
+      "patientName": "Hamid Raza",
+      "patientAge": 38,
+      "patientGender": "Male",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "doctorQualification": "MBBS, FCPS (Cardiology)",
+      "doctorSpecialization": "Consultant Cardiologist & Heart Specialist",
+      "doctorRoom": "Room 101",
+      "vitals": {
+        "bp": "130/85",
+        "pulse": "78",
+        "temp": "98.4",
+        "spo2": "98",
+        "weight": "74"
+      },
+      "chiefComplaints": "",
+      "diagnosis": "Essential Hypertension",
+      "clinicalNotes": "",
+      "followUpDate": "2026-09-05",
+      "medicines": [
+        {
+          "id": "med-267b8e",
+          "medicineId": "",
+          "name": "Norvasc 5mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-0",
+          "duration": "14 Days",
+          "instructions": "Morning",
+          "dispensed": false
+        }
+      ],
+      "labTests": [
+        {
+          "testId": "test-lipid",
+          "testName": "Lipid Profile (Fasting)",
+          "priority": "NORMAL"
+        }
+      ],
+      "status": "ACTIVE",
+      "dispensedStatus": "DISPENSED",
+      "createdAt": "2026-08-20T10:59:22.325Z",
+      "dispensedAt": "2026-08-20T10:59:22.345Z",
+      "invoiceId": "inv-d3352eb3"
+    },
+    {
+      "id": "prsc-253d25a4",
+      "tokenId": "tok-1",
+      "patientId": "pat-1",
+      "patientName": "Muhammad Tariq",
+      "patientAge": 48,
+      "patientGender": "Male",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "doctorQualification": "MBBS, FCPS (Cardiology)",
+      "doctorSpecialization": "Consultant Cardiologist & Heart Specialist",
+      "doctorRoom": "Room 101",
+      "vitals": {
+        "bp": "120/80",
+        "pulse": "76",
+        "temp": "98.6",
+        "spo2": "99",
+        "weight": "70"
+      },
+      "chiefComplaints": "",
+      "diagnosis": "",
+      "clinicalNotes": "",
+      "followUpDate": "",
+      "medicines": [
+        {
+          "id": "med-d3adc6",
+          "medicineId": "",
+          "name": "Panadol 500mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-1",
+          "duration": "5 Days",
+          "instructions": "After meal",
+          "dispensed": false
+        }
+      ],
+      "labTests": [],
+      "status": "ACTIVE",
+      "dispensedStatus": "PENDING",
+      "createdAt": "2026-08-20T11:10:14.793Z"
+    },
+    {
+      "id": "prsc-84e5108e",
+      "tokenId": "tok-1",
+      "patientId": "pat-1",
+      "patientName": "Muhammad Tariq",
+      "patientAge": 48,
+      "patientGender": "Male",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "doctorQualification": "MBBS, FCPS (Cardiology)",
+      "doctorSpecialization": "Consultant Cardiologist & Heart Specialist",
+      "doctorRoom": "Room 101",
+      "vitals": {
+        "bp": "120/80",
+        "pulse": "76",
+        "temp": "98.6",
+        "spo2": "99",
+        "weight": "70"
+      },
+      "chiefComplaints": "",
+      "diagnosis": "",
+      "clinicalNotes": "",
+      "followUpDate": "",
+      "medicines": [
+        {
+          "id": "med-6d132b",
+          "medicineId": "",
+          "name": "Panadol 500mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-1",
+          "duration": "5 Days",
+          "instructions": "After meal",
+          "dispensed": false
+        }
+      ],
+      "labTests": [],
+      "status": "ACTIVE",
+      "dispensedStatus": "PENDING",
+      "createdAt": "2026-08-20T11:23:21.848Z"
+    },
+    {
+      "id": "prsc-7281f106",
+      "tokenId": "tok-1",
+      "patientId": "pat-1",
+      "patientName": "Muhammad Tariq",
+      "patientAge": 48,
+      "patientGender": "Male",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "doctorQualification": "MBBS, FCPS (Cardiology)",
+      "doctorSpecialization": "Consultant Cardiologist & Heart Specialist",
+      "doctorRoom": "Room 101",
+      "vitals": {
+        "bp": "120/80",
+        "pulse": "76",
+        "temp": "98.6",
+        "spo2": "99",
+        "weight": "70"
+      },
+      "chiefComplaints": "",
+      "diagnosis": "",
+      "clinicalNotes": "",
+      "followUpDate": "",
+      "medicines": [
+        {
+          "id": "med-c40495",
+          "medicineId": "",
+          "name": "Panadol 500mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-1",
+          "duration": "5 Days",
+          "instructions": "After meal",
+          "dispensed": false
+        }
+      ],
+      "labTests": [],
+      "status": "ACTIVE",
+      "dispensedStatus": "PENDING",
+      "createdAt": "2026-08-20T11:36:50.095Z"
+    },
+    {
+      "id": "prsc-f1280c65",
+      "tokenId": "tok-1",
+      "patientId": "pat-1",
+      "patientName": "Muhammad Tariq",
+      "patientAge": 48,
+      "patientGender": "Male",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "doctorQualification": "MBBS, FCPS (Cardiology)",
+      "doctorSpecialization": "Consultant Cardiologist & Heart Specialist",
+      "doctorRoom": "Room 101",
+      "vitals": {
+        "bp": "120/80",
+        "pulse": "76",
+        "temp": "98.6",
+        "spo2": "99",
+        "weight": "70"
+      },
+      "chiefComplaints": "",
+      "diagnosis": "",
+      "clinicalNotes": "",
+      "followUpDate": "",
+      "medicines": [
+        {
+          "id": "med-be4b1e",
+          "medicineId": "",
+          "name": "Panadol 500mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-1",
+          "duration": "5 Days",
+          "instructions": "After meal",
+          "dispensed": false
+        }
+      ],
+      "labTests": [],
+      "status": "ACTIVE",
+      "dispensedStatus": "PENDING",
+      "createdAt": "2026-08-20T12:04:18.712Z"
+    },
+    {
+      "id": "prsc-dd9cfb1e",
+      "tokenId": "tok-2",
+      "patientId": "pat-2",
+      "patientName": "Zainab Bibi",
+      "patientAge": 34,
+      "patientGender": "Female",
+      "doctorId": "doc-2",
+      "doctorName": "Dr. Fatima Noor",
+      "doctorQualification": "MBBS, FCPS (Medicine), MRCP",
+      "doctorSpecialization": "Senior Physician & Diabetologist",
+      "doctorRoom": "Room 102",
+      "vitals": {
+        "bp": "120/80",
+        "pulse": "76",
+        "temp": "98.6",
+        "spo2": "99",
+        "weight": "70"
+      },
+      "chiefComplaints": "",
+      "diagnosis": "",
+      "clinicalNotes": "",
+      "followUpDate": "",
+      "medicines": [
+        {
+          "id": "med-6ff9e3",
+          "medicineId": "",
+          "name": "Panadol 500mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-1",
+          "duration": "5 Days",
+          "instructions": "After meal",
+          "dispensed": false
+        }
+      ],
+      "labTests": [],
+      "status": "ACTIVE",
+      "dispensedStatus": "DISPENSED",
+      "createdAt": "2026-08-20T12:17:30.871Z",
+      "dispensedAt": "2026-08-20T12:18:58.552Z",
+      "invoiceId": "inv-24c80728"
+    },
+    {
+      "id": "prsc-45bb61b4",
+      "tokenId": "tok-1",
+      "patientId": "pat-1",
+      "patientName": "Muhammad Tariq",
+      "patientAge": 48,
+      "patientGender": "Male",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "doctorQualification": "MBBS, FCPS (Cardiology)",
+      "doctorSpecialization": "Consultant Cardiologist & Heart Specialist",
+      "doctorRoom": "Room 101",
+      "vitals": {
+        "bp": "120/80",
+        "pulse": "76",
+        "temp": "98.6",
+        "spo2": "99",
+        "weight": "70"
+      },
+      "chiefComplaints": "",
+      "diagnosis": "",
+      "clinicalNotes": "",
+      "followUpDate": "",
+      "medicines": [
+        {
+          "id": "med-11ab3d",
+          "medicineId": "",
+          "name": "Panadol 500mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-1",
+          "duration": "5 Days",
+          "instructions": "After meal",
+          "dispensed": false
+        }
+      ],
+      "labTests": [],
+      "status": "ACTIVE",
+      "dispensedStatus": "PENDING",
+      "createdAt": "2026-08-20T12:36:11.863Z"
+    },
+    {
+      "id": "prsc-05932d0d",
+      "tokenId": "tok-1",
+      "patientId": "pat-1",
+      "patientName": "Muhammad Tariq",
+      "patientAge": 48,
+      "patientGender": "Male",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "doctorQualification": "MBBS, FCPS (Cardiology)",
+      "doctorSpecialization": "Consultant Cardiologist & Heart Specialist",
+      "doctorRoom": "Room 101",
+      "vitals": {
+        "bp": "120/80",
+        "pulse": "76",
+        "temp": "98.6",
+        "spo2": "99",
+        "weight": "70"
+      },
+      "chiefComplaints": "",
+      "diagnosis": "",
+      "clinicalNotes": "",
+      "followUpDate": "",
+      "medicines": [
+        {
+          "id": "med-ccb842",
+          "medicineId": "",
+          "name": "Panadol 500mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-1",
+          "duration": "5 Days",
+          "instructions": "After meal",
+          "dispensed": false
+        },
+        {
+          "id": "med-0b31c8",
+          "medicineId": "",
+          "name": "Risek 40mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-1",
+          "duration": "5 Days",
+          "instructions": "After meal",
+          "dispensed": false
+        }
+      ],
+      "labTests": [],
+      "status": "ACTIVE",
+      "dispensedStatus": "PENDING",
+      "createdAt": "2026-08-20T12:36:34.694Z"
+    },
+    {
+      "id": "prsc-fdf5a887",
+      "tokenId": "tok-2",
+      "patientId": "pat-2",
+      "patientName": "Zainab Bibi",
+      "patientAge": 34,
+      "patientGender": "Female",
+      "doctorId": "doc-2",
+      "doctorName": "Dr. Fatima Noor",
+      "doctorQualification": "MBBS, FCPS (Medicine), MRCP",
+      "doctorSpecialization": "Senior Physician & Diabetologist",
+      "doctorRoom": "Room 102",
+      "vitals": {
+        "bp": "120/80",
+        "pulse": "76",
+        "temp": "98.6",
+        "spo2": "99",
+        "weight": "70"
+      },
+      "chiefComplaints": "",
+      "diagnosis": "",
+      "clinicalNotes": "",
+      "followUpDate": "",
+      "medicines": [
+        {
+          "id": "med-8a6a43",
+          "medicineId": "",
+          "name": "Panadol 500mg",
+          "dosage": "1 Tab",
+          "frequency": "1-0-1",
+          "duration": "5 Days",
+          "instructions": "After meal",
+          "dispensed": false
+        }
+      ],
+      "labTests": [],
+      "status": "ACTIVE",
+      "dispensedStatus": "PENDING",
+      "createdAt": "2026-08-20T12:53:49.311Z"
+    }
+  ],
+  "labOrders": [
+    {
+      "id": "lab-ord-da64af4f",
+      "prescriptionId": "prsc-6b3425bc",
+      "tokenId": "tok-0bdf85f8",
+      "patientId": "pat-a81c379b",
+      "patientName": "Hamid Raza",
+      "patientAge": 38,
+      "patientGender": "Male",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "testId": "test-lipid",
+      "testName": "Lipid Profile (Fasting)",
+      "category": "Clinical Biochemistry",
+      "specimenType": "Serum (Fasting 12h)",
+      "fee": 1600,
+      "status": "COMPLETED",
+      "priority": "NORMAL",
+      "clinicalNotes": "Essential Hypertension",
+      "parameters": [
+        {
+          "name": "Total Cholesterol",
+          "value": "195",
+          "unit": "mg/dL",
+          "referenceRange": "< 200 Desirable",
+          "flag": "NORMAL"
+        },
+        {
+          "name": "Triglycerides",
+          "value": "160",
+          "unit": "mg/dL",
+          "referenceRange": "< 150 Normal",
+          "flag": "HIGH"
+        },
+        {
+          "name": "HDL Cholesterol",
+          "value": "45",
+          "unit": "mg/dL",
+          "referenceRange": "> 40",
+          "flag": "NORMAL"
+        },
+        {
+          "name": "LDL Cholesterol",
+          "value": "118",
+          "unit": "mg/dL",
+          "referenceRange": "< 100",
+          "flag": "HIGH"
+        }
+      ],
+      "technicianNotes": "Fasting specimen analyzed on automated chemistry analyzer",
+      "pathologistRemarks": "Borderline hypertriglyceridemia observed",
+      "createdAt": "2026-08-20T10:59:22.325Z",
+      "verifiedBy": "Kashif Rasheed (Sr. Technologist)",
+      "completedAt": "2026-08-20T12:37:45.279Z",
+      "images": [],
+      "specimenBarcode": "SPEC-64AF4F"
+    }
+  ],
+  "labTestCatalog": [
+    {
+      "id": "test-cbc",
+      "name": "Complete Blood Count (CBC)",
+      "category": "Hematology",
+      "fee": 850,
+      "specimen": "Whole Blood (EDTA)",
+      "turnaround": "2 Hours",
+      "parameters": [
+        {
+          "name": "Hemoglobin (Hb)",
+          "unit": "g/dL",
+          "referenceRange": "13.5 - 17.5 (M), 12.0 - 15.5 (F)",
+          "defaultValue": "14.2"
+        },
+        {
+          "name": "Total Leukocyte Count (TLC / WBC)",
+          "unit": "/mcL",
+          "referenceRange": "4,000 - 11,000",
+          "defaultValue": "7,400"
+        },
+        {
+          "name": "Platelets Count",
+          "unit": "/mcL",
+          "referenceRange": "150,000 - 450,000",
+          "defaultValue": "260,000"
+        },
+        {
+          "name": "RBC Count",
+          "unit": "million/mcL",
+          "referenceRange": "4.5 - 5.9 (M), 4.1 - 5.1 (F)",
+          "defaultValue": "4.8"
+        },
+        {
+          "name": "Hematocrit (HCT / PCV)",
+          "unit": "%",
+          "referenceRange": "41 - 50 (M), 36 - 44 (F)",
+          "defaultValue": "42.5"
+        },
+        {
+          "name": "Neutrophils",
+          "unit": "%",
+          "referenceRange": "50 - 70",
+          "defaultValue": "62"
+        },
+        {
+          "name": "Lymphocytes",
+          "unit": "%",
+          "referenceRange": "20 - 40",
+          "defaultValue": "30"
+        },
+        {
+          "name": "Eosinophils",
+          "unit": "%",
+          "referenceRange": "1 - 6",
+          "defaultValue": "3"
+        },
+        {
+          "name": "ESR (Westergren)",
+          "unit": "mm/1st hr",
+          "referenceRange": "0 - 15 (M), 0 - 20 (F)",
+          "defaultValue": "12"
+        }
+      ]
+    },
+    {
+      "id": "test-lft",
+      "name": "Liver Function Tests (LFT)",
+      "category": "Clinical Biochemistry",
+      "fee": 1400,
+      "specimen": "Serum (Plain/Gel Tube)",
+      "turnaround": "3 Hours",
+      "parameters": [
+        {
+          "name": "Bilirubin Total",
+          "unit": "mg/dL",
+          "referenceRange": "0.2 - 1.2",
+          "defaultValue": "0.8"
+        },
+        {
+          "name": "Bilirubin Direct",
+          "unit": "mg/dL",
+          "referenceRange": "0.0 - 0.3",
+          "defaultValue": "0.2"
+        },
+        {
+          "name": "SGPT / ALT",
+          "unit": "U/L",
+          "referenceRange": "7 - 56",
+          "defaultValue": "34"
+        },
+        {
+          "name": "SGOT / AST",
+          "unit": "U/L",
+          "referenceRange": "10 - 40",
+          "defaultValue": "28"
+        },
+        {
+          "name": "Alkaline Phosphatase (ALP)",
+          "unit": "U/L",
+          "referenceRange": "44 - 147",
+          "defaultValue": "95"
+        },
+        {
+          "name": "Total Protein",
+          "unit": "g/dL",
+          "referenceRange": "6.0 - 8.3",
+          "defaultValue": "7.1"
+        },
+        {
+          "name": "Serum Albumin",
+          "unit": "g/dL",
+          "referenceRange": "3.5 - 5.0",
+          "defaultValue": "4.3"
+        }
+      ]
+    },
+    {
+      "id": "test-rft",
+      "name": "Renal Function Tests (RFT / Kidney Profile)",
+      "category": "Clinical Biochemistry",
+      "fee": 1100,
+      "specimen": "Serum (Plain/Gel Tube)",
+      "turnaround": "2 Hours",
+      "parameters": [
+        {
+          "name": "Blood Urea",
+          "unit": "mg/dL",
+          "referenceRange": "15 - 45",
+          "defaultValue": "28"
+        },
+        {
+          "name": "Serum Creatinine",
+          "unit": "mg/dL",
+          "referenceRange": "0.6 - 1.2 (M), 0.5 - 1.1 (F)",
+          "defaultValue": "0.9"
+        },
+        {
+          "name": "Serum Uric Acid",
+          "unit": "mg/dL",
+          "referenceRange": "3.5 - 7.2 (M), 2.6 - 6.0 (F)",
+          "defaultValue": "5.2"
+        },
+        {
+          "name": "Sodium (Na+)",
+          "unit": "mEq/L",
+          "referenceRange": "135 - 145",
+          "defaultValue": "140"
+        },
+        {
+          "name": "Potassium (K+)",
+          "unit": "mEq/L",
+          "referenceRange": "3.5 - 5.0",
+          "defaultValue": "4.2"
+        }
+      ]
+    },
+    {
+      "id": "test-lipid",
+      "name": "Lipid Profile (Fasting)",
+      "category": "Clinical Biochemistry",
+      "fee": 1600,
+      "specimen": "Serum (Fasting 12h)",
+      "turnaround": "4 Hours",
+      "parameters": [
+        {
+          "name": "Total Cholesterol",
+          "unit": "mg/dL",
+          "referenceRange": "< 200 Desirable",
+          "defaultValue": "185"
+        },
+        {
+          "name": "Triglycerides",
+          "unit": "mg/dL",
+          "referenceRange": "< 150 Normal",
+          "defaultValue": "142"
+        },
+        {
+          "name": "HDL Cholesterol (Good)",
+          "unit": "mg/dL",
+          "referenceRange": "> 40 (M), > 50 (F)",
+          "defaultValue": "48"
+        },
+        {
+          "name": "LDL Cholesterol (Bad)",
+          "unit": "mg/dL",
+          "referenceRange": "< 100 Optimal",
+          "defaultValue": "108"
+        }
+      ]
+    },
+    {
+      "id": "test-bsr",
+      "name": "Blood Glucose (Random / Fasting)",
+      "category": "Clinical Biochemistry",
+      "fee": 250,
+      "specimen": "Fluoride / Serum",
+      "turnaround": "30 Minutes",
+      "parameters": [
+        {
+          "name": "Blood Sugar Level",
+          "unit": "mg/dL",
+          "referenceRange": "Fasting: 70-100, Random: < 140",
+          "defaultValue": "110"
+        }
+      ]
+    },
+    {
+      "id": "test-hba1c",
+      "name": "Glycated Hemoglobin (HbA1c)",
+      "category": "Clinical Biochemistry",
+      "fee": 1500,
+      "specimen": "Whole Blood (EDTA)",
+      "turnaround": "3 Hours",
+      "parameters": [
+        {
+          "name": "HbA1c Level",
+          "unit": "%",
+          "referenceRange": "Normal: <5.7, Pre-diabetic: 5.7-6.4, Diabetic: >=6.5",
+          "defaultValue": "6.1"
+        }
+      ]
+    },
+    {
+      "id": "test-urine",
+      "name": "Urine Routine Examination (Urine R/E)",
+      "category": "Clinical Pathology",
+      "fee": 450,
+      "specimen": "Clean Catch Midstream Urine",
+      "turnaround": "1 Hour",
+      "parameters": [
+        {
+          "name": "Color / Appearance",
+          "unit": "",
+          "referenceRange": "Pale Yellow / Clear",
+          "defaultValue": "Straw / Clear"
+        },
+        {
+          "name": "pH",
+          "unit": "",
+          "referenceRange": "4.6 - 8.0",
+          "defaultValue": "6.0"
+        },
+        {
+          "name": "Specific Gravity",
+          "unit": "",
+          "referenceRange": "1.005 - 1.030",
+          "defaultValue": "1.015"
+        },
+        {
+          "name": "Protein / Albumin",
+          "unit": "",
+          "referenceRange": "Nil / Negative",
+          "defaultValue": "Nil"
+        },
+        {
+          "name": "Glucose / Sugar",
+          "unit": "",
+          "referenceRange": "Nil / Negative",
+          "defaultValue": "Nil"
+        },
+        {
+          "name": "Pus Cells (WBC)",
+          "unit": "/HPF",
+          "referenceRange": "0 - 5",
+          "defaultValue": "1 - 2"
+        },
+        {
+          "name": "Red Blood Cells (RBC)",
+          "unit": "/HPF",
+          "referenceRange": "0 - 2",
+          "defaultValue": "Nil"
+        },
+        {
+          "name": "Epithelial Cells",
+          "unit": "/HPF",
+          "referenceRange": "Few",
+          "defaultValue": "Few"
+        }
+      ]
+    },
+    {
+      "id": "test-xray",
+      "name": "Digital Chest X-Ray (PA View)",
+      "category": "Radiology & Imaging",
+      "fee": 900,
+      "specimen": "Radiological Scan",
+      "turnaround": "30 Minutes",
+      "parameters": [
+        {
+          "name": "Lung Fields",
+          "unit": "",
+          "referenceRange": "Clear bilateral lung fields",
+          "defaultValue": "Clear, no active infiltrates"
+        },
+        {
+          "name": "Cardiac Silhouette (CTR)",
+          "unit": "",
+          "referenceRange": "Normal size (<50%)",
+          "defaultValue": "Normal cardio-thoracic ratio"
+        },
+        {
+          "name": "Costophrenic Angles",
+          "unit": "",
+          "referenceRange": "Sharp & Clear",
+          "defaultValue": "Both CP angles clear"
+        }
+      ]
+    },
+    {
+      "id": "test-ecg",
+      "name": "12-Lead Electrocardiogram (ECG)",
+      "category": "Cardiology Diagnostics",
+      "fee": 600,
+      "specimen": "Electrophysiological Tracing",
+      "turnaround": "Immediate",
+      "parameters": [
+        {
+          "name": "Heart Rate & Rhythm",
+          "unit": "BPM",
+          "referenceRange": "60 - 100 Normal Sinus",
+          "defaultValue": "76 BPM, Normal Sinus Rhythm"
+        },
+        {
+          "name": "PR & QRS Intervals",
+          "unit": "ms",
+          "referenceRange": "Normal Axis & Conductance",
+          "defaultValue": "Normal Axis, no acute ST-T changes"
+        }
+      ]
+    }
+  ],
+  "medicines": [
+    {
+      "id": "med-1",
+      "brandName": "Panadol 500mg",
+      "genericName": "Paracetamol",
+      "category": "Analgesics & Antipyretics",
+      "dosageForm": "Tablet",
+      "strength": "500mg",
+      "unitPrice": 4.5,
+      "costPrice": 3.2,
+      "stockQuantity": 439,
+      "reorderLevel": 100,
+      "batchNumber": "PND-2026-08",
+      "expiryDate": "2027-11-30",
+      "manufacturer": "GSK Pakistan",
+      "locationShelf": "Shelf A-1"
+    },
+    {
+      "id": "med-2",
+      "brandName": "Augmentin 625mg",
+      "genericName": "Co-Amoxiclav (Amoxicillin + Clavulanic Acid)",
+      "category": "Antibiotics",
+      "dosageForm": "Tablet",
+      "strength": "625mg",
+      "unitPrice": 42,
+      "costPrice": 34,
+      "stockQuantity": 180,
+      "reorderLevel": 50,
+      "batchNumber": "AUG-9912",
+      "expiryDate": "2027-08-15",
+      "manufacturer": "GSK Pakistan",
+      "locationShelf": "Shelf B-2"
+    },
+    {
+      "id": "med-3",
+      "brandName": "Risek 40mg",
+      "genericName": "Omeprazole",
+      "category": "Gastrointestinal & Anti-Ulcerant",
+      "dosageForm": "Capsule",
+      "strength": "40mg",
+      "unitPrice": 38,
+      "costPrice": 29,
+      "stockQuantity": 220,
+      "reorderLevel": 40,
+      "batchNumber": "RSK-4401",
+      "expiryDate": "2028-01-20",
+      "manufacturer": "Getz Pharma",
+      "locationShelf": "Shelf A-4"
+    },
+    {
+      "id": "med-4",
+      "brandName": "Brufen 400mg",
+      "genericName": "Ibuprofen",
+      "category": "NSAIDs & Pain Relief",
+      "dosageForm": "Tablet",
+      "strength": "400mg",
+      "unitPrice": 6,
+      "costPrice": 4.5,
+      "stockQuantity": 300,
+      "reorderLevel": 80,
+      "batchNumber": "BRF-7782",
+      "expiryDate": "2027-09-10",
+      "manufacturer": "Abbott Laboratories",
+      "locationShelf": "Shelf A-2"
+    },
+    {
+      "id": "med-5",
+      "brandName": "Glucophage 500mg",
+      "genericName": "Metformin HCl",
+      "category": "Anti-Diabetic",
+      "dosageForm": "Tablet",
+      "strength": "500mg",
+      "unitPrice": 8.5,
+      "costPrice": 6.5,
+      "stockQuantity": 350,
+      "reorderLevel": 60,
+      "batchNumber": "GLC-1002",
+      "expiryDate": "2028-04-12",
+      "manufacturer": "Merck Serono",
+      "locationShelf": "Shelf C-1"
+    },
+    {
+      "id": "med-6",
+      "brandName": "Norvasc 5mg",
+      "genericName": "Amlodipine Besylate",
+      "category": "Cardiovascular & Anti-Hypertensive",
+      "dosageForm": "Tablet",
+      "strength": "5mg",
+      "unitPrice": 16,
+      "costPrice": 12,
+      "stockQuantity": 239,
+      "reorderLevel": 50,
+      "batchNumber": "NRV-3011",
+      "expiryDate": "2027-12-05",
+      "manufacturer": "Pfizer Pakistan",
+      "locationShelf": "Shelf C-3"
+    },
+    {
+      "id": "med-7",
+      "brandName": "Flagyl 400mg",
+      "genericName": "Metronidazole",
+      "category": "Antiprotozoal & Antibacterial",
+      "dosageForm": "Tablet",
+      "strength": "400mg",
+      "unitPrice": 5,
+      "costPrice": 3.8,
+      "stockQuantity": 260,
+      "reorderLevel": 60,
+      "batchNumber": "FLG-8802",
+      "expiryDate": "2027-10-25",
+      "manufacturer": "Sanofi Aventis",
+      "locationShelf": "Shelf B-1"
+    },
+    {
+      "id": "med-8",
+      "brandName": "Azomax 500mg",
+      "genericName": "Azithromycin",
+      "category": "Macrolide Antibiotics",
+      "dosageForm": "Capsule",
+      "strength": "500mg",
+      "unitPrice": 65,
+      "costPrice": 52,
+      "stockQuantity": 120,
+      "reorderLevel": 30,
+      "batchNumber": "AZX-4911",
+      "expiryDate": "2028-02-18",
+      "manufacturer": "Getz Pharma",
+      "locationShelf": "Shelf B-3"
+    },
+    {
+      "id": "med-9",
+      "brandName": "Surbex-Z",
+      "genericName": "Zinc + B-Complex + Vitamin C & E",
+      "category": "Multivitamins & Minerals",
+      "dosageForm": "Tablet",
+      "strength": "Standard Formula",
+      "unitPrice": 18,
+      "costPrice": 14.5,
+      "stockQuantity": 190,
+      "reorderLevel": 40,
+      "batchNumber": "SBZ-9022",
+      "expiryDate": "2028-06-30",
+      "manufacturer": "Abbott Laboratories",
+      "locationShelf": "Shelf D-1"
+    },
+    {
+      "id": "med-10",
+      "brandName": "Ventolin Inhaler 100mcg",
+      "genericName": "Salbutamol Inhaler",
+      "category": "Respiratory & Bronchodilator",
+      "dosageForm": "Inhaler",
+      "strength": "200 Doses",
+      "unitPrice": 420,
+      "costPrice": 350,
+      "stockQuantity": 45,
+      "reorderLevel": 15,
+      "batchNumber": "VNT-6612",
+      "expiryDate": "2027-05-15",
+      "manufacturer": "GSK Pakistan",
+      "locationShelf": "Shelf D-3"
+    }
+  ],
+  "pharmacyInvoices": [
+    {
+      "id": "inv-d3352eb3",
+      "invoiceNumber": "INV-PHARM-5001",
+      "prescriptionId": "prsc-6b3425bc",
+      "patientId": "",
+      "patientName": "Hamid Raza",
+      "patientPhone": "",
+      "doctorName": "Hospital Doctor",
+      "items": [
+        {
+          "medicineId": "med-6",
+          "brandName": "Norvasc 5mg",
+          "genericName": "Amlodipine Besylate",
+          "batchNumber": "NRV-3011",
+          "dosageForm": "Tablet",
+          "quantity": 1,
+          "unitPrice": 16,
+          "totalPrice": 16,
+          "instructions": "Morning"
+        }
+      ],
+      "subtotal": 16,
+      "discountPercent": 10,
+      "discountAmount": 1.6,
+      "taxPercent": 0,
+      "taxAmount": 0,
+      "netTotal": 14,
+      "paymentMethod": "CASH",
+      "paymentStatus": "PAID",
+      "dispensedBy": "Hamza Bilal (R.Ph)",
+      "createdAt": "2026-08-20T10:59:22.345Z"
+    },
+    {
+      "id": "inv-24c80728",
+      "invoiceNumber": "INV-PHARM-5002",
+      "prescriptionId": "prsc-dd9cfb1e",
+      "patientId": "",
+      "patientName": "Zainab Bibi",
+      "patientPhone": "",
+      "doctorName": "Hospital Doctor",
+      "items": [
+        {
+          "medicineId": "med-1",
+          "brandName": "Panadol 500mg",
+          "genericName": "Paracetamol",
+          "batchNumber": "PND-2026-08",
+          "dosageForm": "Tablet",
+          "quantity": 11,
+          "unitPrice": 4.5,
+          "totalPrice": 49.5,
+          "instructions": ""
+        }
+      ],
+      "subtotal": 49.5,
+      "discountPercent": 0,
+      "discountAmount": 0,
+      "taxPercent": 0,
+      "taxAmount": 0,
+      "netTotal": 50,
+      "paymentMethod": "Cash",
+      "paymentStatus": "PAID",
+      "dispensedBy": "Hamza Bilal (R.Ph)",
+      "createdAt": "2026-08-20T12:18:58.552Z"
+    }
+  ],
+  "hospitalInfo": {
+    "name": "Al-Shafay Hospital Fatehpur",
+    "tagline": "Care, Compassion & Quality Healthcare",
+    "address": "Hospital Road, Fatehpur, District Layyah, Punjab, Pakistan",
+    "phone": "+92 300 1234567 / (0606) 812345",
+    "emergency": "+92 301 7654321",
+    "email": "info@alshafayhospital.com",
+    "timings": "24/7 Emergency & Outpatient Services",
+    "licenseNo": "PHC-LYH-2024-9981"
+  }
+}
