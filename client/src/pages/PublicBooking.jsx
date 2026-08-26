@@ -189,12 +189,12 @@ export default function PublicBooking() {
 
           </div>
 
-          {/* Cleanly constrained emblem (max h-28 w-28) */}
-          <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none hidden md:flex items-center justify-center">
+          {/* Clean High-Contrast White Logo Asset */}
+          <div className="absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 pointer-events-none hidden md:flex items-center justify-center">
             <img 
-              src="/logo.png" 
-              alt="Al-Shafay Hospital Emblem" 
-              className="h-24 w-24 lg:h-28 lg:w-28 object-contain drop-shadow-xl bg-white/10 p-2 rounded-full border border-white/20 backdrop-blur-xs" 
+              src="/images/al-shafay-logo.png" 
+              alt="Al-Shafay Hospital Fatehpur" 
+              className="w-28 md:w-36 lg:w-44 h-auto object-contain drop-shadow-lg" 
             />
           </div>
         </div>
