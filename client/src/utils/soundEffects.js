@@ -2,7 +2,7 @@
 
 let audioCtx = null;
 
-function getAudioContext() {
+export function getAudioContext() {
   if (!audioCtx) {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     if (AudioContext) {
@@ -13,6 +13,24 @@ function getAudioContext() {
     audioCtx.resume();
   }
   return audioCtx;
+}
+
+// User-interaction audio unlocker for mobile Safari / Chrome
+export function unlockAudioContext() {
+  try {
+    const ctx = getAudioContext();
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume();
+    }
+    // Also prime speech synthesis
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+    }
+  } catch (e) {
+    console.warn("Audio unlock failed:", e);
+  }
 }
 
 // Play pleasant hospital ding-dong announcement chime

@@ -1,7 +1,8 @@
-import { playHospitalChime } from './soundEffects';
+import { playHospitalChime, unlockAudioContext } from './soundEffects';
 
 let isSpeechAvailable = typeof window !== 'undefined' && 'speechSynthesis' in window;
 let speechVoices = [];
+let lastSpokenText = '';
 
 if (isSpeechAvailable) {
   const loadVoices = () => {
@@ -49,34 +50,19 @@ function findEnglishFemaleVoice() {
 }
 
 /**
- * High-Clarity Female Voice TTS Engine
- * Speech Parameters:
- * - Speed rate = 0.78 (Slow, clear, easily understandable)
- * - Pitch = 1.05 (Crisp, warm female tone)
- * 
- * Phrasing:
- * - Standard Calling:
- *   "Attention please. Token Number [X]... Patient [Name]... Please go to Doctor [Doc]... Room Number [Room]."
- * - Patient Transfer / Referral:
- *   "Attention please. Token Number [X]... Patient [Name]... Please proceed for your follow-up checkup with Doctor [Doc]... Room Number [Room]."
+ * Speak text with Web Speech API
  */
-export function announceTokenCall(tokenNumber, patientName, doctorName, roomNumber, options = {}) {
-  const { isReferral = false, playChime = true } = options;
+function speakText(text, options = {}) {
+  const { playChime = true, delayMs = 600 } = options;
+  lastSpokenText = text;
+
+  unlockAudioContext();
 
   if (playChime) {
     playHospitalChime();
   }
 
-  const doc = cleanDoctorName(doctorName);
-  const room = extractRoomDigits(roomNumber);
-  const patient = patientName || 'Patient';
-
-  // Exact Requested Phrasing
-  const text = isReferral
-    ? `Attention please. Token Number ${tokenNumber}... Patient ${patient}... Please proceed for your follow-up checkup with Doctor ${doc}... Room Number ${room}.`
-    : `Attention please. Token Number ${tokenNumber}... Patient ${patient}... Please go to Doctor ${doc}... Room Number ${room}.`;
-
-  const delay = playChime ? 650 : 50;
+  const delay = playChime ? delayMs : 50;
 
   setTimeout(() => {
     try {
@@ -99,6 +85,50 @@ export function announceTokenCall(tokenNumber, patientName, doctorName, roomNumb
       console.warn("Speech synthesis announcement error:", e);
     }
   }, delay);
+}
+
+/**
+ * High-Clarity Voice Announcement on Token Calling (TV Screen / Doctor Desk)
+ */
+export function announceTokenCall(tokenNumber, patientName, doctorName, roomNumber, options = {}) {
+  const { isReferral = false, playChime = true } = options;
+  const doc = cleanDoctorName(doctorName);
+  const room = extractRoomDigits(roomNumber);
+  const patient = patientName || 'Patient';
+
+  const text = isReferral
+    ? `Attention please. Token Number ${tokenNumber}... Patient ${patient}... Please proceed for your follow-up checkup with Doctor ${doc}... Room Number ${room}.`
+    : `Attention please. Token Number ${tokenNumber}... Patient ${patient}... Please go to Doctor ${doc}... Room Number ${room}.`;
+
+  speakText(text, { playChime });
+}
+
+/**
+ * Automated Voice Announcement on Token Issuance / Booking Generation
+ */
+export function announceTokenIssuance(tokenNumber, patientName, doctorName, roomNumber, options = {}) {
+  const doc = cleanDoctorName(doctorName);
+  const room = extractRoomDigits(roomNumber);
+  const patient = patientName || 'Patient';
+
+  const text = `Token Number ${tokenNumber} generated successfully for ${patient}. Please proceed to Doctor ${doc}, Room Number ${room}.`;
+
+  speakText(text, { playChime: options.playChime !== false });
+}
+
+/**
+ * Replay Last Spoken Announcement
+ */
+export function replayLastAnnouncement() {
+  if (lastSpokenText) {
+    speakText(lastSpokenText, { playChime: true });
+  } else {
+    announceTokenIssuance(101, "Patient", "Dr. Imran Tahir", "Room 101");
+  }
+}
+
+export function getLastSpokenText() {
+  return lastSpokenText;
 }
 
 export function testSpeechAnnouncement() {

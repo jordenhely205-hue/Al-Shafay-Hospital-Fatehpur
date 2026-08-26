@@ -1,11 +1,33 @@
-import React from 'react';
-import { Printer, X } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { Printer, X, Volume2, CheckCircle2 } from 'lucide-react';
+import { announceTokenIssuance, replayLastAnnouncement } from '../utils/speech';
+import { unlockAudioContext } from '../utils/soundEffects';
 
 export default function ThermalSlipModal({ token, onClose }) {
   if (!token) return null;
 
+  useEffect(() => {
+    // Automatically trigger voice announcement on mount
+    announceTokenIssuance(
+      token.tokenNumber,
+      token.patientName,
+      token.doctorName,
+      token.roomNumber
+    );
+  }, [token]);
+
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleReplayAudio = () => {
+    unlockAudioContext();
+    announceTokenIssuance(
+      token.tokenNumber,
+      token.patientName,
+      token.doctorName,
+      token.roomNumber
+    );
   };
 
   const formattedDate = new Date(token.createdAt || token.date).toLocaleDateString('en-GB', {
@@ -19,12 +41,18 @@ export default function ThermalSlipModal({ token, onClose }) {
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-      <div className="bg-white text-slate-900 rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto">
+      <div className="bg-white text-slate-900 rounded-3xl max-w-sm w-full p-5 sm:p-6 shadow-2xl space-y-4 my-auto">
         
         <div className="flex justify-between items-center no-print">
-          <span className="text-xs font-black uppercase text-[#0B4F9C]">Thermal Parchi Preview (80mm)</span>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-700 p-1">
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-black uppercase text-[#0B4F9C]">Thermal Parchi Preview</span>
+            <span className="inline-flex items-center gap-1 text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 font-bold">
+              <Volume2 size={11} className="animate-pulse" />
+              <span>Voice Active</span>
+            </span>
+          </div>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer">
             <X size={18} />
           </button>
         </div>
@@ -96,18 +124,29 @@ export default function ThermalSlipModal({ token, onClose }) {
 
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2 pt-2 no-print">
-          <button
-            onClick={handlePrint}
-            className="flex-1 bg-[#0B4F9C] hover:bg-[#083B75] text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-md"
-          >
-            <Printer size={15} />
-            <span>Print Thermal Parchi (80mm)</span>
-          </button>
+        {/* Action Buttons with Voice Replay */}
+        <div className="space-y-2 no-print pt-1">
+          <div className="flex gap-2">
+            <button
+              onClick={handlePrint}
+              className="flex-1 bg-[#0B4F9C] hover:bg-[#083B75] text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-md cursor-pointer"
+            >
+              <Printer size={15} />
+              <span>Print Slip (80mm)</span>
+            </button>
+            <button
+              onClick={handleReplayAudio}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-xl transition flex items-center justify-center gap-1.5 text-xs shadow-md cursor-pointer"
+              title="Replay Voice Announcement"
+            >
+              <Volume2 size={15} />
+              <span>Replay Audio</span>
+            </button>
+          </div>
+
           <button
             onClick={onClose}
-            className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 px-4 rounded-xl text-xs"
+            className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs transition cursor-pointer"
           >
             Close
           </button>

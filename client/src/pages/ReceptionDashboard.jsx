@@ -3,6 +3,8 @@ import { api } from '../services/api';
 import { useSocket } from '../context/SocketContext';
 import ThermalSlipModal from '../components/ThermalSlipModal';
 import LabReportModal from '../components/LabReportModal';
+import { announceTokenIssuance } from '../utils/speech';
+import { unlockAudioContext } from '../utils/soundEffects';
 import { 
   UserPlus, 
   Ticket, 
@@ -16,7 +18,8 @@ import {
   ArrowRight,
   RefreshCw,
   ArrowRightLeft,
-  BellRing
+  BellRing,
+  Volume2
 } from 'lucide-react';
 
 export default function ReceptionDashboard() {
@@ -150,6 +153,8 @@ export default function ReceptionDashboard() {
 
   const handleGenerateToken = async (e) => {
     e.preventDefault();
+    unlockAudioContext(); // Unlock audio context on user interaction
+
     if (!form.patientName || !form.doctorId) {
       setMsg({ type: 'error', text: 'Patient Name and Doctor are required.' });
       return;
@@ -164,6 +169,14 @@ export default function ReceptionDashboard() {
         setShowThermalSlip(true);
         setMsg({ type: 'success', text: `Token #${res.token.tokenNumber} generated and forwarded to ${res.token.doctorName}!` });
         
+        // Automated voice announcement
+        announceTokenIssuance(
+          res.token.tokenNumber,
+          res.token.patientName,
+          res.token.doctorName,
+          res.token.roomNumber
+        );
+
         setForm(prev => ({
           ...prev,
           patientName: '',
