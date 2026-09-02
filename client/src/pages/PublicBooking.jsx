@@ -305,66 +305,58 @@ export default function PublicBooking() {
 
             </div>
 
-            {/* Right Column: Engaging Clinical Doctor Visual Presentation */}
+            {/* Right Column: Clean, Uncluttered Clinical Doctor Visual */}
             <div className="shrink-0 flex items-center justify-center pt-4 md:pt-0 relative">
               
-              {/* Soft Glowing Radial Backdrop Shield */}
-              <div className="relative w-64 sm:w-72 md:w-80 lg:w-84 rounded-3xl p-3 bg-gradient-to-b from-white/15 via-white/5 to-transparent backdrop-blur-md border border-white/25 shadow-2xl shadow-blue-950/50 group">
+              {/* Clinical Glassmorphic Shield & Arch Frame */}
+              <div className="relative w-64 sm:w-72 md:w-80 lg:w-84 rounded-3xl p-3 bg-gradient-to-b from-white/10 via-[#0B2559]/60 to-[#081E48]/90 backdrop-blur-md border border-cyan-400/25 shadow-2xl shadow-blue-950/60 group">
                 
-                {/* Ambient Backlight Glow */}
-                <div className="absolute inset-0 bg-radial from-cyan-400/25 via-blue-500/10 to-transparent rounded-3xl filter blur-xl -z-10 group-hover:scale-105 transition-transform duration-500"></div>
+                {/* Ambient Soft Cyan/Blue Backlight Glow */}
+                <div className="absolute inset-0 bg-radial from-cyan-400/20 via-blue-500/10 to-transparent rounded-3xl filter blur-xl -z-10 group-hover:scale-105 transition-transform duration-500 pointer-events-none"></div>
 
-                {/* Doctor Portrait Visual Container with smooth bottom fade */}
-                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-t from-[#081E48] via-transparent to-transparent h-72 sm:h-80 md:h-[420px] lg:h-[460px] flex items-end justify-center shadow-inner">
+                {/* Top-Right Single Floating Badge: Verified Specialist */}
+                <div className="absolute -top-3 -right-2 sm:-right-3 backdrop-blur-md bg-[#081E48]/90 border border-white/25 rounded-2xl px-3 py-1.5 shadow-xl flex items-center gap-2 text-white select-none z-20">
+                  <div className="w-6 h-6 rounded-xl bg-emerald-500/90 border border-emerald-300/40 flex items-center justify-center text-white shrink-0 shadow-xs">
+                    <ShieldCheck size={14} />
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-wider text-emerald-300 block leading-tight">Verified Specialist</span>
+                    <strong className="text-[10.5px] font-black tracking-tight leading-none text-slate-100">Senior Consultant</strong>
+                  </div>
+                </div>
+
+                {/* Doctor Portrait Visual Container with Arch & Smooth Bottom Fade */}
+                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-cyan-950/40 via-[#0B2559]/30 to-[#081E48] ring-1 ring-cyan-400/20 h-72 sm:h-80 md:h-[420px] lg:h-[450px] flex items-end justify-center shadow-inner">
                   <img 
                     src="/dr-abbas-malik.png" 
                     alt="Dr. Abbas Malik - Chief Medical Consultant" 
-                    className="w-full h-full object-contain object-bottom -scale-x-100 filter contrast-105 brightness-100 group-hover:scale-105 group-hover:-scale-x-105 transition-all duration-500"
+                    className="w-full h-full object-contain object-top -scale-x-100 filter contrast-105 brightness-100 group-hover:scale-105 group-hover:-scale-x-105 transition-all duration-500"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = "/images/dr-abbas-malik.png";
                     }}
                   />
 
-                  {/* Gradient Overlay & Consultant Name Tag */}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#081E48] via-[#081E48]/80 to-transparent p-4 text-center">
-                    <div className="flex items-center justify-center gap-1.5 mb-1">
+                  {/* Smooth Bottom Fade Overlay */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#081E48] via-[#081E48]/80 to-transparent pointer-events-none"></div>
+
+                  {/* Single Clean Anchored Nameplate Badge */}
+                  <div className="absolute inset-x-0 bottom-0 p-4 text-center z-10 space-y-0.5">
+                    <p className="text-xs font-semibold tracking-wider uppercase text-cyan-300">
+                      Chief Medical Consultant
+                    </p>
+                    <h3 className="text-base sm:text-lg font-bold uppercase text-white font-outfit tracking-wide drop-shadow-sm">
+                      Dr. Abbas Malik
+                    </h3>
+                    <div className="flex items-center justify-center gap-1.5 pt-0.5">
                       <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                       </span>
-                      <span className="text-[10px] font-black uppercase text-emerald-300 tracking-wider">
-                        Specialist OPD Active
+                      <span className="text-[10px] sm:text-[11px] font-semibold text-emerald-300 tracking-wide">
+                        Specialist OPD Available
                       </span>
                     </div>
-                    <h3 className="text-base sm:text-lg font-black uppercase text-white font-outfit tracking-wide drop-shadow-sm">
-                      Dr. Abbas Malik
-                    </h3>
-                    <p className="text-[10px] sm:text-[11px] text-cyan-200 font-bold uppercase tracking-wider">
-                      Chief Medical Consultant
-                    </p>
-                  </div>
-                </div>
-
-                {/* Floating Top-Left Badge: Chief Consultant Active */}
-                <div className="absolute -top-3.5 -left-3 sm:-left-4 backdrop-blur-md bg-[#081E48]/90 border border-white/30 rounded-2xl px-3 py-2 shadow-xl flex items-center gap-2 text-white select-none">
-                  <div className="w-7 h-7 rounded-xl bg-emerald-500/90 border border-emerald-300/40 flex items-center justify-center text-white shrink-0 shadow-xs">
-                    <CheckCircle2 size={15} />
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-black uppercase tracking-wider text-emerald-300 block leading-tight">Chief Consultant</span>
-                    <strong className="text-[11px] font-black tracking-tight leading-none">Dr. Abbas Malik</strong>
-                  </div>
-                </div>
-
-                {/* Floating Bottom-Right Badge: 24/7 Trauma Service */}
-                <div className="absolute -bottom-3 -right-2 sm:-right-3 backdrop-blur-md bg-[#081E48]/90 border border-white/30 rounded-2xl px-3 py-2 shadow-xl flex items-center gap-2 text-white select-none">
-                  <div className="w-7 h-7 rounded-xl bg-cyan-500/90 border border-cyan-300/40 flex items-center justify-center text-white shrink-0 shadow-xs">
-                    <HeartPulse size={15} className="animate-pulse text-white" />
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-black uppercase tracking-wider text-cyan-300 block leading-tight">24/7 Trauma Care</span>
-                    <strong className="text-[11px] font-black tracking-tight leading-none">Emergency Active</strong>
                   </div>
                 </div>
 
