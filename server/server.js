@@ -13,11 +13,12 @@ import authRoutes, { setAuthBroadcastFn } from './routes/auth.js';
 import departmentRoutes, { setDeptBroadcastFn } from './routes/departments.js';
 import patientRoutes from './routes/patients.js';
 import queueRoutes, { setBroadcastFn as setQueueBroadcast } from './routes/queue.js';
-import appointmentRoutes from './routes/appointments.js';
+import appointmentRoutes, { setAppointmentBroadcastFn } from './routes/appointments.js';
 import prescriptionRoutes, { setPrescriptionBroadcastFn } from './routes/prescriptions.js';
 import labRoutes, { setLabBroadcastFn } from './routes/lab.js';
 import pharmacyRoutes, { setPharmacyBroadcastFn } from './routes/pharmacy.js';
 import analyticsRoutes from './routes/analytics.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -103,6 +104,8 @@ setQueueBroadcast(broadcast);
 setPrescriptionBroadcastFn(broadcast);
 setLabBroadcastFn(broadcast);
 setPharmacyBroadcastFn(broadcast);
+setAppointmentBroadcastFn(broadcast);
+
 
 // Register REST API Routes
 app.use('/api/auth', authRoutes);

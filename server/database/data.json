@@ -580,6 +580,50 @@
       "createdAt": "2026-09-02T08:42:40.337Z",
       "confirmedTokenNumber": "105",
       "confirmedAt": "2026-09-02T08:42:40.362Z"
+    },
+    {
+      "id": "apt-1f9951a2",
+      "appointmentNumber": "APT-1006",
+      "patientName": "Permanent Audit Test Patient",
+      "phone": "03099998888",
+      "cnic": "",
+      "departmentId": "dept-gen-med",
+      "departmentName": "General Medicine",
+      "doctorId": "doc-2",
+      "doctorName": "Dr. Fatima Noor",
+      "doctorRoom": "Room 102",
+      "appointmentDate": "2026-10-15",
+      "date": "2026-10-15",
+      "timeSlot": "10:00 AM - 10:30 AM",
+      "notes": "Testing permanent persistence and zero data loss",
+      "source": "ONLINE",
+      "bookingType": "ONLINE",
+      "isOnline": true,
+      "status": "CANCELLED",
+      "createdAt": "2026-09-02T09:24:36.332Z",
+      "updatedAt": "2026-09-02T09:24:36.420Z",
+      "statusHistory": [
+        {
+          "status": "PENDING_CONFIRMATION",
+          "timestamp": "2026-09-02T09:24:36.332Z",
+          "note": "Online booking created"
+        },
+        {
+          "status": "CONFIRMED",
+          "timestamp": "2026-09-02T09:24:36.378Z",
+          "tokenNumber": "777",
+          "note": "Confirmed by receptionist & WhatsApp dispatched"
+        },
+        {
+          "status": "CANCELLED",
+          "timestamp": "2026-09-02T09:24:36.420Z",
+          "reason": "Patient rescheduled to next month"
+        }
+      ],
+      "confirmedTokenNumber": "777",
+      "confirmedAt": "2026-09-02T09:24:36.378Z",
+      "cancelledAt": "2026-09-02T09:24:36.420Z",
+      "cancellationReason": "Patient rescheduled to next month"
     }
   ],
   "prescriptions": [
@@ -1617,6 +1661,102 @@
         "status": "WAITING",
         "fee": 1500,
         "createdAt": "2026-09-02T12:25:50.732Z"
+      }
+    },
+    {
+      "id": "1788341076335-ip6w",
+      "timestamp": 1788341076335,
+      "type": "APPOINTMENT_BOOKED",
+      "appointment": {
+        "id": "apt-1f9951a2",
+        "appointmentNumber": "APT-1006",
+        "patientName": "Permanent Audit Test Patient",
+        "phone": "03099998888",
+        "cnic": "",
+        "departmentId": "dept-gen-med",
+        "departmentName": "General Medicine",
+        "doctorId": "doc-2",
+        "doctorName": "Dr. Fatima Noor",
+        "doctorRoom": "Room 102",
+        "appointmentDate": "2026-10-15",
+        "date": "2026-10-15",
+        "timeSlot": "10:00 AM - 10:30 AM",
+        "notes": "Testing permanent persistence and zero data loss",
+        "source": "ONLINE",
+        "bookingType": "ONLINE",
+        "isOnline": true,
+        "status": "CANCELLED",
+        "createdAt": "2026-09-02T09:24:36.332Z",
+        "updatedAt": "2026-09-02T09:24:36.420Z",
+        "statusHistory": [
+          {
+            "status": "PENDING_CONFIRMATION",
+            "timestamp": "2026-09-02T09:24:36.332Z",
+            "note": "Online booking created"
+          },
+          {
+            "status": "CONFIRMED",
+            "timestamp": "2026-09-02T09:24:36.378Z",
+            "tokenNumber": "777",
+            "note": "Confirmed by receptionist & WhatsApp dispatched"
+          },
+          {
+            "status": "CANCELLED",
+            "timestamp": "2026-09-02T09:24:36.420Z",
+            "reason": "Patient rescheduled to next month"
+          }
+        ],
+        "confirmedTokenNumber": "777",
+        "confirmedAt": "2026-09-02T09:24:36.378Z",
+        "cancelledAt": "2026-09-02T09:24:36.420Z",
+        "cancellationReason": "Patient rescheduled to next month"
+      }
+    },
+    {
+      "id": "1788341076393-eqzt",
+      "timestamp": 1788341076393,
+      "type": "APPOINTMENT_UPDATED",
+      "appointment": {
+        "id": "apt-1f9951a2",
+        "appointmentNumber": "APT-1006",
+        "patientName": "Permanent Audit Test Patient",
+        "phone": "03099998888",
+        "cnic": "",
+        "departmentId": "dept-gen-med",
+        "departmentName": "General Medicine",
+        "doctorId": "doc-2",
+        "doctorName": "Dr. Fatima Noor",
+        "doctorRoom": "Room 102",
+        "appointmentDate": "2026-10-15",
+        "date": "2026-10-15",
+        "timeSlot": "10:00 AM - 10:30 AM",
+        "notes": "Testing permanent persistence and zero data loss",
+        "source": "ONLINE",
+        "bookingType": "ONLINE",
+        "isOnline": true,
+        "status": "CONFIRMED",
+        "createdAt": "2026-09-02T09:24:36.332Z",
+        "updatedAt": "2026-09-02T09:24:36.378Z",
+        "statusHistory": [
+          {
+            "status": "PENDING_CONFIRMATION",
+            "timestamp": "2026-09-02T09:24:36.332Z",
+            "note": "Online booking created"
+          },
+          {
+            "status": "CONFIRMED",
+            "timestamp": "2026-09-02T09:24:36.378Z",
+            "tokenNumber": "777",
+            "note": "Confirmed by receptionist & WhatsApp dispatched"
+          },
+          {
+            "status": "CANCELLED",
+            "timestamp": "2026-09-02T09:24:36.420Z",
+            "reason": "Patient rescheduled to next month"
+          }
+        ],
+        "confirmedTokenNumber": "777",
+        "confirmedAt": "2026-09-02T09:24:36.378Z"
       }
     }
   ]

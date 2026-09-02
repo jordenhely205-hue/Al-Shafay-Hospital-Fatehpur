@@ -71,6 +71,11 @@ export default function ReceptionDashboard() {
   useEffect(() => {
     loadData();
 
+    // 10-second auto-polling interval for guaranteed real-time appointments sync
+    const pollInterval = setInterval(() => {
+      loadAppointments();
+    }, 10000);
+
     const unsubscribe = subscribe((event) => {
       if (event.type === 'QUEUE_UPDATED' || event.type === 'TOKEN_CALLED' || event.type === 'REFERRED_PATIENT_CALLED') {
         loadQueue();
@@ -78,7 +83,7 @@ export default function ReceptionDashboard() {
       if (event.type === 'LAB_ORDER_UPDATED' || event.type === 'LAB_RESULT_READY') {
         loadLabOrders();
       }
-      if (event.type === 'APPOINTMENT_BOOKED' || event.type === 'APPOINTMENT_UPDATED') {
+      if (event.type === 'APPOINTMENT_BOOKED' || event.type === 'APPOINTMENT_UPDATED' || event.type === 'APPOINTMENT_CREATED') {
         loadAppointments();
       }
       if (event.type === 'DOCTORS_UPDATED') {
@@ -86,7 +91,10 @@ export default function ReceptionDashboard() {
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      clearInterval(pollInterval);
+      unsubscribe();
+    };
   }, []);
 
   const loadData = async () => {
@@ -111,7 +119,7 @@ export default function ReceptionDashboard() {
         setLabOrders(labRes.orders);
       }
       if (aptRes && aptRes.success) {
-        setAppointments(aptRes.appointments);
+        setAppointments(aptRes.appointments || []);
       }
     } catch (e) {
       console.error(e);
@@ -121,8 +129,8 @@ export default function ReceptionDashboard() {
   const loadAppointments = async () => {
     try {
       const res = await api.getAppointments();
-      if (res.success) {
-        setAppointments(res.appointments);
+      if (res && res.success) {
+        setAppointments(res.appointments || []);
       }
     } catch (e) {
       console.error('Failed to load appointments', e);
@@ -140,6 +148,7 @@ export default function ReceptionDashboard() {
       console.error(e);
     }
   };
+
 
 
   const loadLabOrders = async () => {
@@ -280,24 +289,68 @@ export default function ReceptionDashboard() {
   );
 
   const referredPatientsAtReception = queue.filter(t => t.status === 'REFERRED_TO_RECEPTION');
-  const pendingAppointmentsCount = appointments.filter(a => a.status === 'PENDING_CONFIRMATION' || a.status === 'PENDING').length;
+  
+  const isOnlineBooking = (apt) => 
+    apt && (
+      apt.isOnline === true || 
+      apt.bookingType === 'ONLINE' || 
+      apt.source === 'ONLINE' || 
+      (typeof apt.appointmentNumber === 'string' && apt.appointmentNumber.startsWith('APT-')) || 
+      (typeof apt.tokenNumber === 'string' && apt.tokenNumber.startsWith('APT-')) || 
+      String(apt.status || '').toUpperCase().includes('PENDING') ||
+      String(apt.status || '').toUpperCase().includes('CONFIRM') ||
+      Boolean(apt.date && apt.timeSlot)
+    );
 
-  const filteredAppointments = appointments.filter(apt => {
-    const matchesFilter = 
-      appointmentFilter === 'ALL' ? true :
-      appointmentFilter === 'PENDING' ? (apt.status === 'PENDING_CONFIRMATION' || apt.status === 'PENDING') :
-      appointmentFilter === 'CONFIRMED' ? apt.status === 'CONFIRMED' : true;
+  const pendingAppointmentsCount = (appointments || []).filter(a => {
+    if (!isOnlineBooking(a)) return false;
+    const s = String(a.status || '').toLowerCase();
+    return s.includes('pending') || s === 'new' || s === 'new_booking';
+  }).length;
 
-    const q = appointmentSearch.toLowerCase().trim();
-    const matchesSearch = !q ||
-      apt.patientName?.toLowerCase().includes(q) ||
-      apt.phone?.includes(q) ||
-      apt.appointmentNumber?.toLowerCase().includes(q) ||
-      apt.doctorName?.toLowerCase().includes(q) ||
-      apt.departmentName?.toLowerCase().includes(q);
+  const confirmedAppointmentsCount = (appointments || []).filter(a => {
+    if (!isOnlineBooking(a)) return false;
+    const s = String(a.status || '').toLowerCase();
+    return s.includes('confirm') || s.includes('check');
+  }).length;
+
+  const filteredAppointments = (appointments || []).filter(apt => {
+    if (!isOnlineBooking(apt)) return false;
+    const s = String(apt.status || '').toLowerCase();
+    const isPending = s.includes('pending') || s === 'new' || s === 'new_booking';
+    const isConfirmed = s.includes('confirm') || s.includes('check');
+
+    let matchesFilter = true;
+    if (appointmentFilter === 'PENDING') {
+      matchesFilter = isPending;
+    } else if (appointmentFilter === 'CONFIRMED') {
+      matchesFilter = isConfirmed || !isPending;
+    }
+
+    const q = (appointmentSearch || '').toLowerCase().trim();
+    if (!q) return matchesFilter;
+
+    const patientName = String(apt.patientName || '').toLowerCase();
+    const phone = String(apt.phone || apt.patientPhone || '').toLowerCase();
+    const apptNo = String(apt.appointmentNumber || '').toLowerCase();
+    const doctorName = String(apt.doctorName || '').toLowerCase();
+    const deptName = String(apt.departmentName || '').toLowerCase();
+    const tokenNo = String(apt.confirmedTokenNumber || '').toLowerCase();
+    const cnic = String(apt.cnic || '').toLowerCase();
+
+    const matchesSearch = 
+      patientName.includes(q) ||
+      phone.includes(q) ||
+      apptNo.includes(q) ||
+      doctorName.includes(q) ||
+      deptName.includes(q) ||
+      tokenNo.includes(q) ||
+      cnic.includes(q);
 
     return matchesFilter && matchesSearch;
   });
+
+
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 p-4 sm:p-6 lg:p-8">
@@ -953,22 +1006,24 @@ export default function ReceptionDashboard() {
                   {pendingAppointmentsCount > 0 && (
                     <span className="w-2 h-2 rounded-full bg-white animate-ping"></span>
                   )}
+                  <span className="text-[10px] bg-rose-950/20 px-1 rounded">({pendingAppointmentsCount})</span>
                 </button>
                 <button
                   onClick={() => setAppointmentFilter('CONFIRMED')}
-                  className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl transition cursor-pointer flex items-center gap-1.5 ${
                     appointmentFilter === 'CONFIRMED'
                       ? 'bg-emerald-600 text-white shadow-xs'
                       : 'text-slate-600 hover:text-emerald-700'
                   }`}
                 >
-                  Confirmed
+                  <span>Confirmed</span>
+                  <span className="text-[10px] bg-emerald-950/20 px-1 rounded">({confirmedAppointmentsCount})</span>
                 </button>
               </div>
             </div>
 
-            {/* Search Bar */}
-            <div className="flex gap-2 max-w-xl">
+            {/* Search Bar & Actions */}
+            <div className="flex flex-col sm:flex-row gap-2 max-w-xl">
               <div className="relative flex-1">
                 <Search size={16} className="absolute left-3.5 top-3 text-slate-400" />
                 <input
@@ -981,11 +1036,11 @@ export default function ReceptionDashboard() {
               </div>
               <button
                 onClick={loadAppointments}
-                className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+                className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition cursor-pointer"
                 title="Refresh Bookings"
               >
                 <RefreshCw size={14} />
-                <span className="hidden sm:inline">Refresh</span>
+                <span>Refresh</span>
               </button>
             </div>
 
@@ -993,7 +1048,9 @@ export default function ReceptionDashboard() {
             <div className="space-y-3">
               {filteredAppointments.length > 0 ? (
                 filteredAppointments.map((apt) => {
-                  const isPending = apt.status === 'PENDING_CONFIRMATION' || apt.status === 'PENDING';
+                  const statusStr = String(apt.status || '').toLowerCase();
+                  const isPending = statusStr.includes('pending') || statusStr === 'new' || statusStr === 'new_booking';
+                  
                   return (
                     <div
                       key={apt.id}
@@ -1035,7 +1092,7 @@ export default function ReceptionDashboard() {
                           </h3>
                           <span className="text-slate-600 font-mono font-bold flex items-center gap-1">
                             <Phone size={12} className="text-emerald-600" />
-                            {apt.phone}
+                            {apt.phone || apt.patientPhone}
                           </span>
                           {apt.cnic && (
                             <span className="text-slate-500 font-mono text-[11px]">
@@ -1063,9 +1120,33 @@ export default function ReceptionDashboard() {
 
                       {/* Right: Actions */}
                       <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto justify-end pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-200">
+                        {/* Check-in / Issue OPD Token */}
                         <button
+                          type="button"
+                          onClick={() => {
+                            setForm(prev => ({
+                              ...prev,
+                              patientName: apt.patientName,
+                              patientPhone: apt.phone || '',
+                              patientCnic: apt.cnic || '',
+                              departmentId: apt.departmentId || prev.departmentId,
+                              doctorId: apt.doctorId || prev.doctorId
+                            }));
+                            setActiveTab('registration');
+                            setMsg({ type: 'success', text: `Loaded appointment #${apt.appointmentNumber} into OPD registration form!` });
+                          }}
+                          className="bg-blue-50 hover:bg-blue-100 text-[#0B4F9C] border border-blue-200 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 transition cursor-pointer"
+                          title="Forward patient to Doctor Queue"
+                        >
+                          <Ticket size={14} />
+                          <span>Issue OPD Token</span>
+                        </button>
+
+                        {/* WhatsApp Confirmation Dispatch */}
+                        <button
+                          type="button"
                           onClick={() => setSelectedAppointmentForConfirm(apt)}
-                          className="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black px-4 py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-md shadow-emerald-950/15 cursor-pointer"
+                          className="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black px-4 py-2 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-md shadow-emerald-950/15 cursor-pointer"
                         >
                           <MessageCircle size={15} />
                           <span>{isPending ? 'Confirm & WhatsApp to Patient' : 'Resend WhatsApp to Patient'}</span>
@@ -1075,18 +1156,45 @@ export default function ReceptionDashboard() {
                   );
                 })
               ) : (
-                <div className="py-12 text-center text-slate-400 text-xs">
-                  <Calendar size={36} className="mx-auto mb-2 text-slate-300" />
-                  <p className="font-bold text-slate-600">No appointments found</p>
-                  <p className="text-slate-400 text-[11px] mt-0.5">
-                    {appointmentSearch ? 'Try a different search term.' : 'Appointments booked from the public website will appear here in real-time.'}
-                  </p>
+                <div className="py-12 text-center text-slate-400 text-xs bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
+                  <Calendar size={36} className="mx-auto text-slate-300" />
+                  <div>
+                    <p className="font-bold text-slate-700 text-sm">No online appointments found</p>
+                    <p className="text-slate-400 text-xs mt-0.5">
+                      {appointmentSearch || appointmentFilter !== 'ALL'
+                        ? 'No bookings match your current search or filter criteria.'
+                        : 'New appointments booked from the public website will appear here automatically.'}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 pt-2">
+                    {(appointmentSearch || appointmentFilter !== 'ALL') && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAppointmentFilter('ALL');
+                          setAppointmentSearch('');
+                        }}
+                        className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-xl font-bold hover:bg-slate-100 transition cursor-pointer"
+                      >
+                        Reset Filter
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={loadAppointments}
+                      className="bg-[#0B4F9C] text-white px-3.5 py-1.5 rounded-xl font-bold hover:bg-[#083B75] transition flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <RefreshCw size={13} />
+                      <span>Refresh Bookings</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
 
           </div>
         )}
+
 
         {/* TAB 5: Patient Search */}
         {activeTab === 'patient-search' && (
