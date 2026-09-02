@@ -85,6 +85,8 @@ export const api = {
     const qs = new URLSearchParams(params).toString();
     return request(`/appointments${qs ? `?${qs}` : ''}`);
   },
+  confirmAppointment: (id, data) => request(`/appointments/${id}/confirm`, { method: 'PATCH', body: JSON.stringify(data) }),
+
 
   // Prescriptions
   createPrescription: (data) => request('/prescriptions', { method: 'POST', body: JSON.stringify(data) }),

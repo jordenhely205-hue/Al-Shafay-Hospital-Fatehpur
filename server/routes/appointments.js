@@ -33,7 +33,7 @@ router.post('/book', (req, res) => {
     date,
     timeSlot,
     notes: notes || '',
-    status: 'CONFIRMED', // CONFIRMED, CHECKED_IN, CANCELLED
+    status: 'PENDING_CONFIRMATION', // PENDING_CONFIRMATION, CONFIRMED, CHECKED_IN, CANCELLED
     createdAt: new Date().toISOString()
   };
 
@@ -80,7 +80,40 @@ router.get('/', (req, res) => {
     list = list.filter(a => a.doctorId === doctorId);
   }
 
-  res.json({ success: true, appointments: list.reverse() });
+  res.json({ success: true, appointments: list.slice().reverse() });
+});
+
+// Confirm & dispatch appointment (Reception Desk)
+router.patch('/:id/confirm', (req, res) => {
+  const { id } = req.params;
+  const { tokenNumber, date, timeSlot, doctorRoom, notes } = req.body;
+  const db = getDb();
+  const apt = (db.appointments || []).find(a => a.id === id || a.appointmentNumber === id);
+  if (!apt) {
+    return res.status(404).json({ success: false, message: 'Appointment not found' });
+  }
+
+  let updatedApt = null;
+  updateDb(d => {
+    const target = d.appointments.find(a => a.id === id || a.appointmentNumber === id);
+    if (target) {
+      if (tokenNumber) target.confirmedTokenNumber = tokenNumber;
+      if (date) target.date = date;
+      if (timeSlot) target.timeSlot = timeSlot;
+      if (doctorRoom) target.doctorRoom = doctorRoom;
+      if (notes !== undefined) target.notes = notes;
+      target.status = 'CONFIRMED';
+      target.confirmedAt = new Date().toISOString();
+      updatedApt = { ...target };
+    }
+  });
+
+  res.json({
+    success: true,
+    message: 'Appointment confirmed successfully',
+    appointment: updatedApt || apt
+  });
 });
 
 export default router;
+

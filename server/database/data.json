@@ -561,6 +561,25 @@
       "notes": "Online WhatsApp booking test",
       "status": "CONFIRMED",
       "createdAt": "2026-09-02T12:25:50.727Z"
+    },
+    {
+      "id": "apt-07d8b908",
+      "appointmentNumber": "APT-1005",
+      "patientName": "Kashif Mehmood",
+      "phone": "03001234567",
+      "cnic": "",
+      "departmentId": "dept-cardio",
+      "departmentName": "Cardiology",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "doctorRoom": "Room 101",
+      "date": "2026-09-10",
+      "timeSlot": "11:00 AM - 11:30 AM",
+      "notes": "Online booking",
+      "status": "CONFIRMED",
+      "createdAt": "2026-09-02T08:42:40.337Z",
+      "confirmedTokenNumber": "105",
+      "confirmedAt": "2026-09-02T08:42:40.362Z"
     }
   ],
   "prescriptions": [
