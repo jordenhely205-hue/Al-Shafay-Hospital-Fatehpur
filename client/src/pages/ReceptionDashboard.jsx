@@ -16,17 +16,19 @@ import {
   Users, 
   Stethoscope, 
   FlaskConical, 
-  ArrowRight,
-  RefreshCw,
-  ArrowRightLeft,
-  BellRing,
-  Volume2,
-  Calendar,
-  MessageCircle,
-  Clock,
-  Phone,
-  ShieldCheck
+  ArrowRight, 
+  RefreshCw, 
+  ArrowRightLeft, 
+  BellRing, 
+  Volume2, 
+  Calendar, 
+  MessageCircle, 
+  Clock, 
+  Phone, 
+  ShieldCheck, 
+  Building2 
 } from 'lucide-react';
+
 
 export default function ReceptionDashboard() {
   const { subscribe } = useSocket();
@@ -377,10 +379,14 @@ export default function ReceptionDashboard() {
               <span className="text-[10px] uppercase font-bold text-slate-500 block">Total Tokens</span>
               <span className="text-lg font-black text-[#0B4F9C] font-mono">{queueStats.total}</span>
             </div>
-            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl px-3.5 py-2 text-center shadow-2xs">
+            <div 
+              onClick={() => setActiveTab('online-bookings')}
+              className="bg-emerald-50 border border-emerald-200 rounded-2xl px-3.5 py-2 text-center shadow-2xs cursor-pointer hover:bg-emerald-100 hover:border-emerald-300 transition"
+              title="Click to view Online Bookings"
+            >
               <span className="text-[10px] uppercase font-bold text-emerald-800 block">Online Bookings</span>
               <div className="flex items-center justify-center gap-1">
-                <span className="text-lg font-black text-emerald-900 font-mono">{appointments.length}</span>
+                <span className="text-lg font-black text-emerald-900 font-mono">{Array.isArray(appointments) ? appointments.length : 0}</span>
                 {pendingAppointmentsCount > 0 && (
                   <span className="text-[9px] font-black bg-rose-600 text-white px-1.5 py-0.2 rounded-full animate-pulse">
                     {pendingAppointmentsCount} New
@@ -416,19 +422,20 @@ export default function ReceptionDashboard() {
           <button
             onClick={() => setActiveTab('online-bookings')}
             className={`flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer relative ${
-              activeTab === 'online-bookings'
+              (activeTab === 'online-bookings' || activeTab === 'onlineBookings')
                 ? 'bg-emerald-700 text-white shadow-md shadow-emerald-900/15'
                 : 'bg-white text-slate-600 hover:bg-emerald-50 border border-slate-200'
             }`}
           >
             <Calendar size={16} />
-            <span>Online Bookings ({appointments.length})</span>
+            <span>Online Bookings ({Array.isArray(appointments) ? appointments.length : 0})</span>
             {pendingAppointmentsCount > 0 && (
               <span className="bg-rose-600 text-white text-[10px] font-black px-1.5 py-0.2 rounded-full animate-bounce">
                 {pendingAppointmentsCount}
               </span>
             )}
           </button>
+
 
           <button
             onClick={() => setActiveTab('referred-queue')}
@@ -963,7 +970,7 @@ export default function ReceptionDashboard() {
         )}
 
         {/* TAB: Online Appointments & WhatsApp Dispatch */}
-        {activeTab === 'online-bookings' && (
+        {(activeTab === 'online-bookings' || activeTab === 'onlineBookings') && (
           <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
             
             {/* Header & Filter Controls */}
@@ -992,7 +999,7 @@ export default function ReceptionDashboard() {
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  All ({appointments.length})
+                  All ({Array.isArray(appointments) ? appointments.length : 0})
                 </button>
                 <button
                   onClick={() => setAppointmentFilter('PENDING')}
@@ -1046,14 +1053,15 @@ export default function ReceptionDashboard() {
 
             {/* Bookings List / Table */}
             <div className="space-y-3">
-              {filteredAppointments.length > 0 ? (
+              {filteredAppointments && filteredAppointments.length > 0 ? (
                 filteredAppointments.map((apt) => {
+                  if (!apt) return null;
                   const statusStr = String(apt.status || '').toLowerCase();
                   const isPending = statusStr.includes('pending') || statusStr === 'new' || statusStr === 'new_booking';
                   
                   return (
                     <div
-                      key={apt.id}
+                      key={apt.id || apt.appointmentNumber || Math.random()}
                       className={`border rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 transition shadow-xs ${
                         isPending 
                           ? 'bg-rose-50/40 border-rose-200 hover:border-rose-300' 
@@ -1064,7 +1072,7 @@ export default function ReceptionDashboard() {
                       <div className="space-y-1.5 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="font-mono text-xs font-black text-[#0B4F9C] bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-lg">
-                            #{apt.appointmentNumber}
+                            #{apt.appointmentNumber || 'APT-0000'}
                           </span>
 
                           {apt.confirmedTokenNumber && (
@@ -1088,11 +1096,11 @@ export default function ReceptionDashboard() {
 
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
                           <h3 className="font-black text-slate-900 text-sm uppercase font-outfit">
-                            {apt.patientName}
+                            {apt.patientName || 'Unknown Patient'}
                           </h3>
                           <span className="text-slate-600 font-mono font-bold flex items-center gap-1">
                             <Phone size={12} className="text-emerald-600" />
-                            {apt.phone || apt.patientPhone}
+                            {apt.phone || apt.patientPhone || 'N/A'}
                           </span>
                           {apt.cnic && (
                             <span className="text-slate-500 font-mono text-[11px]">
@@ -1105,7 +1113,7 @@ export default function ReceptionDashboard() {
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-600 font-medium pt-0.5">
                           <span className="flex items-center gap-1">
                             <Stethoscope size={13} className="text-[#0B4F9C]" />
-                            <strong className="text-slate-800">{apt.doctorName}</strong> ({apt.doctorRoom || 'Room 101'})
+                            <strong className="text-slate-800">{apt.doctorName || 'Consultant'}</strong> ({apt.doctorRoom || 'Room 101'})
                           </span>
                           <span className="flex items-center gap-1 text-purple-700">
                             <Building2 size={13} />
@@ -1113,7 +1121,7 @@ export default function ReceptionDashboard() {
                           </span>
                           <span className="flex items-center gap-1 text-slate-700 font-bold">
                             <Calendar size={13} className="text-emerald-600" />
-                            <span>{apt.date} • {apt.timeSlot}</span>
+                            <span>{apt.appointmentDate || apt.date || 'Today'} • {apt.timeSlot || 'Scheduled'}</span>
                           </span>
                         </div>
                       </div>
@@ -1126,14 +1134,14 @@ export default function ReceptionDashboard() {
                           onClick={() => {
                             setForm(prev => ({
                               ...prev,
-                              patientName: apt.patientName,
-                              patientPhone: apt.phone || '',
+                              patientName: apt.patientName || '',
+                              patientPhone: apt.phone || apt.patientPhone || '',
                               patientCnic: apt.cnic || '',
                               departmentId: apt.departmentId || prev.departmentId,
                               doctorId: apt.doctorId || prev.doctorId
                             }));
                             setActiveTab('registration');
-                            setMsg({ type: 'success', text: `Loaded appointment #${apt.appointmentNumber} into OPD registration form!` });
+                            setMsg({ type: 'success', text: `Loaded appointment #${apt.appointmentNumber || ''} into OPD registration form!` });
                           }}
                           className="bg-blue-50 hover:bg-blue-100 text-[#0B4F9C] border border-blue-200 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 transition cursor-pointer"
                           title="Forward patient to Doctor Queue"
@@ -1194,6 +1202,7 @@ export default function ReceptionDashboard() {
 
           </div>
         )}
+
 
 
         {/* TAB 5: Patient Search */}
@@ -1279,14 +1288,19 @@ export default function ReceptionDashboard() {
           appointment={selectedAppointmentForConfirm}
           onClose={() => setSelectedAppointmentForConfirm(null)}
           onConfirmed={(updatedApt) => {
-            setAppointments(prev => prev.map(a => a.id === updatedApt.id ? updatedApt : a));
-            setMsg({
-              type: 'success',
-              text: `Appointment #${updatedApt.appointmentNumber} confirmed & WhatsApp dispatched to ${updatedApt.patientName} (${updatedApt.phone})!`
-            });
+            setSelectedAppointmentForConfirm(null);
+            if (updatedApt && updatedApt.id) {
+              setAppointments(prev => Array.isArray(prev) ? prev.map(a => a.id === updatedApt.id ? updatedApt : a) : [updatedApt]);
+              setMsg({
+                type: 'success',
+                text: `Appointment #${updatedApt?.appointmentNumber || ''} confirmed & WhatsApp dispatched to ${updatedApt?.patientName || 'Patient'} (${updatedApt?.phone || ''})!`
+              });
+            }
+            loadAppointments();
           }}
         />
       )}
+
 
     </div>
   );
