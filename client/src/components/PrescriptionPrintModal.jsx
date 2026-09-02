@@ -210,9 +210,15 @@ export default function PrescriptionPrintModal({ prescription, onClose }) {
             </div>
           </div>
 
+          {/* Developer Credit Line */}
+          <div className="text-[10px] text-gray-500 font-medium tracking-wide text-center pt-2 border-t border-gray-200 mt-2">
+            Website Developed By : Abbas Malik 03069141212
+          </div>
+
         </div>
 
       </div>
     </div>
+
   );
 }

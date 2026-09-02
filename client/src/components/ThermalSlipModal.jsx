@@ -122,7 +122,13 @@ export default function ThermalSlipModal({ token, onClose }) {
             <p className="font-bold">Thank you for visiting Al-Shafay Hospital!</p>
           </div>
 
+          <div className="divider border-b border-dashed border-slate-400 my-1.5"></div>
+          <div className="text-[9px] font-mono text-black text-center pt-1 block">
+            Website Developed By : Abbas Malik 03069141212
+          </div>
+
         </div>
+
 
         {/* Action Buttons with Voice Replay */}
         <div className="space-y-2 no-print pt-1">
