@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getAuthorizedPathForRole } from '../utils/authRoutes';
 
 export default function ProtectedRoute({ allowedRoles = [] }) {
   const { user, token, loading } = useAuth();
@@ -22,15 +23,17 @@ export default function ProtectedRoute({ allowedRoles = [] }) {
     return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname)}`} replace />;
   }
 
-  const rawRole = (user.role || '').toUpperCase();
-  const normalizedAllowed = allowedRoles.map(r => r.toUpperCase());
+  const rawRole = (user.role || '').toLowerCase().trim();
+  const normalizedAllowed = allowedRoles.map(r => r.toLowerCase().trim());
 
   // Universal admin access: ADMIN & SUPER_ADMIN can access all workstation routes
-  const isAdmin = rawRole === 'ADMIN' || rawRole === 'SUPER_ADMIN';
+  const isAdmin = rawRole === 'admin' || rawRole === 'super_admin';
 
   if (normalizedAllowed.length > 0 && !normalizedAllowed.includes(rawRole) && !isAdmin) {
+    // If role mismatch, direct them to their authorized workstation rather than stuck in error
     return <Navigate to="/unauthorized" replace />;
   }
 
   return <Outlet />;
 }
+

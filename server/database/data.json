@@ -464,6 +464,34 @@
       "referredAt": "2026-08-20T12:18:17.992Z",
       "calledAt": "2026-08-20T12:26:35.319Z",
       "receptionForwardedAt": "2026-08-20T12:26:35.319Z"
+    },
+    {
+      "id": "tok-9ab77251",
+      "tokenNumber": 101,
+      "date": "2026-09-02",
+      "patientId": "pat-d102ded3",
+      "patientName": "Zubair Shah",
+      "patientPhone": "03009988771",
+      "patientCnic": "",
+      "patientAge": 38,
+      "patientGender": "Male",
+      "departmentId": "dept-cardio",
+      "departmentName": "Cardiology",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "roomNumber": "Room 101",
+      "priority": "NORMAL",
+      "status": "REFERRED_TO_RECEPTION",
+      "fee": 1500,
+      "createdAt": "2026-09-02T12:25:50.732Z",
+      "referredFromDoctorId": "doc-1",
+      "referredFromDoctorName": "Dr. Imran Tahir",
+      "referredToDoctorId": "doc-2",
+      "referredToDoctorName": "Dr. Fatima Noor",
+      "targetDepartmentName": "General Medicine",
+      "targetRoomNumber": "Room 102",
+      "referralNotes": "Cardiology follow up",
+      "referredAt": "2026-09-02T12:25:50.737Z"
     }
   ],
   "appointments": [
@@ -516,6 +544,23 @@
       "notes": "",
       "status": "CONFIRMED",
       "createdAt": "2026-08-20T11:11:39.057Z"
+    },
+    {
+      "id": "apt-496c16b8",
+      "appointmentNumber": "APT-1004",
+      "patientName": "Kashif Mehmood",
+      "phone": "03016167412",
+      "cnic": "32203-1234567-1",
+      "departmentId": "dept-cardio",
+      "departmentName": "Cardiology",
+      "doctorId": "doc-1",
+      "doctorName": "Dr. Imran Tahir",
+      "doctorRoom": "Room 101",
+      "date": "2026-09-05",
+      "timeSlot": "10:00 AM - 10:30 AM",
+      "notes": "Online WhatsApp booking test",
+      "status": "CONFIRMED",
+      "createdAt": "2026-09-02T12:25:50.727Z"
     }
   ],
   "prescriptions": [
@@ -1527,5 +1572,33 @@
     "email": "info@alshafayhospital.com",
     "timings": "24/7 Emergency & Outpatient Services",
     "licenseNo": "PHC-LYH-2024-9981"
-  }
+  },
+  "events": [
+    {
+      "id": "1788351950733-4zx2",
+      "timestamp": 1788351950733,
+      "type": "QUEUE_UPDATED",
+      "action": "TOKEN_CREATED",
+      "token": {
+        "id": "tok-9ab77251",
+        "tokenNumber": 101,
+        "date": "2026-09-02",
+        "patientId": "pat-d102ded3",
+        "patientName": "Zubair Shah",
+        "patientPhone": "03009988771",
+        "patientCnic": "",
+        "patientAge": 38,
+        "patientGender": "Male",
+        "departmentId": "dept-cardio",
+        "departmentName": "Cardiology",
+        "doctorId": "doc-1",
+        "doctorName": "Dr. Imran Tahir",
+        "roomNumber": "Room 101",
+        "priority": "NORMAL",
+        "status": "WAITING",
+        "fee": 1500,
+        "createdAt": "2026-09-02T12:25:50.732Z"
+      }
+    }
+  ]
 }

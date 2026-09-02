@@ -63,7 +63,7 @@ export default function StaffLogin() {
     setLoading(true);
     setError('');
     try {
-      const res = await quickSwitchRole(role, doctorId);
+      await quickSwitchRole(role, doctorId);
       const dest = targetPath || getAuthorizedPathForRole(role);
       navigate(dest, { replace: true });
     } catch (err) {
@@ -80,7 +80,7 @@ export default function StaffLogin() {
       role: 'receptionist',
       path: '/reception',
       icon: Users,
-      color: 'hover:border-blue-500 hover:bg-blue-50 text-[#0B4F9C]'
+      color: 'hover:border-[#0B4F9C] hover:bg-blue-50/80 text-[#0B4F9C]'
     },
     {
       title: 'Dr. Imran Tahir',
@@ -117,7 +117,7 @@ export default function StaffLogin() {
       color: 'hover:border-amber-500 hover:bg-amber-50 text-amber-700'
     },
     {
-      title: 'Super Admin',
+      title: 'Super Admin Control Center',
       sub: 'Hospital Analytics & Oversight',
       role: 'super_admin',
       path: '/admin',
@@ -127,20 +127,22 @@ export default function StaffLogin() {
   ];
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50">
+    <div className="min-h-[85vh] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-slate-50">
       <div className="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
         {/* Left: Login Form Card */}
         <div className="lg:col-span-6 bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex flex-col justify-between">
           <div>
             
-            {/* Header with constrained Logo (h-11 w-11) */}
+            {/* Header with constrained 3D Logo */}
             <div className="flex items-center gap-3.5 mb-6 pb-4 border-b border-slate-100">
-              <img 
-                src="/logo.png" 
-                alt="Al-Shafay Logo" 
-                className="h-11 w-11 object-contain shrink-0 drop-shadow-2xs" 
-              />
+              <div className="logo-3d-wrapper">
+                <img 
+                  src="/logo.png" 
+                  alt="Al-Shafay Logo" 
+                  className="logo-3d-animated h-11 w-11 object-contain shrink-0" 
+                />
+              </div>
               <div>
                 <h1 className="text-xl font-black uppercase text-[#0B4F9C] tracking-tight font-outfit">Staff Portal Login</h1>
                 <p className="text-xs text-emerald-700 font-extrabold uppercase">Al-Shafay Hospital Fatehpur</p>
@@ -192,7 +194,7 @@ export default function StaffLogin() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-[#0B4F9C] to-[#083B75] hover:from-[#083B75] hover:to-[#0B4F9C] text-white font-black py-3 rounded-xl transition shadow-md shadow-blue-900/10 flex items-center justify-center gap-2 cursor-pointer mt-2 text-xs"
+                className="w-full bg-gradient-to-r from-[#0B4F9C] to-[#083B75] hover:from-[#083B75] hover:to-[#0B4F9C] text-white font-black py-3 rounded-xl transition shadow-md shadow-blue-900/15 flex items-center justify-center gap-2 cursor-pointer mt-2 text-xs"
               >
                 <LogIn size={16} />
                 <span>{loading ? 'Authenticating...' : 'Sign In to Workstation'}</span>
@@ -261,3 +263,4 @@ export default function StaffLogin() {
     </div>
   );
 }
+

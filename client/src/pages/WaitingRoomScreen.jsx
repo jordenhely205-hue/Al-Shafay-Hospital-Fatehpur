@@ -43,11 +43,9 @@ export default function WaitingRoomScreen() {
       if (event.type === 'TOKEN_CALLED' || event.type === 'REFERRED_PATIENT_CALLED') {
         loadDisplayData();
         const token = event.token;
-        const isReferral = event.type === 'REFERRED_PATIENT_CALLED' || Boolean(token?.referredFromDoctorName);
         
         if (enableAudio && token) {
           announceTokenCall(token.tokenNumber, token.patientName, token.doctorName, token.roomNumber, {
-            isReferral,
             playChime: true
           });
         }
@@ -83,9 +81,7 @@ export default function WaitingRoomScreen() {
 
   const handleReAnnounce = (token) => {
     if (!token) return;
-    const isReferral = Boolean(token.referredFromDoctorName);
     announceTokenCall(token.tokenNumber, token.patientName, token.doctorName, token.roomNumber, {
-      isReferral,
       playChime: true
     });
   };
@@ -94,27 +90,29 @@ export default function WaitingRoomScreen() {
   const isReferralCall = Boolean(activeCall?.referredFromDoctorName);
 
   return (
-    <div className="min-h-screen bg-slate-100/90 text-slate-900 font-sans flex flex-col justify-between overflow-x-hidden select-none">
+    <div className="min-h-screen bg-slate-100 text-slate-900 font-sans flex flex-col justify-between overflow-x-hidden select-none">
       
-      {/* Top Header Bar with Official Logo */}
+      {/* Top Header Bar with 3D Logo */}
       <div className="bg-white border-b-2 border-[#0B4F9C] px-6 py-3.5 flex justify-between items-center shadow-md">
         
         {/* Hospital Branding */}
         <div className="flex items-center gap-4">
-          <img 
-            src="/logo.png" 
-            alt="Al-Shafay Hospital Logo" 
-            className="w-14 h-14 object-contain drop-shadow-sm" 
-          />
+          <div className="logo-3d-wrapper">
+            <img 
+              src="/logo.png" 
+              alt="Al-Shafay Hospital Logo" 
+              className="logo-3d-animated w-12 sm:w-14 h-12 sm:h-14 object-contain shrink-0" 
+            />
+          </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#0B4F9C] flex items-center gap-3">
+            <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#081E48] flex items-center gap-3 font-outfit">
               <span>{data.hospitalName || "Al-Shafay Hospital Fatehpur"}</span>
               <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
                 LIVE OPD QUEUE TV
               </span>
             </h1>
-            <p className="text-xs text-emerald-700 font-bold tracking-wide uppercase">
-              Outpatient Consultation & Clinical Calling Screen
+            <p className="text-xs text-emerald-700 font-extrabold tracking-wide uppercase">
+              Outpatient Consultation & Clinical Calling Display
             </p>
           </div>
         </div>
@@ -134,7 +132,7 @@ export default function WaitingRoomScreen() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setEnableAudio(!enableAudio)}
-              title={enableAudio ? "English Voice Enabled (Click to Mute)" : "Audio Voice Muted"}
+              title={enableAudio ? "English Female Voice Enabled (Click to Mute)" : "Audio Voice Muted"}
               className={`p-3 rounded-2xl border transition cursor-pointer shadow-xs ${
                 enableAudio 
                   ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100 font-bold' 
@@ -193,7 +191,7 @@ export default function WaitingRoomScreen() {
               <div className="text-center my-auto space-y-4 py-2">
                 
                 <div>
-                  <span className="text-sm font-black uppercase tracking-widest text-slate-500 block">
+                  <span className="text-sm font-black uppercase tracking-widest text-slate-500 block font-outfit">
                     Active Patient Token Number
                   </span>
                 </div>
@@ -210,7 +208,7 @@ export default function WaitingRoomScreen() {
                 {/* Patient Name */}
                 <div className="space-y-1 pt-2">
                   <span className="text-xs font-bold uppercase text-slate-500 tracking-wider">Patient Name</span>
-                  <h2 className="text-3xl sm:text-5xl font-black uppercase text-slate-900 tracking-wide">
+                  <h2 className="text-3xl sm:text-5xl font-black uppercase text-slate-900 tracking-wide font-outfit">
                     {activeCall.patientName}
                   </h2>
                 </div>
@@ -220,7 +218,7 @@ export default function WaitingRoomScreen() {
                   
                   <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl text-center shadow-2xs">
                     <span className="text-xs uppercase font-bold text-slate-500 block mb-1">Consulting Doctor</span>
-                    <span className="text-xl sm:text-2xl font-black text-[#0B4F9C] block">{activeCall.doctorName}</span>
+                    <span className="text-xl sm:text-2xl font-black text-[#081E48] block font-outfit">{activeCall.doctorName}</span>
                     <span className="text-xs text-slate-600 font-semibold">{activeCall.departmentName}</span>
                   </div>
 
@@ -242,14 +240,14 @@ export default function WaitingRoomScreen() {
                 <div className="w-20 h-20 mx-auto rounded-3xl bg-slate-50 border border-slate-200 flex items-center justify-center text-[#0B4F9C]/50 shadow-xs">
                   <Activity size={36} />
                 </div>
-                <h3 className="text-2xl font-extrabold text-slate-600 uppercase">Consultations In Progress</h3>
+                <h3 className="text-2xl font-extrabold text-slate-600 uppercase font-outfit">Consultations In Progress</h3>
                 <p className="text-sm text-slate-500 font-medium">Please have your OPD receipt ready and wait for your token number.</p>
               </div>
             )}
 
             <div className="mt-4 pt-3 border-t border-slate-100 text-center text-xs text-slate-500 flex justify-between items-center font-medium">
               <span>Al-Shafay Hospital Automated Queue Engine</span>
-              <span className="text-emerald-700 font-bold">Clear English Audio Calling Active</span>
+              <span className="text-emerald-700 font-bold">Clear English Female Audio Active</span>
             </div>
 
           </div>
@@ -263,7 +261,7 @@ export default function WaitingRoomScreen() {
             <div className="flex justify-between items-center pb-3 mb-4 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <Clock className="text-[#0B4F9C]" size={18} />
-                <h3 className="font-extrabold text-base text-slate-900 uppercase tracking-wide">Next in Line</h3>
+                <h3 className="font-extrabold text-base text-slate-900 uppercase tracking-wide font-outfit">Next in Line</h3>
               </div>
               <span className="bg-blue-50 text-[#0B4F9C] font-mono font-black text-xs px-3 py-1 rounded-full border border-blue-200">
                 {data.waiting?.length || 0} Waiting
@@ -305,7 +303,7 @@ export default function WaitingRoomScreen() {
             <div className="flex justify-between items-center pb-3 mb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <Stethoscope className="text-emerald-600" size={18} />
-                <h3 className="font-extrabold text-xs text-slate-900 uppercase tracking-wide">In Consultation</h3>
+                <h3 className="font-extrabold text-xs text-slate-900 uppercase tracking-wide font-outfit">In Consultation</h3>
               </div>
               <span className="text-[11px] text-emerald-700 font-bold">● Active Now</span>
             </div>
@@ -342,10 +340,11 @@ export default function WaitingRoomScreen() {
           </span>
         </div>
         <div className="text-[11px] text-[#0B4F9C] font-bold hidden md:block">
-          Al-Shafay Hospital Fatehpur • 24/7 Helpline: 0300-1234567
+          Al-Shafay Hospital Fatehpur • WhatsApp: 0301-6167412 • Helpline: 0300-1234567
         </div>
       </div>
 
     </div>
   );
 }
+

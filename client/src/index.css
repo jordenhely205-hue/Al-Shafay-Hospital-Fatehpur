@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@500;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -15,10 +15,65 @@
     font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
     letter-spacing: -0.02em;
   }
+
+  .font-urdu {
+    font-family: 'Noto Nastaliq Urdu', 'Urdu Typesetting', 'Jameel Noori Nastaleeq', system-ui, sans-serif;
+    line-height: 1.8;
+    direction: rtl;
+  }
 }
 
 /* ==========================================================================
-   BULLETPROOF HIGH-FIDELITY PRINT ENGINE (CHROME, EDGE, BRAVE, SAFARI)
+   3D FLOATING LOGO ANIMATION & INTERACTIVE HOVER TILT
+   ========================================================================== */
+.logo-3d-wrapper {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.logo-3d-animated {
+  animation: logoFloat3D 4.5s ease-in-out infinite;
+  filter: drop-shadow(0 6px 12px rgba(8, 30, 72, 0.18));
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
+  transform: translateZ(0);
+}
+
+.logo-3d-wrapper:hover .logo-3d-animated {
+  transform: translateY(-2px) rotateY(12deg) rotateX(-6deg) scale(1.08);
+  filter: drop-shadow(0 10px 18px rgba(8, 30, 72, 0.28));
+}
+
+/* ==========================================================================
+   URDU MARQUEE AUTO-SCROLLER WITH PAUSE-ON-HOVER
+   ========================================================================== */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marqueeRightToLeft 32s linear infinite;
+  will-change: transform;
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeRightToLeft {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* ==========================================================================
+   ENTERPRISE CLINICAL SINGLE-SHEET A4 PRINT ENGINE
    Guarantees zero blank pages, zero background bleeding, and strict 1-page fit
    ========================================================================== */
 @media print {
@@ -37,6 +92,7 @@
     background: #ffffff !important;
     color: #000000 !important;
     overflow: visible !important;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
   }
 
   /* Target Isolation: Hide everything by default */
@@ -56,7 +112,7 @@
     visibility: visible !important;
   }
 
-  /* Force printable sheet to anchor at the very top of the physical page */
+  /* Force printable sheet to anchor at the very top left of the physical paper */
   .printable-a4-sheet,
   #printable-report,
   #printable-prescription {
@@ -90,7 +146,7 @@
     background: #ffffff !important;
   }
 
-  /* Compact row padding to guarantee strict single-page output */
+  /* Strict Compact row padding to guarantee 1 single sheet output */
   .printable-a4-sheet table th,
   .printable-a4-sheet table td,
   #printable-report table th,
@@ -99,7 +155,8 @@
   #printable-prescription table td {
     padding: 3px 6px !important;
     border-bottom: 1px solid #cbd5e1 !important;
-    font-size: 10.5px !important;
+    font-size: 10px !important;
+    line-height: 1.25 !important;
   }
 
   /* Prevent page breaks inside clinical blocks */
@@ -116,7 +173,9 @@
   footer,
   button,
   .quick-role-drawer,
-  [class*="QuickRole"] {
+  .whatsapp-float-widget,
+  [class*="QuickRole"],
+  [class*="WhatsApp"] {
     display: none !important;
     visibility: hidden !important;
   }
@@ -140,3 +199,4 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+

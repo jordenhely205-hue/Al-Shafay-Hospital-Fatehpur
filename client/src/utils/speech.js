@@ -29,13 +29,14 @@ function cleanDoctorName(docStr) {
 
 /**
  * Filter and select a high-clarity natural English Female voice
+ * Prioritizes: Female, Zira, Samantha, Google UK English Female, Google US English Female
  */
 function findEnglishFemaleVoice() {
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) return null;
   const voices = window.speechSynthesis.getVoices();
   if (!voices || voices.length === 0) return null;
 
-  // Filter criteria for female voice
+  // Exact priority keywords for natural English female voice
   const femaleVoice = voices.find(v => 
     v.lang.startsWith('en') && 
     (v.name.toLowerCase().includes('female') || 
@@ -43,17 +44,19 @@ function findEnglishFemaleVoice() {
      v.name.includes('Samantha') || 
      v.name.includes('Google UK English Female') || 
      v.name.includes('Google US English Female') ||
-     v.name.includes('Natural'))
+     v.name.toLowerCase().includes('natural') ||
+     v.name.includes('Victoria') ||
+     v.name.includes('Karen'))
   ) || voices.find(v => v.lang.startsWith('en'));
 
   return femaleVoice;
 }
 
 /**
- * Speak text with Web Speech API
+ * Speak text with Web Speech API with slow, clear rate (0.78) and warm pitch (1.05)
  */
 function speakText(text, options = {}) {
-  const { playChime = true, delayMs = 600 } = options;
+  const { playChime = true, delayMs = 550 } = options;
   lastSpokenText = text;
 
   unlockAudioContext();
@@ -71,7 +74,7 @@ function speakText(text, options = {}) {
         const utterance = new SpeechSynthesisUtterance(text);
 
         utterance.rate = 0.78; // Slow, clear, easily understandable
-        utterance.pitch = 1.05; // Crisp, warm female tone
+        utterance.pitch = 1.05; // Warm, natural female tone
         utterance.lang = 'en-US';
 
         const femaleVoice = findEnglishFemaleVoice();
@@ -89,16 +92,16 @@ function speakText(text, options = {}) {
 
 /**
  * High-Clarity Voice Announcement on Token Calling (TV Screen / Doctor Desk)
+ * Standard call phrase:
+ * "Attention please. Token Number [Token Number]... Patient [Patient Name]... Please proceed to Doctor [Doctor Name]... Room Number [Room Number]."
  */
 export function announceTokenCall(tokenNumber, patientName, doctorName, roomNumber, options = {}) {
-  const { isReferral = false, playChime = true } = options;
+  const { playChime = true } = options;
   const doc = cleanDoctorName(doctorName);
   const room = extractRoomDigits(roomNumber);
   const patient = patientName || 'Patient';
 
-  const text = isReferral
-    ? `Attention please. Token Number ${tokenNumber}... Patient ${patient}... Please proceed for your follow-up checkup with Doctor ${doc}... Room Number ${room}.`
-    : `Attention please. Token Number ${tokenNumber}... Patient ${patient}... Please go to Doctor ${doc}... Room Number ${room}.`;
+  const text = `Attention please. Token Number ${tokenNumber}... Patient ${patient}... Please proceed to Doctor ${doc}... Room Number ${room}.`;
 
   speakText(text, { playChime });
 }
@@ -111,7 +114,7 @@ export function announceTokenIssuance(tokenNumber, patientName, doctorName, room
   const room = extractRoomDigits(roomNumber);
   const patient = patientName || 'Patient';
 
-  const text = `Token Number ${tokenNumber} generated successfully for ${patient}. Please proceed to Doctor ${doc}, Room Number ${room}.`;
+  const text = `Attention please. Token Number ${tokenNumber}... Patient ${patient}... Please proceed to Doctor ${doc}... Room Number ${room}.`;
 
   speakText(text, { playChime: options.playChime !== false });
 }
@@ -123,7 +126,7 @@ export function replayLastAnnouncement() {
   if (lastSpokenText) {
     speakText(lastSpokenText, { playChime: true });
   } else {
-    announceTokenIssuance(101, "Patient", "Dr. Imran Tahir", "Room 101");
+    announceTokenCall(101, "Muhammad Ahmad", "Dr. Imran Tahir", "Room 101");
   }
 }
 
@@ -132,5 +135,6 @@ export function getLastSpokenText() {
 }
 
 export function testSpeechAnnouncement() {
-  announceTokenCall(104, "Muhammad Tariq", "Dr. Imran Tahir", "Room 101", { isReferral: false });
+  announceTokenCall(104, "Muhammad Tariq", "Dr. Imran Tahir", "Room 101");
 }
+
