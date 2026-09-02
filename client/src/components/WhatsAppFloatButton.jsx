@@ -28,7 +28,7 @@ export default function WhatsAppFloatButton() {
           </p>
 
           <a
-            href="https://wa.me/923016167412"
+            href="https://api.whatsapp.com/send?phone=923016167412"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-2 block text-center font-bold text-[11px] bg-emerald-600 hover:bg-emerald-700 text-white py-1 rounded-lg transition shadow-xs"
@@ -40,12 +40,13 @@ export default function WhatsAppFloatButton() {
 
       {/* Floating Action Button */}
       <a
-        href="https://wa.me/923016167412"
+        href="https://api.whatsapp.com/send?phone=923016167412"
         target="_blank"
         rel="noopener noreferrer"
         className="group relative flex items-center gap-2.5 bg-gradient-to-tr from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white px-4 py-3.5 rounded-full shadow-xl shadow-emerald-900/25 hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer border-2 border-white/30"
         title="Chat on WhatsApp (03016167412)"
       >
+
         <span className="absolute -top-1 -right-1 flex h-4 w-4">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-4 w-4 bg-rose-500 text-[9px] font-black text-white items-center justify-center">1</span>

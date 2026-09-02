@@ -26,7 +26,7 @@ export default function UrduMarqueeStrip() {
 
         {/* WhatsApp Direct Mini Chip */}
         <a
-          href="https://wa.me/923016167412"
+          href="https://api.whatsapp.com/send?phone=923016167412"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden md:flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-extrabold px-3 py-0.5 rounded-full transition shadow-xs shrink-0"
@@ -35,6 +35,7 @@ export default function UrduMarqueeStrip() {
           <MessageCircle size={13} className="shrink-0" />
           <span>03016167412</span>
         </a>
+
 
       </div>
     </div>

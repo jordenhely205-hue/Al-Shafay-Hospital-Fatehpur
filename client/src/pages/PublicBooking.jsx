@@ -108,15 +108,32 @@ export default function PublicBooking() {
   };
 
   /**
-   * Helper to construct WhatsApp Click-to-Chat URL
+   * Helper to construct WhatsApp Universal API Click-to-Chat URL
+   * Endpoint: https://api.whatsapp.com/send?phone=923016167412&text=${encodedMessage}
    */
   const generateWhatsAppUrl = (patientName, phone, doctorName, departmentName, date, timeSlot) => {
-    const rawMessage = `السلام علیکم! میں الشافیع ہسپتال فتح پور میں آن لائن اپائنٹمنٹ بک کروانا چاہتا/چاہتی ہوں۔\n\n*مریض کا نام:* ${patientName}\n*رابطہ نمبر:* ${phone}\n*ڈاکٹر کا نام:* ${doctorName}\n*شعبہ:* ${departmentName}\n*تاریخ و وقت:* ${date} (${timeSlot})\n\nبرائے مہربانی اپائنٹمنٹ کی تصدیق فرما دیں۔ شکریہ!`;
-    return `https://wa.me/923016167412?text=${encodeURIComponent(rawMessage)}`;
+    const cleanPatient = (patientName || '').trim();
+    const cleanPhone = (phone || '').trim();
+    const cleanDoc = (doctorName || 'Consultant').trim();
+    const cleanDept = (departmentName || 'General OPD').trim();
+    const cleanDate = (date || '').trim();
+    const cleanSlot = (timeSlot || '').trim();
+
+    const rawMessage = 
+      `السلام علیکم! میں الشافیع ہسپتال فتح پور میں آن لائن اپائنٹمنٹ بک کروانا چاہتا/چاہتی ہوں۔\n\n` +
+      `*مریض کا نام:* ${cleanPatient}\n` +
+      `*رابطہ نمبر:* ${cleanPhone}\n` +
+      `*ڈاکٹر کا نام:* ${cleanDoc}\n` +
+      `*شعبہ:* ${cleanDept}\n` +
+      `*تاریخ و وقت:* ${cleanDate} (${cleanSlot})\n\n` +
+      `برائے مہربانی اپائنٹمنٹ کی تصدیق فرما دیں۔ شکریہ!`;
+
+    const encodedMessage = encodeURIComponent(rawMessage);
+    return `https://api.whatsapp.com/send?phone=923016167412&text=${encodedMessage}`;
   };
 
   /**
-   * Standard OPD Booking in EMR
+   * Standard OPD Booking in EMR & WhatsApp Action Dispatch
    */
   const handleBook = async (e, sendToWhatsApp = false) => {
     if (e && e.preventDefault) e.preventDefault();
@@ -147,7 +164,7 @@ export default function PublicBooking() {
           res.appointment.doctorRoom
         );
 
-        // If WhatsApp action was triggered, open the pre-filled URL immediately
+        // If WhatsApp action was triggered, open the pre-filled universal URL immediately
         if (sendToWhatsApp) {
           const waUrl = generateWhatsAppUrl(
             form.patientName,
@@ -179,6 +196,7 @@ export default function PublicBooking() {
       setBookingLoading(false);
     }
   };
+
 
   const handleReplayBookingAudio = () => {
     if (!bookingSuccess) return;
@@ -274,7 +292,7 @@ export default function PublicBooking() {
                 </a>
                 
                 <a
-                  href="https://wa.me/923016167412"
+                  href="https://api.whatsapp.com/send?phone=923016167412"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-3 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-950/30 active:scale-95"
@@ -282,6 +300,7 @@ export default function PublicBooking() {
                   <MessageCircle size={16} />
                   <span>WhatsApp Booking (0301-6167412)</span>
                 </a>
+
               </div>
 
             </div>
@@ -777,13 +796,14 @@ export default function PublicBooking() {
               </p>
 
               <a
-                href="https://wa.me/923016167412"
+                href="https://api.whatsapp.com/send?phone=923016167412"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-emerald-700 hover:bg-emerald-800 text-white font-black p-3.5 rounded-2xl text-center block transition shadow-md shadow-emerald-950/20 text-xs sm:text-sm"
               >
                 Chat on WhatsApp: 0301-6167412
               </a>
+
             </div>
 
             {/* 24/7 Emergency & Trauma Center */}

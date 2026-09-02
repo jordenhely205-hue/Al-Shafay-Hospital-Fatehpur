@@ -102,9 +102,10 @@ export default function PublicLayout() {
           <div className="flex flex-wrap justify-center md:justify-end items-center gap-4 text-slate-600 font-medium text-[11px]">
             <span className="flex items-center gap-1.5"><MapPin size={13} className="text-emerald-600" /> Hospital Road, Fatehpur, Layyah</span>
             <span className="flex items-center gap-1.5"><Phone size={13} className="text-[#0B4F9C]" /> 24/7 Helpline: 0300-1234567</span>
-            <a href="https://wa.me/923016167412" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-emerald-700 font-bold hover:underline">
+            <a href="https://api.whatsapp.com/send?phone=923016167412" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-emerald-700 font-bold hover:underline">
               <span>WhatsApp: 0301-6167412</span>
             </a>
+
           </div>
         </div>
 
