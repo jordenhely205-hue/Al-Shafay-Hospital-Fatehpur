@@ -4,9 +4,9 @@ import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import { testSpeechAnnouncement } from '../utils/speech';
 import QuickRoleDrawer from '../components/QuickRoleDrawer';
-import UrduMarqueeStrip from '../components/UrduMarqueeStrip';
 import { 
   Users, 
+
   Stethoscope, 
   FlaskConical, 
   Pill, 
@@ -317,15 +317,13 @@ export default function AppLayout() {
             </div>
 
           </div>
-
-          {/* Urdu Notice Marquee Strip */}
-          <UrduMarqueeStrip />
         </header>
 
         {/* Dynamic Page Content */}
         <div className="flex-1 p-2 sm:p-4">
           <Outlet />
         </div>
+
 
       </div>
 

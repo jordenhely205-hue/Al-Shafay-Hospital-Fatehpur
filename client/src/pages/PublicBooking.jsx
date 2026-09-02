@@ -286,14 +286,60 @@ export default function PublicBooking() {
 
             </div>
 
-            {/* Right Column: 3D Animated Hero Logo */}
-            <div className="shrink-0 flex items-center justify-center pt-2 md:pt-0">
-              <div className="logo-3d-wrapper p-4 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 shadow-2xl">
-                <img 
-                  src="/images/al-shafay-logo.png" 
-                  alt="Al-Shafay Hospital Fatehpur" 
-                  className="logo-3d-animated w-32 sm:w-40 md:w-44 lg:w-48 h-auto object-contain drop-shadow-2xl" 
-                />
+            {/* Right Column: Engaging Clinical Doctor Visual Presentation */}
+            <div className="shrink-0 flex items-center justify-center pt-4 md:pt-0 relative">
+              
+              {/* Soft Glowing Radial Backdrop Shield */}
+              <div className="relative w-64 sm:w-72 md:w-80 lg:w-84 rounded-3xl p-3 bg-gradient-to-b from-white/15 via-white/5 to-transparent backdrop-blur-md border border-white/25 shadow-2xl shadow-blue-950/50 group">
+                
+                {/* Ambient Backlight Glow */}
+                <div className="absolute inset-0 bg-radial from-cyan-400/25 via-blue-500/10 to-transparent rounded-3xl filter blur-xl -z-10 group-hover:scale-105 transition-transform duration-500"></div>
+
+                {/* Doctor Portrait Visual */}
+                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-t from-[#081E48] via-transparent to-transparent aspect-4/5 flex items-end justify-center shadow-inner">
+                  <img 
+                    src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop" 
+                    alt="Al-Shafay Senior Specialist Consultant" 
+                    className="w-full h-full object-cover object-top filter contrast-105 brightness-100 group-hover:scale-103 transition-transform duration-500"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/images/al-shafay-logo.png";
+                    }}
+                  />
+
+                  {/* Gradient Overlay for Text Readability */}
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#081E48] via-[#081E48]/70 to-transparent p-4 text-center">
+                    <p className="text-xs font-black uppercase text-white font-outfit tracking-wide">
+                      Dr. Imran Tahir & Specialists
+                    </p>
+                    <p className="text-[10px] text-cyan-300 font-extrabold uppercase tracking-wider">
+                      Consultant Cardiology & OPD Team
+                    </p>
+                  </div>
+                </div>
+
+                {/* Floating Top-Left Badge: Specialist OPD Active */}
+                <div className="absolute -top-3.5 -left-3 sm:-left-4 backdrop-blur-md bg-[#081E48]/85 border border-white/30 rounded-2xl px-3 py-2 shadow-xl flex items-center gap-2 text-white animate-bounce-subtle select-none">
+                  <div className="w-7 h-7 rounded-xl bg-emerald-500/90 border border-emerald-300/40 flex items-center justify-center text-white shrink-0 shadow-xs">
+                    <CheckCircle2 size={15} />
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-wider text-emerald-300 block leading-tight">Specialist OPD</span>
+                    <strong className="text-[11px] font-black tracking-tight leading-none">Consultants Active</strong>
+                  </div>
+                </div>
+
+                {/* Floating Bottom-Right Badge: 24/7 Trauma Service */}
+                <div className="absolute -bottom-3 -right-2 sm:-right-3 backdrop-blur-md bg-[#081E48]/90 border border-white/30 rounded-2xl px-3 py-2 shadow-xl flex items-center gap-2 text-white select-none">
+                  <div className="w-7 h-7 rounded-xl bg-cyan-500/90 border border-cyan-300/40 flex items-center justify-center text-white shrink-0 shadow-xs">
+                    <HeartPulse size={15} className="animate-pulse text-white" />
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-wider text-cyan-300 block leading-tight">24/7 Trauma Care</span>
+                    <strong className="text-[11px] font-black tracking-tight leading-none">Emergency Active</strong>
+                  </div>
+                </div>
+
               </div>
             </div>
 

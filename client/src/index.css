@@ -44,18 +44,19 @@
 }
 
 /* ==========================================================================
-   URDU MARQUEE AUTO-SCROLLER WITH PAUSE-ON-HOVER
+   URDU MARQUEE AUTO-SCROLLER WITH PAUSE-ON-HOVER (RTL REVERSE ANIMATION)
    ========================================================================== */
 .marquee-container {
   overflow: hidden;
   white-space: nowrap;
   position: relative;
+  direction: rtl;
 }
 
 .marquee-content {
   display: inline-block;
   white-space: nowrap;
-  animation: marqueeRightToLeft 32s linear infinite;
+  animation: marqueeRTL 38s linear infinite;
   will-change: transform;
 }
 
@@ -63,14 +64,15 @@
   animation-play-state: paused;
 }
 
-@keyframes marqueeRightToLeft {
+@keyframes marqueeRTL {
   0% {
-    transform: translateX(100%);
-  }
-  100% {
     transform: translateX(-100%);
   }
+  100% {
+    transform: translateX(100%);
+  }
 }
+
 
 /* ==========================================================================
    ENTERPRISE CLINICAL SINGLE-SHEET A4 PRINT ENGINE
