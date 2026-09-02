@@ -314,37 +314,46 @@ export default function PublicBooking() {
                 {/* Ambient Backlight Glow */}
                 <div className="absolute inset-0 bg-radial from-cyan-400/25 via-blue-500/10 to-transparent rounded-3xl filter blur-xl -z-10 group-hover:scale-105 transition-transform duration-500"></div>
 
-                {/* Doctor Portrait Visual */}
-                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-t from-[#081E48] via-transparent to-transparent aspect-4/5 flex items-end justify-center shadow-inner">
+                {/* Doctor Portrait Visual Container with smooth bottom fade */}
+                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-t from-[#081E48] via-transparent to-transparent h-72 sm:h-80 md:h-[420px] lg:h-[460px] flex items-end justify-center shadow-inner">
                   <img 
-                    src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop" 
-                    alt="Al-Shafay Senior Specialist Consultant" 
-                    className="w-full h-full object-cover object-top filter contrast-105 brightness-100 group-hover:scale-103 transition-transform duration-500"
+                    src="/dr-abbas-malik.png" 
+                    alt="Dr. Abbas Malik - Chief Medical Consultant" 
+                    className="w-full h-full object-contain object-bottom -scale-x-100 filter contrast-105 brightness-100 group-hover:scale-105 group-hover:-scale-x-105 transition-all duration-500"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = "/images/al-shafay-logo.png";
+                      e.target.src = "/images/dr-abbas-malik.png";
                     }}
                   />
 
-                  {/* Gradient Overlay for Text Readability */}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#081E48] via-[#081E48]/70 to-transparent p-4 text-center">
-                    <p className="text-xs font-black uppercase text-white font-outfit tracking-wide">
-                      Dr. Imran Tahir & Specialists
-                    </p>
-                    <p className="text-[10px] text-cyan-300 font-extrabold uppercase tracking-wider">
-                      Consultant Cardiology & OPD Team
+                  {/* Gradient Overlay & Consultant Name Tag */}
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#081E48] via-[#081E48]/80 to-transparent p-4 text-center">
+                    <div className="flex items-center justify-center gap-1.5 mb-1">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
+                      <span className="text-[10px] font-black uppercase text-emerald-300 tracking-wider">
+                        Specialist OPD Active
+                      </span>
+                    </div>
+                    <h3 className="text-base sm:text-lg font-black uppercase text-white font-outfit tracking-wide drop-shadow-sm">
+                      Dr. Abbas Malik
+                    </h3>
+                    <p className="text-[10px] sm:text-[11px] text-cyan-200 font-bold uppercase tracking-wider">
+                      Chief Medical Consultant
                     </p>
                   </div>
                 </div>
 
-                {/* Floating Top-Left Badge: Specialist OPD Active */}
-                <div className="absolute -top-3.5 -left-3 sm:-left-4 backdrop-blur-md bg-[#081E48]/85 border border-white/30 rounded-2xl px-3 py-2 shadow-xl flex items-center gap-2 text-white animate-bounce-subtle select-none">
+                {/* Floating Top-Left Badge: Chief Consultant Active */}
+                <div className="absolute -top-3.5 -left-3 sm:-left-4 backdrop-blur-md bg-[#081E48]/90 border border-white/30 rounded-2xl px-3 py-2 shadow-xl flex items-center gap-2 text-white select-none">
                   <div className="w-7 h-7 rounded-xl bg-emerald-500/90 border border-emerald-300/40 flex items-center justify-center text-white shrink-0 shadow-xs">
                     <CheckCircle2 size={15} />
                   </div>
                   <div>
-                    <span className="text-[9px] font-black uppercase tracking-wider text-emerald-300 block leading-tight">Specialist OPD</span>
-                    <strong className="text-[11px] font-black tracking-tight leading-none">Consultants Active</strong>
+                    <span className="text-[9px] font-black uppercase tracking-wider text-emerald-300 block leading-tight">Chief Consultant</span>
+                    <strong className="text-[11px] font-black tracking-tight leading-none">Dr. Abbas Malik</strong>
                   </div>
                 </div>
 
@@ -361,6 +370,7 @@ export default function PublicBooking() {
 
               </div>
             </div>
+
 
           </div>
 
