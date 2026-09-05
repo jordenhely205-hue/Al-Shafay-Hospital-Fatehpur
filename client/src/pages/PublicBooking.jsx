@@ -298,13 +298,15 @@ export default function PublicBooking() {
                 <span>✦ الشافع ہسپتال فتح پور | مستند اور جدید ترین ڈیجیٹل او پی ڈی</span>
               </div>
 
-              {/* Bold Urdu Hospital Name & Headline in Rich Vibrant Gradient */}
-              <h1 
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-emerald-300 to-teal-100 py-3 leading-[1.85] md:leading-[1.95] tracking-normal text-right font-urdu" 
-                dir="rtl"
-              >
-                جدید ترین طبی سہولیات اور فوری آن لائن اپائنٹمنٹ پورٹل
-              </h1>
+              {/* Fixed Non-Colliding Urdu Headline */}
+              <div className="text-right my-4 select-none" dir="rtl">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-emerald-300 font-serif pb-2">
+                  جدید ترین طبی سہولیات
+                </div>
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-100 font-serif pt-2">
+                  اور فوری آن لائن اپائنٹمنٹ پورٹل
+                </div>
+              </div>
 
               {/* Hospital Title (English) */}
               <div className="text-lg sm:text-xl font-black uppercase font-outfit text-white tracking-wide flex items-center justify-center md:justify-start gap-2 mt-4 md:mt-5">
