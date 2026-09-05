@@ -12,35 +12,25 @@ export default function PublicLayout() {
       {/* Top Main Navigation Header */}
       <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 shadow-sm no-print text-slate-900">
         <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 md:h-20 gap-2">
+          <div className="flex items-center justify-between min-h-[64px] sm:min-h-[72px] py-2 gap-2">
             
-            {/* Hospital Branding with 3D Animated Corner Logo */}
-            <Link to="/" className="flex items-center gap-2 sm:gap-3 group select-none min-w-0">
-              <div className="logo-3d-wrapper shrink-0 p-1 sm:p-1.5 bg-slate-50 border border-slate-200/80 rounded-xl sm:rounded-2xl shadow-xs">
-                <img 
-                  src="/logo.png" 
-                  alt="Al-Shafay Hospital Logo" 
-                  className="logo-3d-animated w-8 h-8 sm:w-10 sm:h-10 object-contain shrink-0" 
-                />
-              </div>
-              <div className="flex flex-col min-w-0">
-                <div className="flex items-center gap-1 sm:gap-2">
-                  <span className="text-xs sm:text-base md:text-lg font-extrabold text-slate-900 truncate tracking-tight font-outfit uppercase group-hover:text-[#0B4F9C] transition">
-                    AL-SHAFAY HOSPITAL
-                  </span>
-                  <span className="bg-emerald-100 text-emerald-800 text-[8.5px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full border border-emerald-300 uppercase shrink-0 hidden sm:inline">
-                    Fatehpur
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className="text-[10px] sm:text-xs font-semibold text-emerald-700 font-urdu leading-none truncate pt-0.5" dir="rtl">
-                    الشافع ہسپتال فتح پور
-                  </span>
-                  <span className="hidden md:inline text-slate-300 text-xs">•</span>
-                  <p className="text-[10px] text-slate-500 font-medium hidden md:block truncate">
-                    Care, Compassion & Advanced Clinical OPD
-                  </p>
-                </div>
+            {/* Left Brand Identity */}
+            <Link to="/" className="flex items-center gap-2 sm:gap-3 py-1 min-w-0 group select-none">
+              <img 
+                src="/logo.png" 
+                alt="Al-Shafay Hospital Logo" 
+                className="w-9 h-9 sm:w-11 sm:h-11 object-contain flex-shrink-0"
+              />
+              <div className="flex flex-col justify-center min-w-0">
+                <span className="text-[13px] sm:text-base font-black text-slate-900 leading-tight tracking-tight whitespace-nowrap uppercase group-hover:text-[#0B4F9C] transition">
+                  AL-SHAFAY HOSPITAL
+                </span>
+                <span 
+                  className="text-[11px] sm:text-xs font-bold text-emerald-700 font-serif leading-[1.6] pt-0.5 pb-1 whitespace-nowrap" 
+                  dir="rtl"
+                >
+                  الشافع ہسپتال فتح پور
+                </span>
               </div>
             </Link>
 
