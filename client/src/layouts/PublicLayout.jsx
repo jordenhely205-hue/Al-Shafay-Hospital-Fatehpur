@@ -7,7 +7,7 @@ import { Phone, Tv, LogIn, MapPin, Calendar, HeartPulse, Clock } from 'lucide-re
 
 export default function PublicLayout() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-800 antialiased selection:bg-emerald-500 selection:text-white flex flex-col font-sans overflow-x-hidden">
       
       {/* Top Main Navigation Header */}
       <header className="bg-slate-950/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-40 shadow-xl no-print text-white">

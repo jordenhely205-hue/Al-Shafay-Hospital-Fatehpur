@@ -267,7 +267,7 @@ export default function PublicBooking() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 py-6 sm:py-8 px-3.5 sm:px-6 lg:px-8 space-y-10 overflow-x-hidden font-sans">
+    <div className="w-full min-h-screen bg-[#f8fafc] text-slate-800 py-4 sm:py-6 lg:py-8 px-3.5 sm:px-6 lg:px-8 space-y-10 overflow-x-hidden font-sans">
       <div className="max-w-6xl mx-auto space-y-10">
 
         {/* HERO BANNER: International-Standard Luxury Healthcare Hero */}

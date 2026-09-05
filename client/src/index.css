@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900;
+    @apply bg-[#f8fafc] text-slate-800 antialiased selection:bg-emerald-500 selection:text-white;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     letter-spacing: -0.01em;
   }

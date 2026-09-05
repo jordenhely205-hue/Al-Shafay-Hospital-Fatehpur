@@ -3,7 +3,7 @@ import { MapPin, Phone, MessageCircle, ShieldCheck, HeartPulse } from 'lucide-re
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-slate-200 py-8 px-4 text-xs text-slate-500 no-print space-y-4">
+    <footer className="bg-[#f8fafc] border-t border-slate-200/80 py-8 px-4 text-xs text-slate-500 no-print space-y-4">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
         <div className="flex items-center gap-3">
           <div className="logo-3d-wrapper">
