@@ -23,11 +23,13 @@ router.post('/book', (req, res) => {
 
   const count = (db.appointments || []).length + 1001;
   const appointmentNumber = `APT-${count}`;
+  const emrNumber = req.body.emrNumber || `EMR-2026-${count}`;
   const now = new Date().toISOString();
 
   const newAppointment = {
     id: 'apt-' + uuidv4().slice(0, 8),
     appointmentNumber,
+    emrNumber,
     patientName: patientName.trim(),
     phone: phone.trim(),
     cnic: cnic ? cnic.trim() : '',
@@ -58,6 +60,23 @@ router.post('/book', (req, res) => {
   updateDb(d => {
     if (!d.appointments) d.appointments = [];
     d.appointments.push(newAppointment);
+
+    // Ensure patient record has standardized EMR Number
+    if (!d.patients) d.patients = [];
+    let existingPat = d.patients.find(p => p.phone === phone.trim() || (cnic && p.cnic === cnic.trim()));
+    if (!existingPat) {
+      d.patients.push({
+        id: 'pat-' + uuidv4().slice(0, 8),
+        mrn: emrNumber,
+        emrNumber,
+        name: patientName.trim(),
+        phone: phone.trim(),
+        cnic: cnic ? cnic.trim() : '',
+        createdAt: now
+      });
+    } else {
+      if (!existingPat.emrNumber) existingPat.emrNumber = emrNumber;
+    }
   });
 
   // Broadcast new appointment to Reception
@@ -85,6 +104,7 @@ router.get('/track', (req, res) => {
   const results = (db.appointments || []).filter(a =>
     a.phone?.toLowerCase() === query ||
     a.appointmentNumber?.toLowerCase() === query ||
+    a.emrNumber?.toLowerCase() === query ||
     (a.cnic && a.cnic.toLowerCase() === query)
   );
 
@@ -151,20 +171,25 @@ router.get('/', (req, res) => {
       a.patientName?.toLowerCase().includes(q) ||
       a.phone?.includes(q) ||
       a.appointmentNumber?.toLowerCase().includes(q) ||
+      a.emrNumber?.toLowerCase().includes(q) ||
       a.doctorName?.toLowerCase().includes(q) ||
       a.confirmedTokenNumber?.toString().includes(q)
     );
   }
 
   // Ensure normalized schema fields for zero-bug frontend consumption
-  const normalized = list.map(a => ({
-    ...a,
-    appointmentDate: a.appointmentDate || a.date,
-    status: a.status || 'PENDING_CONFIRMATION',
-    isOnline: a.isOnline !== undefined ? a.isOnline : true,
-    bookingType: a.bookingType || 'ONLINE',
-    source: a.source || 'ONLINE'
-  }));
+  const normalized = list.map(a => {
+    const numPart = String(a.appointmentNumber || a.id).replace(/\D/g, '').padStart(4, '0') || '1001';
+    return {
+      ...a,
+      emrNumber: a.emrNumber || `EMR-2026-${numPart}`,
+      appointmentDate: a.appointmentDate || a.date,
+      status: a.status || 'PENDING_CONFIRMATION',
+      isOnline: a.isOnline !== undefined ? a.isOnline : true,
+      bookingType: a.bookingType || 'ONLINE',
+      source: a.source || 'ONLINE'
+    };
+  });
 
   res.json({ success: true, count: normalized.length, appointments: normalized.slice().reverse() });
 });
@@ -172,7 +197,7 @@ router.get('/', (req, res) => {
 // Confirm & dispatch appointment (Reception Desk)
 router.patch('/:id/confirm', (req, res) => {
   const { id } = req.params;
-  const { tokenNumber, date, timeSlot, doctorRoom, notes } = req.body;
+  const { tokenNumber, date, timeSlot, doctorRoom, notes, emrNumber } = req.body;
   const db = getDb();
   const apt = (db.appointments || []).find(a => a.id === id || a.appointmentNumber === id);
   if (!apt) {
@@ -186,6 +211,7 @@ router.patch('/:id/confirm', (req, res) => {
     const target = d.appointments.find(a => a.id === id || a.appointmentNumber === id);
     if (target) {
       if (tokenNumber) target.confirmedTokenNumber = tokenNumber;
+      if (emrNumber) target.emrNumber = emrNumber;
       if (date) {
         target.date = date;
         target.appointmentDate = date;
@@ -204,23 +230,59 @@ router.patch('/:id/confirm', (req, res) => {
         note: 'Confirmed by receptionist & WhatsApp dispatched'
       });
       updatedApt = { ...target };
+
+      // Also ensure this patient is transferred to the doctor's live queue if not already there
+      if (!d.tokens) d.tokens = [];
+      const existingToken = d.tokens.find(t => 
+        (t.appointmentId === target.id || (t.patientPhone && t.patientPhone === target.phone)) &&
+        t.date === (target.date || target.appointmentDate)
+      );
+
+      if (!existingToken) {
+        const tokenNum = parseInt(tokenNumber, 10) || (d.tokens.length + 101);
+        const assignedDoctor = d.doctors.find(doc => doc.id === target.doctorId) || { name: target.doctorName, roomNumber: target.doctorRoom };
+        d.tokens.push({
+          id: 'tok-' + uuidv4().slice(0, 8),
+          appointmentId: target.id,
+          tokenNumber: tokenNum,
+          emrNumber: target.emrNumber || emrNumber || `EMR-2026-${tokenNum}`,
+          date: target.date || target.appointmentDate || now.split('T')[0],
+          patientName: target.patientName,
+          patientPhone: target.phone,
+          patientCnic: target.cnic || '',
+          departmentId: target.departmentId || '',
+          departmentName: target.departmentName || 'General OPD',
+          doctorId: target.doctorId || '',
+          doctorName: assignedDoctor.name || target.doctorName,
+          roomNumber: assignedDoctor.roomNumber || target.doctorRoom || 'Room 101',
+          priority: 'NORMAL',
+          status: 'WAITING',
+          fee: 1000,
+          createdAt: now
+        });
+      }
     }
   });
 
-  // Broadcast update to Reception
+  // Broadcast update to Reception & Doctor Portal
   broadcastEvent({
     type: 'APPOINTMENT_UPDATED',
     appointment: updatedApt || apt
   });
+  broadcastEvent({
+    type: 'QUEUE_UPDATED',
+    action: 'APPOINTMENT_CONFIRMED'
+  });
 
   res.json({
     success: true,
-    message: 'Appointment confirmed successfully',
+    message: 'Appointment confirmed successfully and transferred to doctor queue',
     appointment: updatedApt || apt
   });
 });
 
 // Soft Delete / Cancel Policy (Zero Data Loss - Permanent Audit Log)
+
 router.patch('/:id/cancel', (req, res) => {
   const { id } = req.params;
   const { reason } = req.body;

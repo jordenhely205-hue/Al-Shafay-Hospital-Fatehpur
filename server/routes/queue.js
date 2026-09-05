@@ -16,7 +16,10 @@ router.get('/', (req, res) => {
   const db = getDb();
   const targetDate = date || new Date().toISOString().split('T')[0];
 
-  let list = (db.tokens || []).filter(t => t.date === targetDate);
+  let list = (db.tokens || []).filter(t => t.date === targetDate).map(t => ({
+    ...t,
+    emrNumber: t.emrNumber || `EMR-2026-${String(t.tokenNumber || 100).padStart(4, '0')}`
+  }));
 
   if (doctorId) {
     list = list.filter(t => t.doctorId === doctorId || (t.referredToDoctorId === doctorId && (t.status === 'REFERRED' || t.status === 'CALLING')));
@@ -54,7 +57,8 @@ router.post('/generate', (req, res) => {
     departmentId,
     doctorId,
     priority,
-    fee
+    fee,
+    emrNumber: reqEmr
   } = req.body;
 
   if (!patientName || !doctorId) {
@@ -67,6 +71,7 @@ router.post('/generate', (req, res) => {
   const todayTokens = (db.tokens || []).filter(t => t.date === todayStr);
   const maxTokenNumber = todayTokens.reduce((max, t) => Math.max(max, t.tokenNumber || 0), 100);
   const nextTokenNumber = maxTokenNumber + 1;
+  const emrNumber = reqEmr || `EMR-2026-${String(nextTokenNumber).padStart(4, '0')}`;
 
   const doctor = db.doctors.find(d => d.id === doctorId);
   const department = db.departments.find(d => d.id === departmentId) || (doctor ? db.departments.find(d => d.id === doctor.departmentId) : null);
@@ -76,11 +81,10 @@ router.post('/generate', (req, res) => {
     let existingPat = db.patients.find(p => p.phone === patientPhone);
     if (!existingPat) {
       patId = 'pat-' + uuidv4().slice(0, 8);
-      const count = (db.patients || []).length + 1;
-      const mrn = `MRN-${new Date().getFullYear()}-${String(count).padStart(4, '0')}`;
       const newPat = {
         id: patId,
-        mrn,
+        mrn: emrNumber,
+        emrNumber,
         name: patientName,
         phone: patientPhone || '',
         cnic: patientCnic || '',
@@ -93,12 +97,19 @@ router.post('/generate', (req, res) => {
       });
     } else {
       patId = existingPat.id;
+      if (!existingPat.emrNumber) {
+        updateDb(d => {
+          const p = d.patients.find(pt => pt.id === patId);
+          if (p) p.emrNumber = emrNumber;
+        });
+      }
     }
   }
 
   const newToken = {
     id: 'tok-' + uuidv4().slice(0, 8),
     tokenNumber: nextTokenNumber,
+    emrNumber,
     date: todayStr,
     patientId: patId,
     patientName,
@@ -128,6 +139,7 @@ router.post('/generate', (req, res) => {
   });
 
   res.json({ success: true, token: newToken });
+
 });
 
 // Update Token Status (Calling, In Consultation, Completed)

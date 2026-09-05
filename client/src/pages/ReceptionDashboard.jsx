@@ -37,7 +37,14 @@ export default function ReceptionDashboard() {
   const [queue, setQueue] = useState([]);
   const [queueStats, setQueueStats] = useState({ total: 0, waiting: 0, calling: 0, completed: 0, referredToReception: 0 });
   const [labOrders, setLabOrders] = useState([]);
-  const [appointments, setAppointments] = useState([]);
+  const [appointments, setAppointments] = useState(() => {
+    try {
+      const cached = localStorage.getItem('alshafay_cached_appointments');
+      return cached ? JSON.parse(cached) : [];
+    } catch {
+      return [];
+    }
+  });
   const [selectedAppointmentForConfirm, setSelectedAppointmentForConfirm] = useState(null);
   const [appointmentFilter, setAppointmentFilter] = useState('ALL');
   const [appointmentSearch, setAppointmentSearch] = useState('');
@@ -120,8 +127,13 @@ export default function ReceptionDashboard() {
       if (labRes.success) {
         setLabOrders(labRes.orders);
       }
-      if (aptRes && aptRes.success) {
-        setAppointments(aptRes.appointments || []);
+      if (aptRes && aptRes.success && Array.isArray(aptRes.appointments)) {
+        setAppointments(aptRes.appointments);
+        try {
+          localStorage.setItem('alshafay_cached_appointments', JSON.stringify(aptRes.appointments));
+        } catch (err) {
+          console.warn('Failed to cache appointments', err);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -131,8 +143,13 @@ export default function ReceptionDashboard() {
   const loadAppointments = async () => {
     try {
       const res = await api.getAppointments();
-      if (res && res.success) {
-        setAppointments(res.appointments || []);
+      if (res && res.success && Array.isArray(res.appointments)) {
+        setAppointments(res.appointments);
+        try {
+          localStorage.setItem('alshafay_cached_appointments', JSON.stringify(res.appointments));
+        } catch (err) {
+          console.warn('Failed to cache appointments', err);
+        }
       }
     } catch (e) {
       console.error('Failed to load appointments', e);
@@ -339,6 +356,7 @@ export default function ReceptionDashboard() {
     const deptName = String(apt.departmentName || '').toLowerCase();
     const tokenNo = String(apt.confirmedTokenNumber || '').toLowerCase();
     const cnic = String(apt.cnic || '').toLowerCase();
+    const emrNo = String(apt.emrNumber || '').toLowerCase();
 
     const matchesSearch = 
       patientName.includes(q) ||
@@ -347,7 +365,8 @@ export default function ReceptionDashboard() {
       doctorName.includes(q) ||
       deptName.includes(q) ||
       tokenNo.includes(q) ||
-      cnic.includes(q);
+      cnic.includes(q) ||
+      emrNo.includes(q);
 
     return matchesFilter && matchesSearch;
   });
@@ -1078,6 +1097,12 @@ export default function ReceptionDashboard() {
                           {apt.confirmedTokenNumber && (
                             <span className="font-mono text-xs font-black text-purple-900 bg-purple-100 border border-purple-300 px-2 py-0.5 rounded-lg">
                               Token #{apt.confirmedTokenNumber}
+                            </span>
+                          )}
+
+                          {apt.emrNumber && (
+                            <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-lg">
+                              {apt.emrNumber}
                             </span>
                           )}
 

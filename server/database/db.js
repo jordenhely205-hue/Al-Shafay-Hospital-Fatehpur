@@ -133,7 +133,7 @@ export async function loadDatabase() {
 let syncTimeout = null;
 
 /**
- * Save database to PostgreSQL and local file
+ * Save database to PostgreSQL and local file (Serverless & Persistent Storage)
  */
 export function saveDatabase(data) {
   if (data) dbData = data;
@@ -145,19 +145,27 @@ export function saveDatabase(data) {
     // In serverless / read-only filesystems, this may fail harmlessly
   }
 
-  // Cloud PostgreSQL asynchronous flush
+  // Cloud PostgreSQL asynchronous immediate flush (Zero data loss on Vercel)
   if (pgPool && isPostgresConnected) {
-    if (syncTimeout) clearTimeout(syncTimeout);
-    syncTimeout = setTimeout(async () => {
-      try {
-        await pgPool.query(
-          `INSERT INTO hospital_store (key, data, updated_at) VALUES ('main_state', $1, NOW()) ON CONFLICT (key) DO UPDATE SET data = $1, updated_at = NOW()`,
-          [JSON.stringify(dbData)]
-        );
-      } catch (err) {
-        console.error('[PostgreSQL Save Error]:', err.message);
-      }
-    }, 100);
+    pgPool.query(
+      `INSERT INTO hospital_store (key, data, updated_at) VALUES ('main_state', $1, NOW()) ON CONFLICT (key) DO UPDATE SET data = $1, updated_at = NOW()`,
+      [JSON.stringify(dbData)]
+    ).catch(err => {
+      console.error('[PostgreSQL Save Error]:', err.message);
+    });
+  }
+}
+
+export async function flushDatabaseAsync() {
+  if (pgPool && isPostgresConnected) {
+    try {
+      await pgPool.query(
+        `INSERT INTO hospital_store (key, data, updated_at) VALUES ('main_state', $1, NOW()) ON CONFLICT (key) DO UPDATE SET data = $1, updated_at = NOW()`,
+        [JSON.stringify(dbData)]
+      );
+    } catch (err) {
+      console.error('[PostgreSQL Async Flush Error]:', err.message);
+    }
   }
 }
 
@@ -170,6 +178,7 @@ export function updateDb(updater) {
   saveDatabase(dbData);
   return dbData;
 }
+
 
 /**
  * Record a real-time event for serverless polling synchronization

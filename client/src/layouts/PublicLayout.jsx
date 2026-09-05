@@ -111,9 +111,11 @@ export default function PublicLayout() {
 
         <div className="max-w-7xl mx-auto pt-3 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center text-[10px] text-slate-400 gap-2">
           <p>© {new Date().getFullYear()} Al-Shafay Hospital Fatehpur. All rights reserved.</p>
+          <p className="font-mono text-slate-600 font-semibold">Website Developed By : AM FutureStack 03069141212</p>
           <p className="font-mono">PHC Registered • Digital Queue & Audio Call Enabled</p>
         </div>
       </footer>
+
 
     </div>
   );

@@ -120,7 +120,7 @@ export default function PublicBooking() {
     const cleanSlot = (timeSlot || '').trim();
 
     const rawMessage = 
-      `السلام علیکم! میں الشافیع ہسپتال فتح پور میں آن لائن اپائنٹمنٹ بک کروانا چاہتا/چاہتی ہوں۔\n\n` +
+      `السلام علیکم! میں الشافع ہسپتال فتح پور میں آن لائن اپائنٹمنٹ بک کروانا چاہتا/چاہتی ہوں۔\n\n` +
       `*مریض کا نام:* ${cleanPatient}\n` +
       `*رابطہ نمبر:* ${cleanPhone}\n` +
       `*ڈاکٹر کا نام:* ${cleanDoc}\n` +
@@ -130,6 +130,7 @@ export default function PublicBooking() {
 
     const encodedMessage = encodeURIComponent(rawMessage);
     return `https://api.whatsapp.com/send?phone=923016167412&text=${encodedMessage}`;
+
   };
 
   /**
@@ -431,45 +432,52 @@ export default function PublicBooking() {
             </div>
           </div>
 
-          {/* Doctor Cards Grid - ZERO FEES DISPLAYED */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {filteredDoctors.map(doc => (
+          {/* Doctor Cards Grid - Modern Polish, Hover Elevation & Active Indicator */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {filteredDoctors.map((doc, idx) => (
               <div 
                 key={doc.id} 
-                className="bg-white border border-slate-200 rounded-3xl p-5 hover:border-[#0B4F9C] hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-3 group"
+                style={{ animationDelay: `${idx * 80}ms` }}
+                className="bg-white border border-slate-200/90 rounded-3xl p-5.5 hover:border-emerald-500/50 hover:shadow-2xl hover:shadow-emerald-950/10 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between space-y-4 group relative overflow-hidden animate-in fade-in slide-in-from-bottom-3"
               >
-                <div>
-                  <div className="flex justify-between items-start mb-2.5">
-                    <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0B4F9C] border border-blue-100 uppercase">
+                {/* Subtle gradient glow backdrop on hover */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-colors pointer-events-none -z-0"></div>
+
+                <div className="relative z-10 space-y-2.5">
+                  <div className="flex justify-between items-start">
+                    <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0B4F9C] border border-blue-100 uppercase tracking-wide">
                       {doc.departmentName || 'OPD'}
                     </span>
-                    <span className="font-mono text-xs font-black text-[#0B4F9C] bg-slate-50 px-2 py-0.5 rounded-lg border border-slate-200">
+                    <span className="font-mono text-xs font-black text-[#0B4F9C] bg-slate-50 px-2.5 py-0.5 rounded-lg border border-slate-200">
                       {doc.roomNumber}
                     </span>
                   </div>
 
-                  <h3 className="font-black text-slate-900 text-base font-outfit group-hover:text-[#0B4F9C] transition truncate">
-                    {doc.name}
-                  </h3>
-                  <p className="text-xs text-emerald-700 font-extrabold">{doc.qualification}</p>
-                  <p className="text-[11px] text-slate-500 font-medium mt-1">{doc.specialization}</p>
+                  <div>
+                    <h3 className="font-black text-slate-900 text-base font-outfit group-hover:text-[#0B4F9C] transition truncate">
+                      {doc.name}
+                    </h3>
+                    <p className="text-xs text-emerald-700 font-extrabold mt-0.5">{doc.qualification}</p>
+                    <p className="text-[11px] text-slate-500 font-medium leading-relaxed mt-1">{doc.specialization}</p>
+                  </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 space-y-2 text-xs">
+                <div className="pt-3.5 border-t border-slate-100 space-y-2.5 text-xs relative z-10">
                   <div className="flex justify-between items-center text-[11px]">
-                    <span className="text-slate-600 font-medium flex items-center gap-1">
-                      <Clock size={12} className="text-slate-400 shrink-0" />
+                    <span className="text-slate-600 font-medium flex items-center gap-1.5">
+                      <Clock size={13} className="text-slate-400 shrink-0" />
                       <span>{doc.timing}</span>
                     </span>
-                    <span className="text-[10px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                      Available OPD
+                    <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span>Active OPD</span>
                     </span>
                   </div>
 
                   <a
                     href="#booking-section"
                     onClick={() => setForm(prev => ({ ...prev, doctorId: doc.id, departmentId: doc.departmentId }))}
-                    className="w-full bg-slate-50 hover:bg-[#0B4F9C] hover:text-white text-slate-700 border border-slate-200 font-bold py-1.5 rounded-xl text-center block transition text-xs"
+                    className="w-full bg-slate-50 hover:bg-[#0B4F9C] hover:text-white text-slate-700 border border-slate-200 font-bold py-2 rounded-xl text-center block transition text-xs shadow-2xs group-hover:border-[#0B4F9C]"
                   >
                     Select for Booking
                   </a>
@@ -477,6 +485,7 @@ export default function PublicBooking() {
               </div>
             ))}
           </div>
+
         </div>
 
         {/* MAIN SECTION: Booking Form with WhatsApp Integration & Live Tracker */}

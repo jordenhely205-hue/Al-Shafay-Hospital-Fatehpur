@@ -24,7 +24,8 @@ import {
   Settings,
   X,
   Phone,
-  Clock
+  Clock,
+  Search
 } from 'lucide-react';
 
 export default function DoctorDashboard() {
@@ -39,9 +40,11 @@ export default function DoctorDashboard() {
 
   // Queue State
   const [myQueue, setMyQueue] = useState([]);
+  const [queueSearch, setQueueSearch] = useState('');
   const [activeToken, setActiveToken] = useState(null);
   const [patientEmr, setPatientEmr] = useState(null);
   const [emrLoading, setEmrLoading] = useState(false);
+  const [showEmrHistory, setShowEmrHistory] = useState(false);
 
   // Form State
   const [vitals, setVitals] = useState({ bp: '120/80', pulse: '76', temp: '98.6', spo2: '99', weight: '70' });
@@ -305,6 +308,16 @@ export default function DoctorDashboard() {
   const waitingTokens = myQueue.filter(t => t.status === 'WAITING' || t.status === 'REFERRED');
   const completedTokens = myQueue.filter(t => t.status === 'COMPLETED');
 
+  const filteredQueue = myQueue.filter(token => {
+    if (!queueSearch.trim()) return true;
+    const q = queueSearch.toLowerCase().trim();
+    const name = String(token.patientName || '').toLowerCase();
+    const phone = String(token.patientPhone || '').toLowerCase();
+    const emr = String(token.emrNumber || '').toLowerCase();
+    const tokNo = String(token.tokenNumber || '').toLowerCase();
+    return name.includes(q) || phone.includes(q) || emr.includes(q) || tokNo.includes(q);
+  });
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -380,13 +393,33 @@ export default function DoctorDashboard() {
                   <h3 className="font-extrabold text-xs text-slate-900 uppercase tracking-wide font-outfit">Doctor Patient Queue</h3>
                 </div>
                 <span className="text-xs bg-blue-50 text-[#0B4F9C] px-2 py-0.5 rounded-full font-mono font-bold border border-blue-200">
-                  {myQueue.length} Total
+                  {filteredQueue.length} / {myQueue.length}
                 </span>
               </div>
 
+              {/* Queue Search Filter */}
+              <div className="mb-3 relative">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search EMR, Name, Phone, Token..."
+                  value={queueSearch}
+                  onChange={(e) => setQueueSearch(e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0B4F9C] focus:bg-white transition"
+                />
+                {queueSearch && (
+                  <button
+                    onClick={() => setQueueSearch('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 text-xs"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
               <div className="space-y-2.5 max-h-[560px] overflow-y-auto pr-1">
-                {myQueue.length > 0 ? (
-                  myQueue.map((token) => {
+                {filteredQueue.length > 0 ? (
+                  filteredQueue.map((token) => {
                     const isSelected = activeToken?.id === token.id;
                     const isCalling = token.status === 'CALLING';
                     const isDone = token.status === 'COMPLETED';
@@ -401,11 +434,18 @@ export default function DoctorDashboard() {
                             : 'bg-slate-50 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
                         }`}
                       >
-                        <div className="flex justify-between items-start mb-2">
-                          <span className={`font-mono text-base font-black ${isCalling ? 'text-emerald-700 animate-pulse' : 'text-[#0B4F9C]'}`}>
-                            #{token.tokenNumber}
-                          </span>
-                          <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase ${
+                        <div className="flex justify-between items-start mb-1.5 gap-2">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className={`font-mono text-base font-black ${isCalling ? 'text-emerald-700 animate-pulse' : 'text-[#0B4F9C]'}`}>
+                              #{token.tokenNumber}
+                            </span>
+                            {token.emrNumber && (
+                              <span className="font-mono text-[9px] font-bold text-teal-800 bg-teal-50 border border-teal-200 px-1.5 py-0.5 rounded">
+                                {token.emrNumber}
+                              </span>
+                            )}
+                          </div>
+                          <span className={`text-[10px] font-black px-2 py-0.5 rounded-full uppercase shrink-0 ${
                             isCalling ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
                             token.status === 'REFERRED' ? 'bg-purple-100 text-purple-800 border border-purple-300' :
                             token.status === 'REFERRED_TO_RECEPTION' ? 'bg-indigo-100 text-indigo-800 border border-indigo-300' :
@@ -447,7 +487,7 @@ export default function DoctorDashboard() {
                   })
                 ) : (
                   <div className="py-8 text-center text-slate-400 text-xs">
-                    No patients currently assigned to your queue.
+                    {queueSearch ? 'No patients matching your search.' : 'No patients currently assigned to your queue.'}
                   </div>
                 )}
               </div>
@@ -506,9 +546,12 @@ export default function DoctorDashboard() {
                 {/* Active Patient Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-4 border-b border-slate-100">
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="font-mono text-xl font-black text-[#0B4F9C] bg-blue-50 px-3 py-0.5 rounded-xl border border-blue-200">
                         #{activeToken.tokenNumber}
+                      </span>
+                      <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 border border-teal-200 px-2.5 py-1 rounded-xl">
+                        {activeToken.emrNumber || (patientEmr && patientEmr.patient && patientEmr.patient.mrn) || `EMR-2026-${String(activeToken.tokenNumber || '0001').padStart(4, '0')}`}
                       </span>
                       <h2 className="text-xl font-black text-slate-900 uppercase font-outfit">{activeToken.patientName}</h2>
                     </div>
@@ -535,6 +578,54 @@ export default function DoctorDashboard() {
                     </button>
                   </div>
                 </div>
+
+                {/* EMR History Accordion */}
+                {patientEmr && patientEmr.emr && (
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-2">
+                    <div 
+                      className="flex justify-between items-center cursor-pointer select-none"
+                      onClick={() => setShowEmrHistory(!showEmrHistory)}
+                    >
+                      <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
+                        <FileText size={15} className="text-[#0B4F9C]" />
+                        <span>Electronic Medical History (EMR)</span>
+                        <span className="text-[10px] font-mono bg-blue-100 text-[#0B4F9C] px-2 py-0.5 rounded-full font-bold">
+                          {(patientEmr.emr.prescriptions || []).length} Past Prescriptions • {(patientEmr.emr.labOrders || []).length} Lab Tests
+                        </span>
+                      </div>
+                      <span className="text-xs text-[#0B4F9C] hover:underline font-bold">
+                        {showEmrHistory ? 'Hide EMR History ▲' : 'View Past Records ▼'}
+                      </span>
+                    </div>
+
+                    {showEmrHistory && (
+                      <div className="pt-2 border-t border-slate-200 space-y-2 max-h-60 overflow-y-auto pr-1 text-xs">
+                        {emrLoading ? (
+                          <p className="text-slate-400 text-xs py-2">Loading medical records...</p>
+                        ) : (patientEmr.emr.prescriptions || []).length > 0 ? (
+                          patientEmr.emr.prescriptions.map((p, idx) => (
+                            <div key={idx} className="bg-white border border-slate-200 rounded-xl p-2.5 text-xs space-y-1">
+                              <div className="flex justify-between items-center text-[11px]">
+                                <span className="font-bold text-slate-900">{p.doctorName || 'Consultant'} • <span className="text-emerald-700">{p.diagnosis || 'General OPD'}</span></span>
+                                <span className="text-slate-400 font-mono text-[10px]">{new Date(p.createdAt || Date.now()).toLocaleDateString()}</span>
+                              </div>
+                              {p.medicines && p.medicines.length > 0 && (
+                                <div className="text-[11px] text-slate-600 flex flex-wrap gap-1.5 pt-0.5">
+                                  <span className="font-bold text-slate-700">Rx:</span>
+                                  {p.medicines.map((m, mIdx) => (
+                                    <span key={mIdx} className="bg-slate-100 px-1.5 py-0.5 rounded text-[10px] font-medium">{m.name} ({m.dosage})</span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-slate-400 text-xs italic py-1">No previous prescription records found for this patient.</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Patient Vitals */}
                 <div>

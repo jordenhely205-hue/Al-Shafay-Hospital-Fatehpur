@@ -203,8 +203,9 @@ export default function LabReportModal({ order, onClose }) {
 
             {/* Developer Credit Line */}
             <div className="text-[10px] text-gray-500 font-medium tracking-wide text-center pt-2 border-t border-gray-200">
-              Website Developed By : Abbas Malik 03069141212
+              Website Developed By : AM FutureStack 03069141212
             </div>
+
 
           </div>
 

@@ -119,8 +119,9 @@ export default function InvoicePrintModal({ invoice, onClose }) {
 
           <div className="divider border-b border-dashed border-slate-400 my-1.5"></div>
           <div className="text-[9px] font-mono text-black text-center pt-1 block">
-            Website Developed By : Abbas Malik 03069141212
+            Website Developed By : AM FutureStack 03069141212
           </div>
+
 
         </div>
 

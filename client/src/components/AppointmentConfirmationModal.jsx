@@ -49,24 +49,26 @@ export default function AppointmentConfirmationModal({ appointment, onClose, onC
 
   const patientPhone = appointment.phone || appointment.patientPhone || '';
   const sanitizedPhone = sanitizePhone(patientPhone);
+  const emrNumber = appointment.emrNumber || ('EMR-2026-' + String(appointment.appointmentNumber || appointment.tokenNumber || appointment.id || '1001').replace(/\D/g, '').padStart(4, '0'));
 
   /**
-   * Formulate official Urdu WhatsApp confirmation template
+   * Formulate official Urdu WhatsApp confirmation template (Corrected Urdu + 30-min Notice + AM FutureStack Credit)
    */
   const generateUrduMessage = () => {
     return (
-      `محترم/محترمہ ${appointment.patientName} صاحب/صاحبہ!\n\n` +
-      `الشافیع ہسپتال فتح پور میں آپ کی اپائنٹمنٹ کی تصدیق (Confirm) کر دی گئی ہے۔\n\n` +
+      `محترم/محترمہ ${appointment.patientName} صاحب/صاحبہ!\n` +
+      `الشافع ہسپتال فتح پور میں آپ کی اپائنٹمنٹ کی تصدیق (Confirm) کر دی گئی ہے۔\n\n` +
       `تفصیلات درج ذیل ہیں:\n` +
       `توثیق شدہ ٹوکن نمبر: #${tokenNumber}\n` +
+      `ای ایم آر نمبر: ${emrNumber}\n` +
       `ڈاکٹر کا نام: ${appointment.doctorName}\n` +
       `شعبہ: ${appointment.departmentName || 'General OPD'} (${doctorRoom})\n` +
       `مقررہ تاریخ: ${date}\n` +
       `چیک اپ کا وقت: ${timeSlot}\n\n` +
       `ہدایت: برائے مہربانی دیے گئے وقت سے 30 منٹ پہلے ہسپتال تشریف لائیں اور ریسیپشن ڈیسک پر اپنا ٹوکن نمبر بتائیں۔\n\n` +
-      `الشافیع ہسپتال، ہسپتال روڈ، فتح پور\n` +
+      `الشافع ہسپتال، ہسپتال روڈ، فتح پور\n` +
       `ہیلپ لائن: 0301-6167412 / 0300-1234567\n` +
-      `ویب سائٹ ڈویلپر: عباس ملک 03069141212`
+      `Website Developed By : AM FutureStack 03069141212`
     );
   };
 
@@ -92,7 +94,8 @@ export default function AppointmentConfirmationModal({ appointment, onClose, onC
         tokenNumber,
         date,
         timeSlot,
-        doctorRoom
+        doctorRoom,
+        emrNumber
       });
 
       // 2. Formulate WhatsApp URL & dispatch to patient
@@ -105,6 +108,7 @@ export default function AppointmentConfirmationModal({ appointment, onClose, onC
         onConfirmed(res.appointment || {
           ...appointment,
           confirmedTokenNumber: tokenNumber,
+          emrNumber,
           date,
           timeSlot,
           doctorRoom,
@@ -119,6 +123,7 @@ export default function AppointmentConfirmationModal({ appointment, onClose, onC
       setLoading(false);
     }
   };
+
 
   const timeSlotsList = [
     '09:00 AM - 09:30 AM',
@@ -214,8 +219,14 @@ export default function AppointmentConfirmationModal({ appointment, onClose, onC
                   <strong className="text-slate-800 font-bold">{appointment.departmentName || 'General OPD'}</strong>
                 </div>
               </div>
+
+              <div className="bg-white p-2.5 rounded-xl border border-blue-200/80 col-span-full">
+                <span className="text-[10px] uppercase font-bold text-slate-400 block">Universal EMR Record Number</span>
+                <strong className="text-[#0B4F9C] font-mono font-black text-sm">{emrNumber}</strong>
+              </div>
             </div>
           </div>
+
 
           {/* Section 2: Editable Slot & Token Assignment (Receptionist Input) */}
           <div className="space-y-3">
