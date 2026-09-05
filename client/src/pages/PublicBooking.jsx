@@ -153,10 +153,28 @@ export default function PublicBooking() {
     const deptName = selectedDoc?.departmentName || selectedDept.name;
 
     try {
-      const res = await api.bookAppointment(form);
-      if (res.success) {
+      const payload = {
+        ...form,
+        bookingType: 'ONLINE',
+        isOnline: true,
+        status: 'PENDING',
+        source: 'WEBSITE'
+      };
+
+      const res = await api.bookAppointment(payload);
+      if (res.success && res.appointment) {
         setBookingSuccess(res.appointment);
         
+        // Immediate cross-tab master records persistence
+        try {
+          const cached = JSON.parse(localStorage.getItem('alshafay_master_records') || localStorage.getItem('alshafay_cached_appointments') || '[]');
+          const updated = [res.appointment, ...cached.filter(a => (a.id || a.appointmentNumber) !== (res.appointment.id || res.appointment.appointmentNumber))];
+          localStorage.setItem('alshafay_master_records', JSON.stringify(updated));
+          localStorage.setItem('alshafay_cached_appointments', JSON.stringify(updated));
+        } catch (lsErr) {
+          console.warn('LocalStorage save failed:', lsErr);
+        }
+
         // Automated Voice Announcement on Token Issuance
         announceTokenIssuance(
           res.appointment.appointmentNumber,
@@ -252,41 +270,85 @@ export default function PublicBooking() {
     <div className="min-h-screen bg-slate-50 text-slate-800 py-6 sm:py-8 px-3.5 sm:px-6 lg:px-8 space-y-10 overflow-x-hidden font-sans">
       <div className="max-w-6xl mx-auto space-y-10">
 
-        {/* HERO BANNER: Deep Royal Blue with Clinical Typography & Metrics */}
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#081E48] via-[#0B3B82] to-[#081E48] text-white p-6 sm:p-10 lg:p-12 shadow-2xl border border-blue-900/40">
+        {/* HERO BANNER: High-Impact Medical Visual with Clinical Typography & Trust Badges */}
+        <div className="relative rounded-3xl overflow-hidden text-white p-6 sm:p-10 lg:p-12 shadow-2xl border border-blue-900/40">
+          
+          {/* High-Resolution Medical Center Architecture Background with Dark Clinical Gradient Overlay */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat -z-20 transform scale-105 filter brightness-40"
+            style={{ backgroundImage: `url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80')` }}
+          ></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#081E48]/90 to-[#0B3B82]/85 -z-10 backdrop-blur-xs"></div>
           
           {/* Subtle Ambient Light Orb */}
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
             
-            {/* Left Column: Hospital Info & Clinical Badges */}
+            {/* Left Column: Hospital Info, Urdu Title & Live Trust Badges */}
             <div className="max-w-2xl space-y-4 text-center md:text-left">
               
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-cyan-300 text-xs font-black uppercase tracking-wider backdrop-blur-md">
-                <HeartPulse size={15} className="animate-pulse text-cyan-400" />
-                <span>PHC Certified Hospital Management System</span>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-cyan-300 text-[11px] font-black uppercase tracking-wider backdrop-blur-md">
+                  <HeartPulse size={14} className="animate-pulse text-cyan-400" />
+                  <span>PHC Certified Hospital Management System</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-bold">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span>24/7 Emergency Active</span>
+                </div>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight uppercase font-outfit leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight uppercase font-outfit leading-tight drop-shadow-md">
                 Al-Shafay Hospital <span className="text-cyan-400">Fatehpur</span>
               </h1>
 
+              {/* Bold Urdu Hospital Name & Portal Description */}
+              <h2 className="text-lg sm:text-2xl font-bold font-urdu text-amber-300 pt-1 tracking-wide leading-relaxed drop-shadow-sm" dir="rtl">
+                الشافع ہسپتال فتح پور - جدید ترین طبی سہولیات اور آن لائن اپائنٹمنٹ پورٹل
+              </h2>
+
               <p className="text-sm sm:text-base text-blue-100 leading-relaxed font-medium">
-                Book specialist doctor consultations online, confirm instantly via WhatsApp (<strong className="text-emerald-300">0301-6167412</strong>), and experience automated voice-called queuing.
+                Book specialist doctor consultations online, confirm instantly via WhatsApp (<strong className="text-emerald-300">0301-6167412</strong>), and experience automated voice-called queuing at counter reception.
               </p>
+
+              {/* Live Floating Trust Badges */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
+                <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2">
+                  <ShieldCheck size={18} className="text-emerald-400 shrink-0" />
+                  <div className="text-left">
+                    <span className="font-black text-white block text-[11px]">Qualified Consultants</span>
+                    <span className="text-[10px] text-blue-200">FCPS & Senior Specialists</span>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2">
+                  <HeartPulse size={18} className="text-rose-400 shrink-0" />
+                  <div className="text-left">
+                    <span className="font-black text-white block text-[11px]">24/7 Emergency Care</span>
+                    <span className="text-[10px] text-blue-200">Rapid Triage & Trauma</span>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2">
+                  <MessageCircle size={18} className="text-cyan-400 shrink-0" />
+                  <div className="text-left">
+                    <span className="font-black text-white block text-[11px]">Digital WhatsApp Token</span>
+                    <span className="text-[10px] text-blue-200">Automated Audio Screen</span>
+                  </div>
+                </div>
+              </div>
 
               <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4 text-xs text-blue-200 pt-2 font-medium">
                 <span className="flex items-center gap-1.5"><MapPin size={15} className="text-cyan-400 shrink-0" /> Hospital Road, Fatehpur</span>
                 <span className="flex items-center gap-1.5"><Phone size={15} className="text-cyan-400 shrink-0" /> 24/7 Helpline: 0300-1234567</span>
-                <span className="flex items-center gap-1.5"><ShieldCheck size={15} className="text-emerald-400 shrink-0" /> Verified Specialists</span>
               </div>
 
               {/* Action Buttons in Hero */}
               <div className="flex flex-wrap justify-center md:justify-start gap-3 pt-3">
                 <a
                   href="#booking-section"
-                  className="bg-gradient-to-r from-[#0284C7] to-[#06B6D4] hover:from-[#06B6D4] hover:to-[#0284C7] text-white font-black px-5 py-3 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-cyan-900/30 active:scale-95"
+                  className="bg-gradient-to-r from-[#0284C7] to-[#06B6D4] hover:from-[#06B6D4] hover:to-[#0284C7] text-white font-black px-5 py-3.5 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-cyan-900/30 active:scale-95"
                 >
                   <Calendar size={16} />
                   <span>Book Appointment Online</span>
@@ -296,7 +358,7 @@ export default function PublicBooking() {
                   href="https://api.whatsapp.com/send?phone=923016167412"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-3 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-950/30 active:scale-95"
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-3.5 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-950/30 active:scale-95"
                 >
                   <MessageCircle size={16} />
                   <span>WhatsApp Booking (0301-6167412)</span>
@@ -453,13 +515,18 @@ export default function PublicBooking() {
                     </span>
                   </div>
 
-                  <div>
-                    <h3 className="font-black text-slate-900 text-base font-outfit group-hover:text-[#0B4F9C] transition truncate">
-                      {doc.name}
-                    </h3>
-                    <p className="text-xs text-emerald-700 font-extrabold mt-0.5">{doc.qualification}</p>
-                    <p className="text-[11px] text-slate-500 font-medium leading-relaxed mt-1">{doc.specialization}</p>
+                  <div className="flex items-center gap-3 pt-1">
+                    <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0B4F9C] to-cyan-600 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-xs border border-white/20">
+                      <Stethoscope size={18} />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-black text-slate-900 text-base font-outfit group-hover:text-[#0B4F9C] transition truncate">
+                        {doc.name}
+                      </h3>
+                      <p className="text-xs text-emerald-700 font-extrabold truncate">{doc.qualification}</p>
+                    </div>
                   </div>
+                  <p className="text-[11px] text-slate-500 font-medium leading-relaxed">{doc.specialization}</p>
                 </div>
 
                 <div className="pt-3.5 border-t border-slate-100 space-y-2.5 text-xs relative z-10">
@@ -486,6 +553,109 @@ export default function PublicBooking() {
             ))}
           </div>
 
+        </div>
+
+        {/* HOSPITAL CLINICAL FACILITIES & DEPARTMENTS */}
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <div>
+              <div className="flex items-center gap-2">
+                <Sparkles className="text-emerald-600" size={20} />
+                <h2 className="text-lg sm:text-2xl font-black text-slate-900 uppercase tracking-tight font-outfit">
+                  Advanced Clinical Facilities & Services
+                </h2>
+              </div>
+              <p className="text-xs text-slate-500 font-medium mt-0.5">
+                24/7 dedicated hospital departments equipped with diagnostic instruments, emergency care, and rapid dispensing
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {/* Facility 1: Digital Pathology Lab */}
+            <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-sm hover:border-purple-400 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 text-purple-700 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xs">
+                  <FlaskConical size={22} />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 font-outfit group-hover:text-purple-700 transition">
+                    Digital Pathology Lab
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
+                    Automated Hematology, Biochemistry & verified pathology reports with computerized barcoding.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-[11px] font-bold text-purple-700">
+                <span>Verified Diagnostic Reports</span>
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+
+            {/* Facility 2: 24/7 Pharmacy Counter */}
+            <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-sm hover:border-amber-400 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xs">
+                  <Pill size={22} />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 font-outfit group-hover:text-amber-700 transition">
+                    24/7 Pharmacy & POS
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
+                    100% genuine certified medicines, cold-chain preservation & digital prescription dispensing.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-[11px] font-bold text-amber-700">
+                <span>Computerized Billing POS</span>
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+
+            {/* Facility 3: Pediatric & Child Care */}
+            <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-sm hover:border-teal-400 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-teal-700 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xs">
+                  <HeartPulse size={22} />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 font-outfit group-hover:text-teal-700 transition">
+                    Pediatric & Child Care
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
+                    Specialized child health, neonatal monitoring, immunization protocols & gentle infant care.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-[11px] font-bold text-teal-700">
+                <span>Specialist Pediatrician OPD</span>
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+
+            {/* Facility 4: Cardiac Care & Monitoring */}
+            <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-sm hover:border-rose-400 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group">
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xs">
+                  <Activity size={22} />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 font-outfit group-hover:text-rose-700 transition">
+                    Cardiac Care & ECG Unit
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
+                    Digital 12-lead ECG, continuous cardiovascular monitoring & expert hypertension treatment.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-[11px] font-bold text-rose-700">
+                <span>24/7 Cardiac Emergency</span>
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* MAIN SECTION: Booking Form with WhatsApp Integration & Live Tracker */}

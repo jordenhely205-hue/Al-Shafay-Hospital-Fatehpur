@@ -39,7 +39,7 @@ export default function ReceptionDashboard() {
   const [labOrders, setLabOrders] = useState([]);
   const [appointments, setAppointments] = useState(() => {
     try {
-      const cached = localStorage.getItem('alshafay_cached_appointments');
+      const cached = localStorage.getItem('alshafay_master_records') || localStorage.getItem('alshafay_cached_appointments');
       return cached ? JSON.parse(cached) : [];
     } catch {
       return [];
@@ -48,6 +48,7 @@ export default function ReceptionDashboard() {
   const [selectedAppointmentForConfirm, setSelectedAppointmentForConfirm] = useState(null);
   const [appointmentFilter, setAppointmentFilter] = useState('ALL');
   const [appointmentSearch, setAppointmentSearch] = useState('');
+  const [queueFilter, setQueueFilter] = useState('ALL');
 
   const [activeTab, setActiveTab] = useState('registration');
 
@@ -106,6 +107,56 @@ export default function ReceptionDashboard() {
     };
   }, []);
 
+  const mergeAppointments = (incomingList, currentList) => {
+    const map = new Map();
+    // 1. Read existing local storage records
+    try {
+      const local = localStorage.getItem('alshafay_master_records') || localStorage.getItem('alshafay_cached_appointments');
+      if (local) {
+        const parsed = JSON.parse(local);
+        if (Array.isArray(parsed)) {
+          parsed.forEach(item => {
+            if (!item) return;
+            const key = item.id || item._id || item.appointmentNumber;
+            if (key) map.set(String(key), item);
+          });
+        }
+      }
+    } catch (err) {
+      console.warn('Error reading local storage cache', err);
+    }
+
+    // 2. Merge existing state list
+    if (Array.isArray(currentList)) {
+      currentList.forEach(item => {
+        if (!item) return;
+        const key = item.id || item._id || item.appointmentNumber;
+        if (key) map.set(String(key), item);
+      });
+    }
+
+    // 3. Merge incoming backend list (preserve confirmed flags & custom token numbers if already confirmed locally)
+    if (Array.isArray(incomingList)) {
+      incomingList.forEach(item => {
+        if (!item) return;
+        const key = item.id || item._id || item.appointmentNumber;
+        if (key) {
+          const strKey = String(key);
+          const existing = map.get(strKey);
+          if (existing && (existing.status === 'CONFIRMED' || existing.confirmedTokenNumber) && item.status !== 'CONFIRMED') {
+            map.set(strKey, { ...item, ...existing, status: 'CONFIRMED', confirmedTokenNumber: existing.confirmedTokenNumber });
+          } else {
+            map.set(strKey, { ...(existing || {}), ...item });
+          }
+        }
+      });
+    }
+
+    const merged = Array.from(map.values());
+    merged.sort((a, b) => new Date(b.createdAt || b.date || 0) - new Date(a.createdAt || a.date || 0));
+    return merged;
+  };
+
   const loadData = async () => {
     try {
       const [deptRes, queueRes, labRes, aptRes] = await Promise.all([
@@ -128,12 +179,16 @@ export default function ReceptionDashboard() {
         setLabOrders(labRes.orders);
       }
       if (aptRes && aptRes.success && Array.isArray(aptRes.appointments)) {
-        setAppointments(aptRes.appointments);
-        try {
-          localStorage.setItem('alshafay_cached_appointments', JSON.stringify(aptRes.appointments));
-        } catch (err) {
-          console.warn('Failed to cache appointments', err);
-        }
+        setAppointments(prev => {
+          const merged = mergeAppointments(aptRes.appointments, prev);
+          try {
+            localStorage.setItem('alshafay_cached_appointments', JSON.stringify(merged));
+            localStorage.setItem('alshafay_master_records', JSON.stringify(merged));
+          } catch (err) {
+            console.warn('Failed to cache appointments', err);
+          }
+          return merged;
+        });
       }
     } catch (e) {
       console.error(e);
@@ -144,12 +199,16 @@ export default function ReceptionDashboard() {
     try {
       const res = await api.getAppointments();
       if (res && res.success && Array.isArray(res.appointments)) {
-        setAppointments(res.appointments);
-        try {
-          localStorage.setItem('alshafay_cached_appointments', JSON.stringify(res.appointments));
-        } catch (err) {
-          console.warn('Failed to cache appointments', err);
-        }
+        setAppointments(prev => {
+          const merged = mergeAppointments(res.appointments, prev);
+          try {
+            localStorage.setItem('alshafay_cached_appointments', JSON.stringify(merged));
+            localStorage.setItem('alshafay_master_records', JSON.stringify(merged));
+          } catch (err) {
+            console.warn('Failed to cache appointments', err);
+          }
+          return merged;
+        });
       }
     } catch (e) {
       console.error('Failed to load appointments', e);
@@ -392,16 +451,37 @@ export default function ReceptionDashboard() {
             <p className="text-xs text-slate-500 font-medium">Al-Shafay Hospital Fatehpur • Real-Time Doctor Queue Forwarding</p>
           </div>
 
-          {/* Counters */}
+          {/* Interactive KPI Metric Cards */}
           <div className="flex items-center gap-2.5 flex-wrap">
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl px-3.5 py-2 text-center shadow-2xs">
+            {/* 1. Total Tokens Card -> Live OPD Queue (All) */}
+            <div 
+              onClick={() => { 
+                setActiveTab('queue'); 
+                setQueueFilter('ALL'); 
+              }}
+              className={`border rounded-2xl px-3.5 py-2 text-center shadow-xs cursor-pointer hover:scale-105 transition-all duration-200 select-none ${
+                activeTab === 'queue' && queueFilter === 'ALL'
+                  ? 'ring-2 ring-blue-500 bg-blue-50/90 border-blue-300 shadow-md'
+                  : 'bg-slate-50 border-slate-200 hover:bg-blue-50/40 hover:border-blue-200'
+              }`}
+              title="Click to view Live OPD Queue (All counter tokens)"
+            >
               <span className="text-[10px] uppercase font-bold text-slate-500 block">Total Tokens</span>
               <span className="text-lg font-black text-[#0B4F9C] font-mono">{queueStats.total}</span>
             </div>
+
+            {/* 2. Online Bookings Card -> Online Bookings Tab (All) */}
             <div 
-              onClick={() => setActiveTab('online-bookings')}
-              className="bg-emerald-50 border border-emerald-200 rounded-2xl px-3.5 py-2 text-center shadow-2xs cursor-pointer hover:bg-emerald-100 hover:border-emerald-300 transition"
-              title="Click to view Online Bookings"
+              onClick={() => { 
+                setActiveTab('online-bookings'); 
+                setAppointmentFilter('ALL'); 
+              }}
+              className={`border rounded-2xl px-3.5 py-2 text-center shadow-xs cursor-pointer hover:scale-105 transition-all duration-200 select-none ${
+                (activeTab === 'online-bookings' || activeTab === 'onlineBookings')
+                  ? 'ring-2 ring-emerald-500 bg-emerald-100/90 border-emerald-400 shadow-md'
+                  : 'bg-emerald-50 border-emerald-200 hover:bg-emerald-100/50 hover:border-emerald-300'
+              }`}
+              title="Click to view Online Bookings (ALL records)"
             >
               <span className="text-[10px] uppercase font-bold text-emerald-800 block">Online Bookings</span>
               <div className="flex items-center justify-center gap-1">
@@ -413,11 +493,41 @@ export default function ReceptionDashboard() {
                 )}
               </div>
             </div>
-            <div className="bg-purple-50 border border-purple-200 rounded-2xl px-3.5 py-2 text-center shadow-2xs">
+
+            {/* 3. Referred at Desk Card -> Referred Patients Queue */}
+            <div 
+              onClick={() => setActiveTab('referred-queue')}
+              className={`border rounded-2xl px-3.5 py-2 text-center shadow-xs cursor-pointer hover:scale-105 transition-all duration-200 select-none ${
+                activeTab === 'referred-queue'
+                  ? 'ring-2 ring-purple-500 bg-purple-100/90 border-purple-400 shadow-md'
+                  : 'bg-purple-50 border-purple-200 hover:bg-purple-100/50 hover:border-purple-300'
+              }`}
+              title="Click to view Referred Patients at Desk"
+            >
               <span className="text-[10px] uppercase font-bold text-purple-700 block">Referred at Desk</span>
-              <span className="text-lg font-black text-purple-900 font-mono">{referredPatientsAtReception.length}</span>
+              <div className="flex items-center justify-center gap-1">
+                <span className="text-lg font-black text-purple-900 font-mono">{referredPatientsAtReception.length}</span>
+                {referredPatientsAtReception.length > 0 && (
+                  <span className="text-[9px] font-black bg-purple-700 text-white px-1 rounded-full">
+                    Active
+                  </span>
+                )}
+              </div>
             </div>
-            <div className="bg-blue-50 border border-blue-200 rounded-2xl px-3.5 py-2 text-center shadow-2xs">
+
+            {/* 4. Waiting Queue Card -> Live OPD Queue (Waiting only) */}
+            <div 
+              onClick={() => { 
+                setActiveTab('queue'); 
+                setQueueFilter('WAITING'); 
+              }}
+              className={`border rounded-2xl px-3.5 py-2 text-center shadow-xs cursor-pointer hover:scale-105 transition-all duration-200 select-none ${
+                activeTab === 'queue' && queueFilter === 'WAITING'
+                  ? 'ring-2 ring-blue-500 bg-blue-100/90 border-blue-400 shadow-md'
+                  : 'bg-blue-50 border-blue-200 hover:bg-blue-100/50 hover:border-blue-300'
+              }`}
+              title="Click to view Waiting Queue Tokens"
+            >
               <span className="text-[10px] uppercase font-bold text-blue-800 block">Waiting Queue</span>
               <span className="text-lg font-black text-blue-900 font-mono">{queueStats.waiting}</span>
             </div>
@@ -829,42 +939,89 @@ export default function ReceptionDashboard() {
         )}
 
         {/* TAB 3: Live OPD Queue */}
-        {activeTab === 'queue' && (
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm">
-            <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-              <div>
-                <h2 className="text-lg font-black text-slate-900">Live OPD Patient Queue</h2>
-                <p className="text-xs text-slate-500">Real-time status across all consultation rooms</p>
-              </div>
-              <button
-                onClick={loadQueue}
-                className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2 rounded-xl transition"
-              >
-                <RefreshCw size={14} />
-                <span>Refresh Queue</span>
-              </button>
-            </div>
+        {activeTab === 'queue' && (() => {
+          const filteredQueueTokens = queue.filter(t => {
+            if (queueFilter === 'WAITING') return t.status === 'WAITING' || t.status === 'REFERRED';
+            if (queueFilter === 'CALLING') return t.status === 'CALLING';
+            if (queueFilter === 'COMPLETED') return t.status === 'COMPLETED';
+            return true;
+          });
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead>
-                  <tr className="bg-slate-100 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-bold">
-                    <th className="py-3 px-4">Token #</th>
-                    <th className="py-3 px-4">Patient Details</th>
-                    <th className="py-3 px-4">Department / Doctor</th>
-                    <th className="py-3 px-4">Room #</th>
-                    <th className="py-3 px-4">Priority</th>
-                    <th className="py-3 px-4">Status</th>
-                    <th className="py-3 px-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200">
-                  {queue.length > 0 ? (
-                    queue.map((t) => (
-                      <tr key={t.id} className="hover:bg-slate-50 transition">
-                        <td className="py-3 px-4 font-mono font-black text-sm text-[#0B4F9C]">
-                          #{t.tokenNumber}
-                        </td>
+          return (
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                <div>
+                  <h2 className="text-lg font-black text-slate-900">Live OPD Patient Queue</h2>
+                  <p className="text-xs text-slate-500">Real-time status across all consultation rooms</p>
+                </div>
+
+                {/* Sub-Filter Pills & Refresh */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs">
+                    <button
+                      onClick={() => setQueueFilter('ALL')}
+                      className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
+                        queueFilter === 'ALL' ? 'bg-[#0B4F9C] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      All ({queue.length})
+                    </button>
+                    <button
+                      onClick={() => setQueueFilter('WAITING')}
+                      className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
+                        queueFilter === 'WAITING' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      Waiting ({queueStats.waiting})
+                    </button>
+                    <button
+                      onClick={() => setQueueFilter('CALLING')}
+                      className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
+                        queueFilter === 'CALLING' ? 'bg-emerald-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      Calling ({queueStats.calling})
+                    </button>
+                    <button
+                      onClick={() => setQueueFilter('COMPLETED')}
+                      className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
+                        queueFilter === 'COMPLETED' ? 'bg-slate-700 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      Done ({queueStats.completed})
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={loadQueue}
+                    className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition cursor-pointer border border-slate-200"
+                  >
+                    <RefreshCw size={14} />
+                    <span>Refresh</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="bg-slate-100 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200 font-bold">
+                      <th className="py-3 px-4">Token #</th>
+                      <th className="py-3 px-4">Patient Details</th>
+                      <th className="py-3 px-4">Department / Doctor</th>
+                      <th className="py-3 px-4">Room #</th>
+                      <th className="py-3 px-4">Priority</th>
+                      <th className="py-3 px-4">Status</th>
+                      <th className="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    {filteredQueueTokens.length > 0 ? (
+                      filteredQueueTokens.map((t) => (
+                        <tr key={t.id} className="hover:bg-slate-50 transition">
+                          <td className="py-3 px-4 font-mono font-black text-sm text-[#0B4F9C]">
+                            #{t.tokenNumber}
+                          </td>
                         <td className="py-3 px-4">
                           <p className="font-bold text-slate-900 uppercase">{t.patientName}</p>
                           <p className="text-[10px] text-slate-500">{t.patientAge ? `${t.patientAge} Yrs` : ''} • {t.patientGender} • {t.patientPhone}</p>
@@ -921,7 +1078,7 @@ export default function ReceptionDashboard() {
               </table>
             </div>
           </div>
-        )}
+        ); })()}
 
         {/* TAB 4: Lab Reports Center */}
         {activeTab === 'lab-reports' && (
