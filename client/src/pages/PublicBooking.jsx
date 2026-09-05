@@ -270,162 +270,177 @@ export default function PublicBooking() {
     <div className="min-h-screen bg-slate-50 text-slate-800 py-6 sm:py-8 px-3.5 sm:px-6 lg:px-8 space-y-10 overflow-x-hidden font-sans">
       <div className="max-w-6xl mx-auto space-y-10">
 
-        {/* HERO BANNER: High-Impact Medical Visual with Clinical Typography & Trust Badges */}
-        <div className="relative rounded-3xl overflow-hidden text-white p-6 sm:p-10 lg:p-12 shadow-2xl border border-blue-900/40">
+        {/* HERO BANNER: International-Standard Luxury Healthcare Hero */}
+        <div className="relative rounded-3xl overflow-hidden text-white p-6 sm:p-10 lg:p-12 shadow-2xl border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950">
           
-          {/* High-Resolution Medical Center Architecture Background with Dark Clinical Gradient Overlay */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat -z-20 transform scale-105 filter brightness-40"
-            style={{ backgroundImage: `url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80')` }}
-          ></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-[#081E48]/90 to-[#0B3B82]/85 -z-10 backdrop-blur-xs"></div>
+          {/* High-Resolution Clinical Background Image with mix-blend-luminosity */}
+          <div className="absolute inset-0 z-0 opacity-25 mix-blend-luminosity pointer-events-none">
+            <img 
+              src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1800&q=80" 
+              alt="Modern Hospital Architecture" 
+              className="w-full h-full object-cover" 
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/60 pointer-events-none z-0"></div>
           
-          {/* Subtle Ambient Light Orb */}
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
+          {/* Subtle Ambient Light Orbs */}
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none z-0"></div>
+          <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none z-0"></div>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
             
-            {/* Left Column: Hospital Info, Urdu Title & Live Trust Badges */}
+            {/* Left Column: Urdu Headline, English Subtitle & Action Suite */}
             <div className="max-w-2xl space-y-4 text-center md:text-left">
               
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-cyan-300 text-[11px] font-black uppercase tracking-wider backdrop-blur-md">
-                  <HeartPulse size={14} className="animate-pulse text-cyan-400" />
-                  <span>PHC Certified Hospital Management System</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-bold">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                  <span>24/7 Emergency Active</span>
-                </div>
+              {/* Top Glassmorphic Tag with Pulsing Green Dot */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-cyan-300 text-[11px] sm:text-xs font-bold backdrop-blur-md shadow-inner">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                <span>✦ الشافع ہسپتال فتح پور | مستند اور جدید ترین ڈیجیٹل او پی ڈی</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight uppercase font-outfit leading-tight drop-shadow-md">
-                Al-Shafay Hospital <span className="text-cyan-400">Fatehpur</span>
+              {/* Bold Urdu Hospital Name & Headline in Rich Vibrant Gradient */}
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black font-urdu text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-emerald-300 to-cyan-300 leading-snug sm:leading-snug tracking-normal drop-shadow-md" dir="rtl">
+                جدید ترین طبی سہولیات اور فوری آن لائن اپائنٹمنٹ پورٹل
               </h1>
 
-              {/* Bold Urdu Hospital Name & Portal Description */}
-              <h2 className="text-lg sm:text-2xl font-bold font-urdu text-amber-300 pt-1 tracking-wide leading-relaxed drop-shadow-sm" dir="rtl">
-                الشافع ہسپتال فتح پور - جدید ترین طبی سہولیات اور آن لائن اپائنٹمنٹ پورٹل
-              </h2>
-
-              <p className="text-sm sm:text-base text-blue-100 leading-relaxed font-medium">
-                Book specialist doctor consultations online, confirm instantly via WhatsApp (<strong className="text-emerald-300">0301-6167412</strong>), and experience automated voice-called queuing at counter reception.
-              </p>
-
-              {/* Live Floating Trust Badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
-                <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2">
-                  <ShieldCheck size={18} className="text-emerald-400 shrink-0" />
-                  <div className="text-left">
-                    <span className="font-black text-white block text-[11px]">Qualified Consultants</span>
-                    <span className="text-[10px] text-blue-200">FCPS & Senior Specialists</span>
-                  </div>
-                </div>
-
-                <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2">
-                  <HeartPulse size={18} className="text-rose-400 shrink-0" />
-                  <div className="text-left">
-                    <span className="font-black text-white block text-[11px]">24/7 Emergency Care</span>
-                    <span className="text-[10px] text-blue-200">Rapid Triage & Trauma</span>
-                  </div>
-                </div>
-
-                <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2">
-                  <MessageCircle size={18} className="text-cyan-400 shrink-0" />
-                  <div className="text-left">
-                    <span className="font-black text-white block text-[11px]">Digital WhatsApp Token</span>
-                    <span className="text-[10px] text-blue-200">Automated Audio Screen</span>
-                  </div>
-                </div>
+              {/* Hospital Title (English) */}
+              <div className="text-lg sm:text-xl font-black uppercase font-outfit text-white tracking-wide flex items-center justify-center md:justify-start gap-2">
+                <span>Al-Shafay Hospital</span>
+                <span className="text-cyan-400 font-black">Fatehpur</span>
+                <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-sans lowercase font-bold">
+                  phc verified
+                </span>
               </div>
 
-              <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4 text-xs text-blue-200 pt-2 font-medium">
-                <span className="flex items-center gap-1.5"><MapPin size={15} className="text-cyan-400 shrink-0" /> Hospital Road, Fatehpur</span>
-                <span className="flex items-center gap-1.5"><Phone size={15} className="text-cyan-400 shrink-0" /> 24/7 Helpline: 0300-1234567</span>
+              {/* English Subtitle */}
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
+                Al-Shafay Hospital Fatehpur - Providing 24/7 emergency care, leading medical specialists, digital pharmacy, and instant WhatsApp appointment confirmations.
+              </p>
+
+              {/* 3 Live Trust Badges */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
+                <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30 text-xs">
+                    ⚡
+                  </div>
+                  <div className="text-left">
+                    <span className="font-black text-white block text-[11px]">Instant EMR Token</span>
+                    <span className="text-[10px] text-slate-300">Auto Live Voice Call</span>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 border border-cyan-500/30 text-xs">
+                    🩺
+                  </div>
+                  <div className="text-left">
+                    <span className="font-black text-white block text-[11px]">Top Specialists</span>
+                    <span className="text-[10px] text-slate-300">FCPS & Senior Faculty</span>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/30 text-xs">
+                    🏥
+                  </div>
+                  <div className="text-left">
+                    <span className="font-black text-white block text-[11px]">24/7 Emergency & Lab</span>
+                    <span className="text-[10px] text-slate-300">Computerized Reports</span>
+                  </div>
+                </div>
               </div>
 
               {/* Action Buttons in Hero */}
-              <div className="flex flex-wrap justify-center md:justify-start gap-3 pt-3">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
                 <a
                   href="#booking-section"
-                  className="bg-gradient-to-r from-[#0284C7] to-[#06B6D4] hover:from-[#06B6D4] hover:to-[#0284C7] text-white font-black px-5 py-3.5 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-cyan-900/30 active:scale-95"
+                  className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black px-5 py-3 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-950/40 active:scale-95 border border-emerald-400/30"
                 >
                   <Calendar size={16} />
-                  <span>Book Appointment Online</span>
+                  <span>آن لائن ٹوکن حاصل کریں / Book Token</span>
                 </a>
                 
+                <a
+                  href="#doctors-section"
+                  className="bg-white/10 hover:bg-white/20 text-white font-bold px-5 py-3 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition border border-white/20 backdrop-blur-md active:scale-95"
+                >
+                  <Stethoscope size={16} className="text-cyan-400" />
+                  <span>ڈاکٹرز لسٹ اور ٹائمنگ / View Specialists</span>
+                </a>
+
                 <a
                   href="https://api.whatsapp.com/send?phone=923016167412"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-3.5 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-950/30 active:scale-95"
+                  className="bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 font-bold px-3.5 py-3 rounded-2xl text-xs flex items-center gap-1.5 transition active:scale-95"
                 >
-                  <MessageCircle size={16} />
-                  <span>WhatsApp Booking (0301-6167412)</span>
+                  <MessageCircle size={15} />
+                  <span>0301-6167412</span>
                 </a>
-
               </div>
 
             </div>
 
-            {/* Right Column: Clean, Uncluttered Clinical Doctor Visual */}
+            {/* Right Column: Modern Clinical Showcase Card with Glass Badges */}
             <div className="shrink-0 flex items-center justify-center pt-4 md:pt-0 relative">
               
-              {/* Clinical Glassmorphic Shield & Arch Frame */}
-              <div className="relative w-64 sm:w-72 md:w-80 lg:w-84 rounded-3xl p-3 bg-gradient-to-b from-white/10 via-[#0B2559]/60 to-[#081E48]/90 backdrop-blur-md border border-cyan-400/25 shadow-2xl shadow-blue-950/60 group">
-                
-                {/* Ambient Soft Cyan/Blue Backlight Glow */}
-                <div className="absolute inset-0 bg-radial from-cyan-400/20 via-blue-500/10 to-transparent rounded-3xl filter blur-xl -z-10 group-hover:scale-105 transition-transform duration-500 pointer-events-none"></div>
+              {/* Ambient Backlight Glow */}
+              <div className="absolute inset-0 bg-radial from-cyan-500/20 via-blue-600/10 to-transparent rounded-3xl filter blur-2xl -z-10 pointer-events-none"></div>
 
-                {/* Top-Right Single Floating Badge: Verified Specialist */}
-                <div className="absolute -top-3 -right-2 sm:-right-3 backdrop-blur-md bg-[#081E48]/90 border border-white/25 rounded-2xl px-3 py-1.5 shadow-xl flex items-center gap-2 text-white select-none z-20">
-                  <div className="w-6 h-6 rounded-xl bg-emerald-500/90 border border-emerald-300/40 flex items-center justify-center text-white shrink-0 shadow-xs">
-                    <ShieldCheck size={14} />
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-black uppercase tracking-wider text-emerald-300 block leading-tight">Verified Specialist</span>
-                    <strong className="text-[10.5px] font-black tracking-tight leading-none text-slate-100">Senior Consultant</strong>
-                  </div>
+              {/* Clinical Glassmorphic Showcase Frame */}
+              <div className="relative w-64 sm:w-72 md:w-80 lg:w-84 rounded-3xl p-3 bg-white/10 backdrop-blur-xl border border-white/15 shadow-2xl shadow-slate-950/80 group">
+                
+                {/* Top-Right Floating Live Badge */}
+                <div className="absolute -top-3 -right-2 sm:-right-3 backdrop-blur-md bg-slate-900/90 border border-emerald-500/40 rounded-2xl px-3 py-1.5 shadow-xl flex items-center gap-2 text-white select-none z-20">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                  </span>
+                  <span className="text-[10px] sm:text-[11px] font-black text-emerald-300 tracking-wide">Live OPD Active Now</span>
                 </div>
 
-                {/* Doctor Portrait Visual Container with Arch & Smooth Bottom Fade */}
-                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-cyan-950/40 via-[#0B2559]/30 to-[#081E48] ring-1 ring-cyan-400/20 h-72 sm:h-80 md:h-[420px] lg:h-[450px] flex items-end justify-center shadow-inner">
+                {/* Doctor Portrait / Clinical Showcase Container with Arch & Smooth Bottom Fade */}
+                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-cyan-950/40 via-slate-900/60 to-slate-950 ring-1 ring-white/10 h-72 sm:h-80 md:h-[380px] lg:h-[400px] flex items-end justify-center shadow-inner">
                   <img 
                     src="/dr-abbas-malik.png" 
                     alt="Dr. Abbas Malik - Chief Medical Consultant" 
                     className="w-full h-full object-contain object-top -scale-x-100 filter contrast-105 brightness-100 group-hover:scale-105 group-hover:-scale-x-105 transition-all duration-500"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = "/images/dr-abbas-malik.png";
+                      e.target.src = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80";
                     }}
                   />
 
                   {/* Smooth Bottom Fade Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#081E48] via-[#081E48]/80 to-transparent pointer-events-none"></div>
+                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent pointer-events-none"></div>
 
-                  {/* Single Clean Anchored Nameplate Badge */}
+                  {/* Anchored Nameplate Badge */}
                   <div className="absolute inset-x-0 bottom-0 p-4 text-center z-10 space-y-0.5">
-                    <p className="text-xs font-semibold tracking-wider uppercase text-cyan-300">
+                    <p className="text-[11px] font-bold tracking-wider uppercase text-cyan-300">
                       Chief Medical Consultant
                     </p>
-                    <h3 className="text-base sm:text-lg font-bold uppercase text-white font-outfit tracking-wide drop-shadow-sm">
+                    <h3 className="text-base sm:text-lg font-black uppercase text-white font-outfit tracking-wide drop-shadow-sm">
                       Dr. Abbas Malik
                     </h3>
                     <div className="flex items-center justify-center gap-1.5 pt-0.5">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] font-semibold text-emerald-300 tracking-wide">
-                        Specialist OPD Available
+                      <span className="text-[10px] sm:text-[11px] font-bold text-emerald-300 tracking-wide">
+                        Specialist Outpatient Department
                       </span>
                     </div>
                   </div>
                 </div>
 
+                {/* Bottom-Left Quick Stat Floating Card */}
+                <div className="absolute -bottom-3 -left-2 sm:-left-3 backdrop-blur-md bg-slate-900/90 border border-white/20 rounded-2xl px-3 py-1.5 shadow-xl flex items-center gap-2 text-white select-none z-20">
+                  <span className="text-amber-400 text-xs">⭐</span>
+                  <div className="text-left">
+                    <div className="text-[10px] font-black text-white leading-tight">4.9/5 Patient Satisfaction</div>
+                    <div className="text-[9px] text-cyan-300 font-bold leading-tight">500+ Daily Consultations</div>
+                  </div>
+                </div>
+
               </div>
             </div>
-
 
           </div>
 
@@ -452,7 +467,7 @@ export default function PublicBooking() {
         </div>
 
         {/* SPECIALIST DOCTORS ROSTER (ZERO PUBLIC DOCTOR FEES) */}
-        <div>
+        <div id="doctors-section">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div>
               <div className="flex items-center gap-2">
