@@ -31,6 +31,7 @@ export default function App() {
 
       {/* 2. Full-Screen Waiting TV Monitor (Zero sidebar/header for TV monitors) */}
       <Route path="/screen" element={<WaitingRoomScreen />} />
+      <Route path="/tv" element={<WaitingRoomScreen />} />
 
       {/* 3. Protected Staff Application Shell (AppLayout with Collapsible Left Sidebar) */}
       <Route element={<AppLayout />}>

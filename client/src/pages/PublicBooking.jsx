@@ -287,10 +287,10 @@ export default function PublicBooking() {
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none z-0"></div>
           <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none z-0"></div>
 
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center relative z-10">
             
-            {/* Left Column: Urdu Headline, English Subtitle & Action Suite */}
-            <div className="w-full max-w-2xl space-y-3.5 sm:space-y-4 text-center md:text-left">
+            {/* Col 1: Text Content */}
+            <div className="lg:col-span-7 space-y-3.5 sm:space-y-4 text-center md:text-left">
               
               {/* Top Glassmorphic Tag with Pulsing Green Dot */}
               <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-cyan-300 text-[10px] sm:text-xs font-bold backdrop-blur-md shadow-inner text-center">
@@ -386,64 +386,66 @@ export default function PublicBooking() {
 
             </div>
 
-            {/* Right Column: Modern Clinical Showcase Card with Glass Badges */}
-            <div className="w-full max-w-xs sm:w-72 md:w-80 lg:w-84 shrink-0 flex items-center justify-center pt-2 md:pt-0 relative mx-auto">
-              
-              {/* Ambient Backlight Glow */}
-              <div className="absolute inset-0 bg-radial from-cyan-500/20 via-blue-600/10 to-transparent rounded-3xl filter blur-2xl -z-10 pointer-events-none"></div>
-
-              {/* Clinical Glassmorphic Showcase Frame */}
-              <div className="relative w-full rounded-3xl p-3 bg-white/10 backdrop-blur-xl border border-white/15 shadow-2xl shadow-slate-950/80 group">
+            {/* Col 2: Doctor Card (Visible & Centered on all screens) */}
+            <div className="lg:col-span-5 flex justify-center w-full mt-4 lg:mt-0">
+              <div className="w-full max-w-[320px] sm:max-w-sm mx-auto relative group">
                 
-                {/* Top-Right Floating Live Badge */}
-                <div className="absolute -top-3 -right-2 sm:-right-3 backdrop-blur-md bg-slate-900/90 border border-emerald-500/40 rounded-2xl px-3 py-1.5 shadow-xl flex items-center gap-2 text-white select-none z-20">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                  </span>
-                  <span className="text-[10px] sm:text-[11px] font-black text-emerald-300 tracking-wide">Live OPD Active Now</span>
-                </div>
+                {/* Ambient Backlight Glow */}
+                <div className="absolute inset-0 bg-radial from-cyan-500/20 via-blue-600/10 to-transparent rounded-3xl filter blur-2xl -z-10 pointer-events-none"></div>
 
-                {/* Doctor Portrait / Clinical Showcase Container with Arch & Smooth Bottom Fade */}
-                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-cyan-950/40 via-slate-900/60 to-slate-950 ring-1 ring-white/10 h-72 sm:h-80 md:h-[380px] lg:h-[400px] flex items-end justify-center shadow-inner">
-                  <img 
-                    src="/dr-abbas-malik.png" 
-                    alt="Dr. Abbas Malik - Chief Medical Consultant" 
-                    className="w-full h-full object-contain object-top -scale-x-100 filter contrast-105 brightness-100 group-hover:scale-105 group-hover:-scale-x-105 transition-all duration-500"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80";
-                    }}
-                  />
+                {/* Clinical Glassmorphic Showcase Frame */}
+                <div className="relative w-full rounded-3xl p-3 bg-white/10 backdrop-blur-xl border border-white/15 shadow-2xl shadow-slate-950/80">
+                  
+                  {/* Top-Right Floating Live Badge */}
+                  <div className="absolute -top-3 -right-2 sm:-right-3 backdrop-blur-md bg-slate-900/90 border border-emerald-500/40 rounded-2xl px-3 py-1.5 shadow-xl flex items-center gap-2 text-white select-none z-20">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    <span className="text-[10px] sm:text-[11px] font-black text-emerald-300 tracking-wide">Live OPD Active Now</span>
+                  </div>
 
-                  {/* Smooth Bottom Fade Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent pointer-events-none"></div>
+                  {/* Doctor Portrait / Clinical Showcase Container with Arch & Smooth Bottom Fade */}
+                  <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-cyan-950/40 via-slate-900/60 to-slate-950 ring-1 ring-white/10 h-72 sm:h-80 md:h-[380px] lg:h-[400px] flex items-end justify-center shadow-inner">
+                    <img 
+                      src="/dr-abbas-malik.png" 
+                      alt="Dr. Abbas Malik - Chief Medical Consultant" 
+                      className="w-full h-full object-contain object-top -scale-x-100 filter contrast-105 brightness-100 group-hover:scale-105 group-hover:-scale-x-105 transition-all duration-500"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80";
+                      }}
+                    />
 
-                  {/* Anchored Nameplate Badge */}
-                  <div className="absolute inset-x-0 bottom-0 p-4 text-center z-10 space-y-0.5">
-                    <p className="text-[11px] font-bold tracking-wider uppercase text-cyan-300">
-                      Chief Medical Consultant
-                    </p>
-                    <h3 className="text-base sm:text-lg font-black uppercase text-white font-outfit tracking-wide drop-shadow-sm">
-                      Dr. Abbas Malik
-                    </h3>
-                    <div className="flex items-center justify-center gap-1.5 pt-0.5">
-                      <span className="text-[10px] sm:text-[11px] font-bold text-emerald-300 tracking-wide">
-                        Specialist Outpatient Department
-                      </span>
+                    {/* Smooth Bottom Fade Overlay */}
+                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent pointer-events-none"></div>
+
+                    {/* Anchored Nameplate Badge */}
+                    <div className="absolute inset-x-0 bottom-0 p-4 text-center z-10 space-y-0.5">
+                      <p className="text-[11px] font-bold tracking-wider uppercase text-cyan-300">
+                        Chief Medical Consultant
+                      </p>
+                      <h3 className="text-base sm:text-lg font-black uppercase text-white font-outfit tracking-wide drop-shadow-sm">
+                        Dr. Abbas Malik
+                      </h3>
+                      <div className="flex items-center justify-center gap-1.5 pt-0.5">
+                        <span className="text-[10px] sm:text-[11px] font-bold text-emerald-300 tracking-wide">
+                          Specialist Outpatient Department
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Bottom-Left Quick Stat Floating Card */}
-                <div className="absolute -bottom-3 -left-2 sm:-left-3 backdrop-blur-md bg-slate-900/90 border border-white/20 rounded-2xl px-3 py-1.5 shadow-xl flex items-center gap-2 text-white select-none z-20">
-                  <span className="text-amber-400 text-xs">⭐</span>
-                  <div className="text-left">
-                    <div className="text-[10px] font-black text-white leading-tight">4.9/5 Patient Satisfaction</div>
-                    <div className="text-[9px] text-cyan-300 font-bold leading-tight">500+ Daily Consultations</div>
+                  {/* Bottom-Left Quick Stat Floating Card */}
+                  <div className="absolute -bottom-3 -left-2 sm:-left-3 backdrop-blur-md bg-slate-900/90 border border-white/20 rounded-2xl px-3 py-1.5 shadow-xl flex items-center gap-2 text-white select-none z-20">
+                    <span className="text-amber-400 text-xs">⭐</span>
+                    <div className="text-left">
+                      <div className="text-[10px] font-black text-white leading-tight">4.9/5 Patient Satisfaction</div>
+                      <div className="text-[9px] text-cyan-300 font-bold leading-tight">500+ Daily Consultations</div>
+                    </div>
                   </div>
-                </div>
 
+                </div>
               </div>
             </div>
 
