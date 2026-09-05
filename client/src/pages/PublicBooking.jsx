@@ -299,12 +299,15 @@ export default function PublicBooking() {
               </div>
 
               {/* Bold Urdu Hospital Name & Headline in Rich Vibrant Gradient */}
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black font-urdu text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-emerald-300 to-cyan-300 leading-snug sm:leading-snug tracking-normal drop-shadow-md" dir="rtl">
+              <h1 
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-emerald-300 to-teal-100 py-3 leading-[1.85] md:leading-[1.95] tracking-normal text-right font-urdu" 
+                dir="rtl"
+              >
                 جدید ترین طبی سہولیات اور فوری آن لائن اپائنٹمنٹ پورٹل
               </h1>
 
               {/* Hospital Title (English) */}
-              <div className="text-lg sm:text-xl font-black uppercase font-outfit text-white tracking-wide flex items-center justify-center md:justify-start gap-2">
+              <div className="text-lg sm:text-xl font-black uppercase font-outfit text-white tracking-wide flex items-center justify-center md:justify-start gap-2 mt-4 md:mt-5">
                 <span>Al-Shafay Hospital</span>
                 <span className="text-cyan-400 font-black">Fatehpur</span>
                 <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-sans lowercase font-bold">
@@ -444,24 +447,33 @@ export default function PublicBooking() {
 
           </div>
 
-          {/* 4 Clinical Metrics Strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 pt-6 border-t border-white/10 text-center">
-            <div className="bg-white/5 backdrop-blur-xs p-3 rounded-2xl border border-white/10">
-              <span className="text-[10px] uppercase font-bold text-cyan-200 block">Emergency Services</span>
-              <strong className="text-sm sm:text-base font-black text-white">24/7 Active Trauma</strong>
+          {/* Bottom Hospital Metric Strip */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-8 pt-6 border-t border-white/10">
+
+            {/* Card 1 */}
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-emerald-500/30 transition-all">
+              <p className="text-[11px] font-bold tracking-wider text-emerald-400 uppercase">Emergency Services</p>
+              <p className="text-sm sm:text-base font-semibold text-white mt-1">24/7 Active Trauma</p>
             </div>
-            <div className="bg-white/5 backdrop-blur-xs p-3 rounded-2xl border border-white/10">
-              <span className="text-[10px] uppercase font-bold text-cyan-200 block">Consultation System</span>
-              <strong className="text-sm sm:text-base font-black text-white">Digital EMR & Prescriptions</strong>
+
+            {/* Card 2 */}
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-emerald-500/30 transition-all">
+              <p className="text-[11px] font-bold tracking-wider text-cyan-400 uppercase">Consultation System</p>
+              <p className="text-sm sm:text-base font-semibold text-white mt-1">Digital EMR & Prescriptions</p>
             </div>
-            <div className="bg-white/5 backdrop-blur-xs p-3 rounded-2xl border border-white/10">
-              <span className="text-[10px] uppercase font-bold text-cyan-200 block">Diagnostic Pathology</span>
-              <strong className="text-sm sm:text-base font-black text-white">Fully Verified Lab</strong>
+
+            {/* Card 3 */}
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-emerald-500/30 transition-all">
+              <p className="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Diagnostic Pathology</p>
+              <p className="text-sm sm:text-base font-semibold text-white mt-1">Fully Verified Lab</p>
             </div>
-            <div className="bg-white/5 backdrop-blur-xs p-3 rounded-2xl border border-white/10">
-              <span className="text-[10px] uppercase font-bold text-cyan-200 block">Queue Calling</span>
-              <strong className="text-sm sm:text-base font-black text-white">Live English TV Voice</strong>
+
+            {/* Card 4 */}
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-emerald-500/30 transition-all">
+              <p className="text-[11px] font-bold tracking-wider text-indigo-400 uppercase">Queue Calling</p>
+              <p className="text-sm sm:text-base font-semibold text-white mt-1">Live English TV Voice</p>
             </div>
+
           </div>
 
         </div>
