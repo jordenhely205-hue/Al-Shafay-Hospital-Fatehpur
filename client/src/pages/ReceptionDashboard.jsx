@@ -107,54 +107,41 @@ export default function ReceptionDashboard() {
     };
   }, []);
 
-  const mergeAppointments = (incomingList, currentList) => {
-    const map = new Map();
-    // 1. Read existing local storage records
+  const reconcileRecords = (serverList) => {
+    let localStore = [];
     try {
-      const local = localStorage.getItem('alshafay_master_records') || localStorage.getItem('alshafay_cached_appointments');
-      if (local) {
-        const parsed = JSON.parse(local);
-        if (Array.isArray(parsed)) {
-          parsed.forEach(item => {
-            if (!item) return;
-            const key = item.id || item._id || item.appointmentNumber;
-            if (key) map.set(String(key), item);
-          });
-        }
+      localStore = JSON.parse(localStorage.getItem('alshafay_master_records') || localStorage.getItem('alshafay_cached_appointments') || '[]');
+    } catch {
+      localStore = [];
+    }
+    const map = new Map();
+
+    // Server records first
+    (serverList || []).forEach(item => {
+      if (!item) return;
+      const key = item.tokenNumber || item.appointmentId || item.appointmentNumber || item._id || item.id;
+      if (key) map.set(String(key), item);
+    });
+
+    // Local records take priority (preserves newly generated bookings & tokens)
+    (localStore || []).forEach(item => {
+      if (!item) return;
+      const key = item.tokenNumber || item.appointmentId || item.appointmentNumber || item._id || item.id;
+      if (key) {
+        const existing = map.get(String(key));
+        map.set(String(key), { ...existing, ...item });
       }
-    } catch (err) {
-      console.warn('Error reading local storage cache', err);
-    }
+    });
 
-    // 2. Merge existing state list
-    if (Array.isArray(currentList)) {
-      currentList.forEach(item => {
-        if (!item) return;
-        const key = item.id || item._id || item.appointmentNumber;
-        if (key) map.set(String(key), item);
-      });
+    const finalMerged = Array.from(map.values());
+    finalMerged.sort((a, b) => new Date(b.createdAt || b.date || 0) - new Date(a.createdAt || a.date || 0));
+    try {
+      localStorage.setItem('alshafay_master_records', JSON.stringify(finalMerged));
+      localStorage.setItem('alshafay_cached_appointments', JSON.stringify(finalMerged));
+    } catch (e) {
+      console.warn('Storage sync error:', e);
     }
-
-    // 3. Merge incoming backend list (preserve confirmed flags & custom token numbers if already confirmed locally)
-    if (Array.isArray(incomingList)) {
-      incomingList.forEach(item => {
-        if (!item) return;
-        const key = item.id || item._id || item.appointmentNumber;
-        if (key) {
-          const strKey = String(key);
-          const existing = map.get(strKey);
-          if (existing && (existing.status === 'CONFIRMED' || existing.confirmedTokenNumber) && item.status !== 'CONFIRMED') {
-            map.set(strKey, { ...item, ...existing, status: 'CONFIRMED', confirmedTokenNumber: existing.confirmedTokenNumber });
-          } else {
-            map.set(strKey, { ...(existing || {}), ...item });
-          }
-        }
-      });
-    }
-
-    const merged = Array.from(map.values());
-    merged.sort((a, b) => new Date(b.createdAt || b.date || 0) - new Date(a.createdAt || a.date || 0));
-    return merged;
+    return finalMerged;
   };
 
   const loadData = async () => {
@@ -179,16 +166,7 @@ export default function ReceptionDashboard() {
         setLabOrders(labRes.orders);
       }
       if (aptRes && aptRes.success && Array.isArray(aptRes.appointments)) {
-        setAppointments(prev => {
-          const merged = mergeAppointments(aptRes.appointments, prev);
-          try {
-            localStorage.setItem('alshafay_cached_appointments', JSON.stringify(merged));
-            localStorage.setItem('alshafay_master_records', JSON.stringify(merged));
-          } catch (err) {
-            console.warn('Failed to cache appointments', err);
-          }
-          return merged;
-        });
+        setAppointments(prev => reconcileRecords(aptRes.appointments));
       }
     } catch (e) {
       console.error(e);
@@ -199,16 +177,7 @@ export default function ReceptionDashboard() {
     try {
       const res = await api.getAppointments();
       if (res && res.success && Array.isArray(res.appointments)) {
-        setAppointments(prev => {
-          const merged = mergeAppointments(res.appointments, prev);
-          try {
-            localStorage.setItem('alshafay_cached_appointments', JSON.stringify(merged));
-            localStorage.setItem('alshafay_master_records', JSON.stringify(merged));
-          } catch (err) {
-            console.warn('Failed to cache appointments', err);
-          }
-          return merged;
-        });
+        setAppointments(prev => reconcileRecords(res.appointments));
       }
     } catch (e) {
       console.error('Failed to load appointments', e);
@@ -286,6 +255,17 @@ export default function ReceptionDashboard() {
         setShowThermalSlip(true);
         setMsg({ type: 'success', text: `Token #${res.token.tokenNumber} generated and forwarded to ${res.token.doctorName}!` });
         
+        // Zero-Wipeout: Persist newly generated token in localStorage master records immediately
+        try {
+          const master = JSON.parse(localStorage.getItem('alshafay_master_records') || '[]');
+          const key = res.token.tokenNumber || res.token.id;
+          const filtered = master.filter(m => (m.tokenNumber || m.id) !== key);
+          const updated = [res.token, ...filtered];
+          localStorage.setItem('alshafay_master_records', JSON.stringify(updated));
+        } catch (lsErr) {
+          console.warn('LocalStorage save error:', lsErr);
+        }
+
         // Automated voice announcement
         announceTokenIssuance(
           res.token.tokenNumber,
@@ -1471,8 +1451,20 @@ export default function ReceptionDashboard() {
           onClose={() => setSelectedAppointmentForConfirm(null)}
           onConfirmed={(updatedApt) => {
             setSelectedAppointmentForConfirm(null);
-            if (updatedApt && updatedApt.id) {
-              setAppointments(prev => Array.isArray(prev) ? prev.map(a => a.id === updatedApt.id ? updatedApt : a) : [updatedApt]);
+            if (updatedApt) {
+              const matchKey = updatedApt.id || updatedApt.appointmentNumber || updatedApt._id;
+              setAppointments(prev => {
+                const list = Array.isArray(prev) ? prev : [];
+                const filtered = list.filter(a => (a.id || a.appointmentNumber || a._id) !== matchKey);
+                const updated = [updatedApt, ...filtered];
+                try {
+                  localStorage.setItem('alshafay_master_records', JSON.stringify(updated));
+                  localStorage.setItem('alshafay_cached_appointments', JSON.stringify(updated));
+                } catch (e) {
+                  console.warn(e);
+                }
+                return updated;
+              });
               setMsg({
                 type: 'success',
                 text: `Appointment #${updatedApt?.appointmentNumber || ''} confirmed & WhatsApp dispatched to ${updatedApt?.patientName || 'Patient'} (${updatedApt?.phone || ''})!`

@@ -267,11 +267,11 @@ export default function PublicBooking() {
   });
 
   return (
-    <div className="w-full min-h-screen bg-[#f8fafc] text-slate-800 py-4 sm:py-6 lg:py-8 px-3.5 sm:px-6 lg:px-8 space-y-10 overflow-x-hidden font-sans">
-      <div className="max-w-6xl mx-auto space-y-10">
+    <div className="w-full max-w-full min-h-screen bg-[#f8fafc] text-slate-800 py-4 sm:py-6 lg:py-8 px-3 sm:px-6 lg:px-8 space-y-8 sm:space-y-10 overflow-x-hidden font-sans">
+      <div className="max-w-6xl mx-auto space-y-8 sm:space-y-10">
 
         {/* HERO BANNER: International-Standard Luxury Healthcare Hero */}
-        <div className="relative rounded-3xl overflow-hidden text-white p-6 sm:p-10 lg:p-12 shadow-2xl border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950">
+        <div className="relative rounded-3xl overflow-hidden text-white p-5 sm:p-8 lg:p-12 shadow-2xl border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 max-w-full">
           
           {/* High-Resolution Clinical Background Image with mix-blend-luminosity */}
           <div className="absolute inset-0 z-0 opacity-25 mix-blend-luminosity pointer-events-none">
@@ -287,29 +287,29 @@ export default function PublicBooking() {
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none z-0"></div>
           <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none z-0"></div>
 
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 relative z-10">
             
             {/* Left Column: Urdu Headline, English Subtitle & Action Suite */}
-            <div className="max-w-2xl space-y-4 text-center md:text-left">
+            <div className="w-full max-w-2xl space-y-3.5 sm:space-y-4 text-center md:text-left">
               
               {/* Top Glassmorphic Tag with Pulsing Green Dot */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-cyan-300 text-[11px] sm:text-xs font-bold backdrop-blur-md shadow-inner">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-cyan-300 text-[10px] sm:text-xs font-bold backdrop-blur-md shadow-inner text-center">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                 <span>✦ الشافع ہسپتال فتح پور | مستند اور جدید ترین ڈیجیٹل او پی ڈی</span>
               </div>
 
               {/* Fixed Non-Colliding Urdu Headline */}
-              <div className="text-right my-4 select-none" dir="rtl">
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-emerald-300 font-serif pb-2">
+              <div className="my-2.5 sm:my-4 select-none" dir="rtl">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-emerald-300 font-serif pb-1.5 sm:pb-2 text-center md:text-right">
                   جدید ترین طبی سہولیات
                 </div>
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-100 font-serif pt-2">
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-100 font-serif pt-1.5 sm:pt-2 text-center md:text-right">
                   اور فوری آن لائن اپائنٹمنٹ پورٹل
                 </div>
               </div>
 
               {/* Hospital Title (English) */}
-              <div className="text-lg sm:text-xl font-black uppercase font-outfit text-white tracking-wide flex items-center justify-center md:justify-start gap-2 mt-4 md:mt-5">
+              <div className="text-base sm:text-lg md:text-xl font-black uppercase font-outfit text-white tracking-wide flex flex-wrap items-center justify-center md:justify-start gap-2 mt-3 md:mt-5">
                 <span>Al-Shafay Hospital</span>
                 <span className="text-cyan-400 font-black">Fatehpur</span>
                 <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-sans lowercase font-bold">
@@ -318,12 +318,12 @@ export default function PublicBooking() {
               </div>
 
               {/* English Subtitle */}
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium text-center md:text-left">
                 Al-Shafay Hospital Fatehpur - Providing 24/7 emergency care, leading medical specialists, digital pharmacy, and instant WhatsApp appointment confirmations.
               </p>
 
               {/* 3 Live Trust Badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5 pt-1 text-xs w-full">
                 <div className="bg-white/10 backdrop-blur-md border border-white/15 p-2.5 rounded-2xl flex items-center gap-2.5">
                   <div className="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30 text-xs">
                     ⚡
@@ -356,10 +356,10 @@ export default function PublicBooking() {
               </div>
 
               {/* Action Buttons in Hero */}
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
+              <div className="w-full flex flex-col sm:flex-row items-stretch sm:items-center justify-center md:justify-start gap-2.5 sm:gap-3 pt-2">
                 <a
                   href="#booking-section"
-                  className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black px-5 py-3 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-950/40 active:scale-95 border border-emerald-400/30"
+                  className="w-full sm:w-auto text-center justify-center bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black px-5 py-3 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition shadow-lg shadow-emerald-950/40 active:scale-95 border border-emerald-400/30"
                 >
                   <Calendar size={16} />
                   <span>آن لائن ٹوکن حاصل کریں / Book Token</span>
@@ -367,7 +367,7 @@ export default function PublicBooking() {
                 
                 <a
                   href="#doctors-section"
-                  className="bg-white/10 hover:bg-white/20 text-white font-bold px-5 py-3 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition border border-white/20 backdrop-blur-md active:scale-95"
+                  className="w-full sm:w-auto text-center justify-center bg-white/10 hover:bg-white/20 text-white font-bold px-5 py-3 rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition border border-white/20 backdrop-blur-md active:scale-95"
                 >
                   <Stethoscope size={16} className="text-cyan-400" />
                   <span>ڈاکٹرز لسٹ اور ٹائمنگ / View Specialists</span>
@@ -377,7 +377,7 @@ export default function PublicBooking() {
                   href="https://api.whatsapp.com/send?phone=923016167412"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 font-bold px-3.5 py-3 rounded-2xl text-xs flex items-center gap-1.5 transition active:scale-95"
+                  className="w-full sm:w-auto text-center justify-center bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 font-bold px-3.5 py-3 rounded-2xl text-xs flex items-center gap-1.5 transition active:scale-95"
                 >
                   <MessageCircle size={15} />
                   <span>0301-6167412</span>
@@ -387,13 +387,13 @@ export default function PublicBooking() {
             </div>
 
             {/* Right Column: Modern Clinical Showcase Card with Glass Badges */}
-            <div className="shrink-0 flex items-center justify-center pt-4 md:pt-0 relative">
+            <div className="w-full max-w-xs sm:w-72 md:w-80 lg:w-84 shrink-0 flex items-center justify-center pt-2 md:pt-0 relative mx-auto">
               
               {/* Ambient Backlight Glow */}
               <div className="absolute inset-0 bg-radial from-cyan-500/20 via-blue-600/10 to-transparent rounded-3xl filter blur-2xl -z-10 pointer-events-none"></div>
 
               {/* Clinical Glassmorphic Showcase Frame */}
-              <div className="relative w-64 sm:w-72 md:w-80 lg:w-84 rounded-3xl p-3 bg-white/10 backdrop-blur-xl border border-white/15 shadow-2xl shadow-slate-950/80 group">
+              <div className="relative w-full rounded-3xl p-3 bg-white/10 backdrop-blur-xl border border-white/15 shadow-2xl shadow-slate-950/80 group">
                 
                 {/* Top-Right Floating Live Badge */}
                 <div className="absolute -top-3 -right-2 sm:-right-3 backdrop-blur-md bg-slate-900/90 border border-emerald-500/40 rounded-2xl px-3 py-1.5 shadow-xl flex items-center gap-2 text-white select-none z-20">
@@ -450,7 +450,7 @@ export default function PublicBooking() {
           </div>
 
           {/* Bottom Hospital Metric Strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-8 pt-6 border-t border-white/10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6 sm:mt-8 pt-6 border-t border-white/10">
 
             {/* Card 1 */}
             <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-emerald-500/30 transition-all">

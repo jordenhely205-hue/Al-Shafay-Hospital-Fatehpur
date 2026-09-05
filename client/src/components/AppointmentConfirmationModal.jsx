@@ -88,40 +88,65 @@ export default function AppointmentConfirmationModal({ appointment, onClose, onC
     setLoading(true);
     setError('');
 
+    const now = new Date().toISOString();
+    const updatedRecord = {
+      ...appointment,
+      confirmedTokenNumber: tokenNumber,
+      emrNumber,
+      date,
+      timeSlot,
+      doctorRoom,
+      status: 'CONFIRMED',
+      confirmedAt: now,
+      updatedAt: now
+    };
+
+    // 1. Update appointment status locally in localStorage immediately (Zero Data Loss)
     try {
-      // 1. Update appointment in backend database
-      const res = await api.confirmAppointment(appointment.id, {
+      const masterRecords = JSON.parse(localStorage.getItem('alshafay_master_records') || localStorage.getItem('alshafay_cached_appointments') || '[]');
+      const matchKey = appointment.id || appointment.appointmentNumber || appointment._id;
+      const filtered = masterRecords.filter(a => (a.id || a.appointmentNumber || a._id) !== matchKey);
+      const updatedList = [updatedRecord, ...filtered];
+      localStorage.setItem('alshafay_master_records', JSON.stringify(updatedList));
+      localStorage.setItem('alshafay_cached_appointments', JSON.stringify(updatedList));
+    } catch (lsErr) {
+      console.warn('LocalStorage save error:', lsErr);
+    }
+
+    // 2. Formulate WhatsApp web URL & open immediately
+    const encodedMessage = encodeURIComponent(urduMessage);
+    const waUrl = `https://api.whatsapp.com/send?phone=${sanitizedPhone}&text=${encodedMessage}`;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+    // 3. Notify parent callback immediately so list updates
+    if (onConfirmed) {
+      onConfirmed(updatedRecord);
+    }
+
+    // 4. Background API sync (non-blocking, never show red error banner if backend resets)
+    try {
+      api.confirmAppointment(appointment.id || appointment.appointmentNumber, {
         tokenNumber,
         date,
         timeSlot,
         doctorRoom,
-        emrNumber
+        emrNumber,
+        patientName: appointment.patientName,
+        phone: patientPhone,
+        doctorId: appointment.doctorId,
+        doctorName: appointment.doctorName,
+        departmentId: appointment.departmentId,
+        departmentName: appointment.departmentName,
+        appointmentNumber: appointment.appointmentNumber
+      }).catch(err => {
+        console.warn('Silent background confirmation sync warning:', err);
       });
-
-      // 2. Formulate WhatsApp URL & dispatch to patient
-      const encodedMessage = encodeURIComponent(urduMessage);
-      const waUrl = `https://wa.me/${sanitizedPhone}?text=${encodedMessage}`;
-      
-      window.open(waUrl, '_blank', 'noopener,noreferrer');
-
-      if (onConfirmed) {
-        onConfirmed(res.appointment || {
-          ...appointment,
-          confirmedTokenNumber: tokenNumber,
-          emrNumber,
-          date,
-          timeSlot,
-          doctorRoom,
-          status: 'CONFIRMED'
-        });
-      }
-
-      onClose();
     } catch (err) {
-      setError(err.message || 'Failed to update appointment.');
-    } finally {
-      setLoading(false);
+      console.warn('Background dispatch caught:', err);
     }
+
+    setLoading(false);
+    onClose();
   };
 
 
